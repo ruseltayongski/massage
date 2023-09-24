@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("type")->nullable();
             $table->decimal("amount_paid")->nullable();
             $table->text("terms_conditions")->nullable();
+            $table->text('spa_owner_signature')->nullable();
             $table->boolean("is_deleted")->nullable();
             $table->rememberToken();
             $table->timestamps();
