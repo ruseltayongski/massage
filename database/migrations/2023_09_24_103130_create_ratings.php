@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("owner_id");
-            $table->date("start_date")->nullable();
-            $table->date("end_date")->nullable();
-            $table->string("type")->nullable();
-            $table->decimal("amount_paid")->nullable();
-            $table->text("terms_conditions")->nullable();
+            $table->bigInteger('spa_id');
+            $table->bigInteger('therapist_id');
+            $table->text('description');
+            $table->smallInteger('rate');
             $table->boolean("is_deleted")->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists('ratings');
     }
 };

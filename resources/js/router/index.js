@@ -5,7 +5,7 @@ import Home from '../components/massage/Home.vue'
 import NotFound from '../components/massage/NotFound.vue'
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.VITE_BASE_URL),
     routes: [
         {
           meta: {
@@ -31,23 +31,23 @@ const router = createRouter({
           name: "Home",
           component: Home,
         },
-        {
-            meta: {
-              title: "Massage Home",
-            },
-            path: "/massage/",
-            name: "Massage Home",
-            children: [
-              {
-                path: 'about',
-                component: () => import('../components/massage/About.vue')
-              },
-              {
-                path: 'home',
-                component: () => import('../components/massage/Home.vue')
-              },
-            ]
-        },
+        // {
+        //     meta: {
+        //       title: "Massage Home",
+        //     },
+        //     path: "/massage/",
+        //     name: "Massage Home",
+        //     children: [
+        //       {
+        //         path: 'about',
+        //         component: () => About
+        //       },
+        //       {
+        //         path: 'home',
+        //         component: () => Home
+        //       },
+        //     ]
+        // },
         {
             path: '/:pathMatch(.*)*',
             component: NotFound

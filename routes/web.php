@@ -24,6 +24,6 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     ->name('home');
 });
 
-Route::get('/{pathMatch}', function() {
-    return view('welcome');
-})->where('pathMatch',".*");
+// Route::get('/{pathMatch}', function() {
+//     return view('welcome');
+// })->where('pathMatch',".*");
