@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('complainant_id')->nullable();
-            $table->bigInteget('client_id')->nullable();
+            $table->bigInteger('client_id')->nullable();
             $table->bigInteger('therapist_id')->nullable();
             $table->bigInteger('spa_id')->nullable();
             $table->date('date')->nullable();

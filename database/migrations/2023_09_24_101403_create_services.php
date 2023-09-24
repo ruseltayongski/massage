@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('owner_id');
             $table->bigInteger('spa_id');
-            $table->string('name')>nullable();
-            $table->text('description')>nullable();
-            $table->decimal('price', 8, 2)>nullable();
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->text('picture')->nullable();
             $table->boolean('is_deleted')->nullable();
             $table->rememberToken();
