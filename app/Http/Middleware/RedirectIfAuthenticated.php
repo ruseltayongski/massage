@@ -17,11 +17,18 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
+        //return response()->json($request, 400);
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::HOME);
+                // $user = Auth::guard($guard)->user();
+                // if ($user->roles == 'admin') {
+                //     return redirect(RouteServiceProvider::ADMIN);
+                // } else if($user->roles == 'spa_owner') {
+                //     return redirect(RouteServiceProvider::HOME);
+                // }
             }
         }
 

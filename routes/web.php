@@ -17,11 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'prevent-back-history'],function(){
+Route::group(['middleware' => 'prevent-back-history'],function() {
 	Auth::routes();
 	Route::get('/{page}', [App\Http\Controllers\HomeController::class, 'index'])
     ->where('page', 'home|about|account')
     ->name('home');
+    Route::get('admin',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin');
 });
 
 // Route::get('/{pathMatch}', function() {

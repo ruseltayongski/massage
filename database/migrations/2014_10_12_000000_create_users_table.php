@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('roles');
+            $table->string('roles')->nullable();
+            $table->bigInteger("owner_id")->nullable();
+            $table->bigInteger("spa_id")->nullable();
             $table->string('fname')->nullable();
             $table->string('lname')->nullable();
             $table->string('address')->nullable();
@@ -22,7 +24,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->smallInteger('ftl'); //first time login
+            $table->smallInteger('ftl')->nullable(); //first time login
             $table->boolean('is_deleted')->nullable();
             $table->rememberToken();
             $table->timestamps();
