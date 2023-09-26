@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 
 class UserSeeder extends Seeder
 {
@@ -13,7 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-         // Create 5 users with the 'admin' role
          User::factory()
          ->count(1)
          ->state([
@@ -22,11 +22,12 @@ class UserSeeder extends Seeder
         ])
          ->create();
 
-        // Create 5 admins with the 'spa_owner' role
-        User::factory()
-            ->count(2)
-            ->state(['roles' => 'OWNER'])
-            ->create();
+         User::factory()
+         ->count(20)
+         ->state([
+             'roles' => 'OWNER'
+         ])
+         ->create();
 
         User::factory()
             ->count(10)
