@@ -9615,7 +9615,8 @@ h6,
   .hours-text,
   .pricing-text,
   .contact-form {
-    margin-right: -7rem;
+    /* margin-right: -7rem; */
+    margin-left: 20px;
   }
 }
 
