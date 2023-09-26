@@ -38,8 +38,11 @@ class UserSeeder extends Seeder
             });;
 
         User::factory()
-            ->count(2)
-            ->state(['roles' => 'CLIENT'])
+            ->count(1)
+            ->state([
+                'roles' => 'CLIENT',
+                'email' => 'client@gmail.com'
+            ])
             ->create();    
     }
 }

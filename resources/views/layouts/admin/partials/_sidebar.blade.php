@@ -28,12 +28,18 @@
             <p class="sidebar-menu-title">Dash menu</p>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{ route('admin/dashboard') }}">
               <i class="typcn typcn-device-desktop menu-icon"></i>
               <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin/owner') }}">
+              <i class="typcn typcn-user-add-outline menu-icon"></i>
+              <span class="menu-title">Spa Owner</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="typcn typcn-briefcase menu-icon"></i>
               <span class="menu-title">UI Elements</span>
@@ -126,7 +132,7 @@
               <i class="typcn typcn-document-text menu-icon"></i>
               <span class="menu-title">Documentation</span>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="sidebar-legend">
           <li>

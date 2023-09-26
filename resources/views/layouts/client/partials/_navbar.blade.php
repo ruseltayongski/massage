@@ -24,7 +24,7 @@
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="" class="btn btn-primary d-none d-lg-block">Book Now</a>
+            <a href="{{ route('login') }}" class="btn btn-primary d-none d-lg-block">Book Now</a>
         </div>
     </nav>
 </div>

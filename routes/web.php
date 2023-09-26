@@ -24,7 +24,8 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     ->name('home');
     
     Route::group(['middleware' => 'admin'], function () {
-        Route::get('admin',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin');
+        Route::get('admin/dashboard',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin/dashboard');
+        Route::get('admin/owner',[App\Http\Controllers\AdminController::class, 'owner'])->name('admin/owner');
     });
 
     Route::get('/', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client');
