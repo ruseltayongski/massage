@@ -28,16 +28,8 @@
     <link href="{{ asset('client/css/style.css') }}" rel="stylesheet">
 </head>
 <body>
-    @include('layouts.client.partials._topbar')
-    @include('layouts.client.partials._navbar')
-    @include('layouts.client.partials._carousel')
-    @include('layouts.client.partials._about')
-    @include('layouts.client.partials._service')
-    @include('layouts.client.partials._openhours')
-    @include('layouts.client.partials._pricingstart')
-    @include('layouts.client.partials._teamstart')
-    @include('layouts.client.partials._testimonial')
-    @include('layouts.client.partials._footer')
+   
+    @include('layouts.register._register_content')
     
     @yield('content')
 
