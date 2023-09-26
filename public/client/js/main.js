@@ -18,6 +18,27 @@
         $(window).resize(toggleNavbarMethod);
     });
     
+    function hidePricingSection() {
+        $('#pricing-plans').hide();
+    }
+
+    // Function to show the pricing section
+    function showPricingSection() {
+        $('#pricing-plans').show();
+    }
+
+    // Initially hide the pricing section
+    hidePricingSection();
+
+    // Show pricing section when "register" button is clicked
+    $('#registerButton').click(function () {
+        
+        showPricingSection();
+    });
+    $('#closePayment').click(function() {
+        hidePricingSection();
+    });
+   
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
