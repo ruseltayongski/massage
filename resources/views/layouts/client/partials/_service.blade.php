@@ -7,66 +7,18 @@
         </div>
     </div>
     <div class="owl-carousel service-carousel">
+        @foreach($services as $service)
         <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('client/img/service-1.jpg') }}" alt="">
+            <img class="img-fluid" src="{{ asset('/fileupload/services').'/'.$service->picture }}" alt="">
             <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">Body Massage</h4>
-                <p class="text-white px-3 mb-3">Elitr labore sit dolor erat est lorem diam sea ipsum diam dolor duo sit ipsum</p>
+                <h4 class="text-white font-weight-medium px-3">{{ $service->name }}</h4>
+                <p class="text-white px-3 mb-3">{{ $service->description }}</p>
                 <div class="w-100 bg-white text-center p-4" >
                     <a class="btn btn-primary" href="">Make Order</a>
                 </div>
             </div>
         </div>
-        <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('client/img/service-2.jpg') }}" alt="">
-            <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">Stone Therapy</h4>
-                <p class="text-white px-3 mb-3">Elitr labore sit dolor erat est lorem diam sea ipsum diam dolor duo sit ipsum</p>
-                <div class="w-100 bg-white text-center p-4" >
-                    <a class="btn btn-primary" href="">Make Order</a>
-                </div>
-            </div>
-        </div>
-        <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('client/img/service-3.jpg') }}" alt="">
-            <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">Facial Therapy</h4>
-                <p class="text-white px-3 mb-3">Elitr labore sit dolor erat est lorem diam sea ipsum diam dolor duo sit ipsum</p>
-                <div class="w-100 bg-white text-center p-4" >
-                    <a class="btn btn-primary" href="">Make Order</a>
-                </div>
-            </div>
-        </div>
-        <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('client/img/service-4.jpg') }}" alt="">
-            <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">Skin Care</h4>
-                <p class="text-white px-3 mb-3">Elitr labore sit dolor erat est lorem diam sea ipsum diam dolor duo sit ipsum</p>
-                <div class="w-100 bg-white text-center p-4" >
-                    <a class="btn btn-primary" href="">Make Order</a>
-                </div>
-            </div>
-        </div>
-        <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('client/img/service-5.jpg') }}" alt="">
-            <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">Stream Bath</h4>
-                <p class="text-white px-3 mb-3">Elitr labore sit dolor erat est lorem diam sea ipsum diam dolor duo sit ipsum</p>
-                <div class="w-100 bg-white text-center p-4" >
-                    <a class="btn btn-primary" href="">Make Order</a>
-                </div>
-            </div>
-        </div>
-        <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('client/img/service-6.jpg') }}" alt="">
-            <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">Face Masking</h4>
-                <p class="text-white px-3 mb-3">Elitr labore sit dolor erat est lorem diam sea ipsum diam dolor duo sit ipsum</p>
-                <div class="w-100 bg-white text-center p-4" >
-                    <a class="btn btn-primary" href="">Make Order</a>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="row justify-content-center bg-appointment mx-0">
         <div class="col-lg-6 py-5">

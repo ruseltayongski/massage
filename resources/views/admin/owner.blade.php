@@ -5,7 +5,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Striped Table</h4>
+                <h4 class="card-title">Manage Spa Owner</h4>
                 <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -15,6 +15,7 @@
                             <th>Mobile</th>
                             <th>Spa</th>
                             <th>Contract</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,7 +33,13 @@
                                 <td>
                                     5
                                 </td>
-                                <td>1 Year</td>
+                                <td>
+                                    1 Year
+                                </td>
+                                <td>
+                                    <label class="badge badge-info">Active</label><br>
+                                    <label class="badge badge-danger">Deactivate</label>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

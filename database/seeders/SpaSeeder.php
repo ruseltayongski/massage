@@ -20,9 +20,9 @@ class SpaSeeder extends Seeder
             ->count(20)
             ->create()
             ->each(function ($spa) {
-                $owner = User::where('roles', 'OWNER')->first();
+                $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();
                 $spa->update(['owner_id' => $owner->id]);
-            });;
+            });
     }
 
     public function clearPictures() {

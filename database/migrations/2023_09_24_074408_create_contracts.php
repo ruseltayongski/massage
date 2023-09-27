@@ -16,9 +16,9 @@ return new class extends Migration
             $table->bigInteger("owner_id");
             $table->date("start_date")->nullable();
             $table->date("end_date")->nullable();
-            $table->string("type")->nullable();
+            $table->string("type")->nullable(); //monthly yearly
             $table->decimal("amount_paid")->nullable();
-            $table->text("terms_conditions")->nullable();
+            $table->text('amount_picture')->nullable();
             $table->text('spa_owner_signature')->nullable();
             $table->boolean("is_deleted")->nullable();
             $table->rememberToken();

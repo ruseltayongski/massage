@@ -2,6 +2,13 @@
   $user = Auth::user(); 
   $firstRoute = strtolower($user->roles);
 ?>
+<style>
+  .disabled {
+      pointer-events: none !important; /* Disable mouse events */
+      opacity: 0.5 !important;
+      background-color:red !important;
+  }
+</style>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
     <li class="nav-item">
@@ -42,6 +49,20 @@
       <a class="nav-link" href="{{ route($firstRoute.'/owner') }}">
         <i class="typcn typcn-user-add-outline menu-icon"></i>
         <span class="menu-title">Spa Owner</span>
+      </a>
+    </li>
+    @endif
+    @if($user->roles == 'OWNER')
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route($firstRoute.'/contract') }}">
+        <i class="typcn typcn-document-text menu-icon"></i>
+        <span class="menu-title">Contract</span>
+      </a>
+    </li>
+    <li class="nav-item disabled">
+      <a class="nav-link" href="{{ route($firstRoute.'/spa') }}">
+        <i class="typcn typcn-film menu-icon"></i>
+        <span class="menu-title">Spa</span>
       </a>
     </li>
     @endif

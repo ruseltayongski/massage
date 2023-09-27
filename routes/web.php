@@ -29,6 +29,8 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
 
     Route::group(['middleware' => 'owner'], function () {
         Route::get('owner/dashboard',[App\Http\Controllers\OwnerController::class, 'dashboard'])->name('owner/dashboard');
+        Route::get('owner/contract',[App\Http\Controllers\OwnerController::class, 'contract'])->name('owner/contract');
+        Route::get('owner/spa',[App\Http\Controllers\OwnerController::class, 'spa'])->name('owner/spa');
     });
 });
 

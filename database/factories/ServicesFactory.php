@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Services>
@@ -16,8 +18,34 @@ class ServicesFactory extends Factory
      */
     public function definition(): array
     {
+        try {
+            $response = Http::timeout(60)->get('https://placebeard.it/500x600');
+            if ($response->successful()) {
+                $image = $response->body();
+
+                $filename = fake()->firstName().'.jpg';
+                $services_picture_path = '/fileupload/services/'.$filename;
+                file_put_contents(base_path().'/public'.$services_picture_path, $image);
+
+                return [
+                    'name' => fake()->company(),
+                    'description' => fake()->catchPhrase(),
+                    'price' => fake()->randomNumber(2),
+                    'picture' => $filename,
+                    'remember_token' => Str::random(10),
+                ];
+            }
+        } catch (RequestException $e) {
+            Log::error('cURL request timed out: ' . $e->getMessage());
+        }
+        
+        // Default return value in case of failure
         return [
-            //
+            'name' => fake()->company(),
+            'description' => fake()->catchPhrase(),
+            'price' => fake()->randomNumber(2),
+            'picture' => 'default.jpg',
+            'remember_token' => Str::random(10),
         ];
     }
 }
