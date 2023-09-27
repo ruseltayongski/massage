@@ -9,6 +9,6 @@ class Spa extends Model
 {
     use HasFactory;
 
-    protected $table = 'activity';
+    protected $table = 'spa';
     protected $guarded = array();
 }

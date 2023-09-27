@@ -18,18 +18,22 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $response = Http::get('https://placebeard.it/640x360');
+        //$response = Http::get('https://placebeard.it/640x360');
+        //https://placebeard.it/255x366
+        $response = Http::get('https://placebeard.it/100/100');
         if ($response->successful()) {
             $image = $response->body();
 
             $filename = fake()->firstName().'.jpg';
-            $owner_picture_path = '/fileupload/owner/profile/'.$filename;
+            $owner_picture_path = '/fileupload/owner/'.$filename;
             file_put_contents(base_path().'/public'.$owner_picture_path, $image);
 
             return [
                 'roles' => '', //to be determine in seeder
                 'fname' => fake()->firstName(),
                 'lname' => fake()->lastName(),
+                'address' => fake()->address(),
+                'mobile' => fake()->phoneNumber(),
                 'email' => fake()->unique()->safeEmail(),
                 'picture' => $filename,
                 'email_verified_at' => now(),

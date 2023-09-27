@@ -13,23 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::group(['middleware' => 'prevent-back-history'],function() {
 	Auth::routes();
 	Route::get('/{page}', [App\Http\Controllers\HomeController::class, 'index'])
     ->where('page', 'home|about|account')
     ->name('home');
+
+    Route::get('/', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client');
+    Route::get('/client', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client');
     
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin/dashboard');
         Route::get('admin/owner',[App\Http\Controllers\AdminController::class, 'owner'])->name('admin/owner');
     });
 
-    Route::get('/', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client');
-    Route::get('/client', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client');
+    Route::group(['middleware' => 'owner'], function () {
+        Route::get('owner/dashboard',[App\Http\Controllers\OwnerController::class, 'dashboard'])->name('owner/dashboard');
+    });
 });
 
 // Route::get('/{pathMatch}', function() {

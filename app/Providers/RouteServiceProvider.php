@@ -18,9 +18,9 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const ADMIN = '/admin/dashboard';
-    public const OWNER = '/home';
-    public const THERAPIST = '/home';
-    public const CLIENT = '/home';
+    public const OWNER = '/owner/dashboard';
+    public const THERAPIST = '/therapist/dashboard';
+    public const CLIENT = '/client/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

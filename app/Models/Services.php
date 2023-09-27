@@ -9,6 +9,6 @@ class Services extends Model
 {
     use HasFactory;
 
-    protected $table = 'activity';
+    protected $table = 'services';
     protected $guarded = array();
 }

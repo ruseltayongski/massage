@@ -34,8 +34,8 @@ class LoginController extends Controller
             return RouteServiceProvider::ADMIN;
         } elseif (auth()->user()->roles == 'OWNER') {
             return RouteServiceProvider::OWNER;
-        } else {
-            return RouteServiceProvider::OWNER;
+        } elseif (auth()->user()->roles == 'THERAPIST') {
+            return RouteServiceProvider::THERAPIST;
         }
     }
 

@@ -9,33 +9,38 @@
                 <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
-                    <tr>
-                        <th>Owner</th>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Spa</th>
-                        <th>Contract</th>
-                    </tr>
+                        <tr>
+                            <th>Owner</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Spa</th>
+                            <th>Contract</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="py-1">
-                            <img src="{{ asset('admin/images/faces/face1.jpg') }}" alt="image"/>
-                        </td>
-                        <td>
-                            Herman Beck
-                        </td>
-                        <td>
-                            +639238309990
-                        </td>
-                        <td>
-                            5
-                        </td>
-                        <td>1 Year</td>
-                    </tr>
+                        @foreach($users as $user)
+                            <tr>
+                                <td class="py-1">
+                                    <img src="{{ asset('/fileupload/owner').'/'.$user->picture }}" alt="image"/>
+                                </td>
+                                <td>
+                                    {{ $user->fname.' '.$user->lname }}
+                                </td>
+                                <td>
+                                    {{ $user->mobile }}
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>1 Year</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 </div>
+            </div>
+            <div class="pl-5 pr-5">
+                {!! $users->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
     </div>

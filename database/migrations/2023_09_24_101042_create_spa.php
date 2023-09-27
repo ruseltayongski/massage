@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('spa', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('owner_id');
+            $table->bigInteger('owner_id')->nullable();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->text('picture')->nullable();
