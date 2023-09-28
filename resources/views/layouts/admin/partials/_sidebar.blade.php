@@ -66,6 +66,15 @@
       </a>
     </li>
     @endif
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="typcn typcn-film menu-icon"></i>
+        <span class="menu-title">Logout</span>
+      </a>
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+          @csrf
+      </form>
+    </li>
     <!-- <li class="nav-item">
       <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <i class="typcn typcn-briefcase menu-icon"></i>

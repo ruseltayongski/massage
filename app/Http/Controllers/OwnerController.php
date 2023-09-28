@@ -48,7 +48,10 @@ class OwnerController extends Controller
         $contract->amount_picture = $amountFileName;
         $contract->spa_owner_signature = $signatureFileName;
         $contract->save();
+
+        session()->flash('contract_save', true);
         
+        return true;
         #return response()->json(['message' => 'Signature uploaded and made transparent.']);
     }
 

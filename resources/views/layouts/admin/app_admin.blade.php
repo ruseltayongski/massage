@@ -37,6 +37,10 @@
                 @include('layouts.admin.partials._settings-panel')
                 @include('layouts.admin.partials._sidebar')
                 <div class="main-panel">
+                    <!-- Button trigger modal -->
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sign_contract">
+                    Launch demo modal
+                    </button> -->
                     @yield('content')
                     @include('layouts.admin.partials._footer')
                 </div>
@@ -70,10 +74,13 @@
         var path_gif = "<?php echo asset('img/loading.gif'); ?>";
         var loading = '<center><img src="'+path_gif+'" alt=""></center>';
 
-        Lobibox.notify('success', {
-            msg: 'Successfully secured the contract!',
-            img: "{{ asset('img/check.png') }}"
-        });
+        @if(session('contract_save'))
+            <?php //session('contract_save',false); ?>
+            Lobibox.notify('success', {
+                msg: 'Successfully secured the contract!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
 
         // $("a[href='#sign_contract']").on('click',function(){
         //     $('.modal_content').html(loading);
