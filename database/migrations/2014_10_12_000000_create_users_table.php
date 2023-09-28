@@ -25,6 +25,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('status')->nullable();
+            $table->date("contract_start")->nullable();
+            $table->date("contract_end")->nullable();
             $table->smallInteger('ftl')->nullable(); //first time login
             $table->boolean('is_deleted')->nullable();
             $table->rememberToken();

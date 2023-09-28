@@ -18,8 +18,12 @@ class ServicesFactory extends Factory
      */
     public function definition(): array
     {
-        try {
-            $response = Http::timeout(60)->get('https://placebeard.it/500x600');
+        $maxRetries = 3;
+        $retryCount = 0;
+
+        do {
+            try {
+                $response = Http::timeout(60)->get('https://placebeard.it/500x600');
             if ($response->successful()) {
                 $image = $response->body();
 
@@ -35,10 +39,12 @@ class ServicesFactory extends Factory
                     'remember_token' => Str::random(10),
                 ];
             }
-        } catch (RequestException $e) {
-            Log::error('cURL request timed out: ' . $e->getMessage());
-        }
-        
+            } catch (RequestException $e) {
+                Log::error('cURL request timed out: ' . $e->getMessage());
+                $retryCount++;
+            }
+        } while ($retryCount < $maxRetries);
+
         // Default return value in case of failure
         return [
             'name' => fake()->company(),

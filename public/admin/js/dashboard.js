@@ -2,9 +2,11 @@
   'use strict';
   $(function() {
     // Remove pro banner on close
-    document.querySelector('#bannerClose').addEventListener('click',function() {
-      document.querySelector('#proBanner').classList.add('d-none');
-    });
+    try{
+      document.querySelector('#bannerClose').addEventListener('click',function() {
+        document.querySelector('#proBanner').classList.add('d-none');
+      });
+    } catch(e){}
     if ($('#circleProgress6').length) {
       var bar = new ProgressBar.Circle(circleProgress6, {
         color: '#001737',

@@ -16,18 +16,20 @@
     <link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png') }}" />
+    <!-- LOBIBOX -->
+    <link rel="stylesheet" href="{{ asset('plugin/lobibox/dist/css/LobiBox.min.css') }}">
     @vite(['resources/js/app.js'])
 </head>
 <body>
     <div id="app">
         <div class="row" id="proBanner">
-        <div class="col-12">
-            <span class="d-flex align-items-center purchase-popup">
-            <p>Get tons of UI components, Plugins, multiple layouts, 20+ sample pages, and more!</p>
-            <a href="https://www.bootstrapdash.com/product/celestial-admin-template/?utm_source=organic&utm_medium=banner&utm_campaign=free-preview" target="_blank" class="btn download-button purchase-button ml-auto">Upgrade To Pro</a>
-            <i class="typcn typcn-delete-outline" id="bannerClose"></i>
-            </span>
-        </div>
+            <div class="col-12">
+                <span class="d-flex align-items-center purchase-popup">
+                    <p>Get tons of features as a owner, and more!</p>
+                    <a href="#sign_contract" class="btn download-button purchase-button ml-auto" data-backdrop="static" data-toggle="modal">Sign a contract</a>
+                    <i class="typcn typcn-delete-outline" id="bannerClose"></i>
+                </span>
+            </div>
         </div>
         <div class="container-scroller">
             @include('layouts.admin.partials._navbar')
@@ -41,6 +43,7 @@
             </div>
         </div>
     </div>
+    @include('modal.modal')
     <!-- container-scroller -->
     <!-- base:js -->
     <script src="{{ asset('admin/vendors/js/vendor.bundle.base.js') }}"></script>
@@ -61,5 +64,34 @@
     <!-- Custom js for this page-->
     <script src="{{ asset('admin/js/dashboard.js?v='.date('his')) }}"></script>
     <!-- End custom js for this page-->
+    <!-- LOBIBOX -->
+    <script src="{{ asset('plugin/lobibox/dist/js/lobibox.min.js?v='.date('his')) }}"></script>
+    <script>
+        var path_gif = "<?php echo asset('img/loading.gif'); ?>";
+        var loading = '<center><img src="'+path_gif+'" alt=""></center>';
+
+        Lobibox.notify('success', {
+            msg: 'Successfully secured the contract!',
+            img: "{{ asset('img/check.png') }}"
+        });
+
+        // $("a[href='#sign_contract']").on('click',function(){
+        //     $('.modal_content').html(loading);
+        //     $('.modal-title').html('Title');
+        //     var url = $(this).data('link');
+        //     setTimeout(function(){
+        //         $.ajax({
+        //             url: url,
+        //             type: 'GET',
+        //             success: function(data) {
+        //                 $('.modal_content').html(data);
+        //                 $('#reservation').daterangepicker();
+        //                 var datePicker = $('body').find('.datepicker');
+        //                 $('input').attr('autocomplete', 'off');
+        //             }
+        //         });
+        //     },1000);
+        // });
+    </script>
 </body>
 </html>
