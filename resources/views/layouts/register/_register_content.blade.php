@@ -4,7 +4,6 @@
         top: 0;
         left: 0;
         width: 100%;
-        min-height: 100%;
         background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
         z-index: 1; /* Ensure the overlay appears above other content */
         }

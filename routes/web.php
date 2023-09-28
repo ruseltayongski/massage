@@ -32,6 +32,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::get('owner/spa',[App\Http\Controllers\OwnerController::class, 'spa'])->name('owner/spa');
         Route::get('owner/contract',[App\Http\Controllers\OwnerController::class, 'contract'])->name('owner/contract');
         Route::post('owner/contract/save',[App\Http\Controllers\OwnerController::class, 'contractSave'])->name('owner.contract.save');
+        Route::post('owner/spa/save',[App\Http\Controllers\OwnerController::class, 'addSpa'])->name('owner.spa.save');
     });
 });
 

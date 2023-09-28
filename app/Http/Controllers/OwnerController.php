@@ -7,6 +7,7 @@ use App\Models\Spa;
 use App\Models\User;
 use App\Models\Contracts;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 
 class OwnerController extends Controller
 {
@@ -49,5 +50,27 @@ class OwnerController extends Controller
         $contract->save();
         
         #return response()->json(['message' => 'Signature uploaded and made transparent.']);
+    }
+
+    public function addSpa(Request $request) {
+        try {
+            $spaImage = $request->file('picture');
+            $spaFileName = 'picture'.uniqid() . '.' . $spaImage->getClientOriginalExtension();
+            $spaImage->move(base_path().'/public/fileupload/owner/picture/', $spaFileName);
+    
+            $spa = new Spa();
+            $spa->owner_id = Auth::user()->id;
+            $spa->name = $request->name;
+            $spa->description = $request->description;
+            $spa->picture = $spaFileName;
+            $spa->save();
+    
+            // Return a JSON response indicating success
+            return response()->json(['message' => 'Spa added successfully'], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            // Handle any exceptions and return an error JSON response
+            return response()->json(['error' => 'Failed to add spa'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 }
