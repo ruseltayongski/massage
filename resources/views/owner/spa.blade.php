@@ -33,7 +33,7 @@
                         @foreach($spas as $spa)
                             <tr>
                                 <td class="py-1">
-                                    <img src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}" alt="image"/>
+                                    <img src="{{ asset('/fileupload/spa/picture/').'/'.$spa->picture }}" alt="image"/>
                                 </td>
                                 <td>
                                     {{ $spa->name }}
