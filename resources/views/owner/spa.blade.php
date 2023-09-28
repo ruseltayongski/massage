@@ -69,7 +69,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="owner.spa.save" enctype="multipart/form-data">
+      <form method="POST" action="{{ route('owner.spa.save') }}"  enctype="multipart/form-data">
         <div class="modal-body">
             @csrf
             <div class="form-group">
@@ -96,7 +96,7 @@
 @endsection
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    /* document.addEventListener("DOMContentLoaded", function() {
         function saveSpa() {
         console.log("formData");
         const name = $("#name").val();
@@ -133,5 +133,5 @@
             event.preventDefault();
         }
     });
-    })
+    }) */
 </script>
