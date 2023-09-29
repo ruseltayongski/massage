@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
          ->create();
 
         User::factory()
-            ->count(20)
+            ->count(1)
             ->state(['roles' => 'THERAPIST'])
             ->create()
             ->each(function ($user) {

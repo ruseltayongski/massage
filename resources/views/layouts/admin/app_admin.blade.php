@@ -19,18 +19,41 @@
     <!-- LOBIBOX -->
     <link rel="stylesheet" href="{{ asset('plugin/lobibox/dist/css/LobiBox.min.css') }}">
     @vite(['resources/js/app.js'])
+    <style>
+        .menu-disabled {
+            pointer-events: none !important; /* Disable mouse events */
+            opacity: 0.5 !important;
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
+    <?php 
+        $user = Auth::user(); 
+        function hasContractEnded($date_end) {
+            $currentDate = date("Y-m-d"); 
+            
+            if ($currentDate <= $date_end) {
+                return false; 
+            } else {
+                return true; 
+            }
+        }
+    ?>
     <div id="app">
-        <div class="row" id="proBanner">
-            <div class="col-12">
-                <span class="d-flex align-items-center purchase-popup">
-                    <p>Get tons of features as a owner, and more!</p>
-                    <a href="#sign_contract" class="btn download-button purchase-button ml-auto" data-backdrop="static" data-toggle="modal">Sign a contract</a>
-                    <i class="typcn typcn-delete-outline" id="bannerClose"></i>
-                </span>
-            </div>
-        </div>
+        @if($user->roles == 'OWNER')
+            @if(hasContractEnded($user->contract_end))
+                <div class="row" id="proBanner">
+                    <div class="col-12">
+                        <span class="d-flex align-items-center purchase-popup">
+                            <p>Get tons of features as a owner, and more!</p>
+                            <a href="#sign_contract" class="btn download-button purchase-button ml-auto" data-backdrop="static" data-toggle="modal">Sign a contract</a>
+                            <i class="typcn typcn-delete-outline" id="bannerClose"></i>
+                        </span>
+                    </div>
+                </div>
+            @endif
+        @endif
         <div class="container-scroller">
             @include('layouts.admin.partials._navbar')
             <div class="container-fluid page-body-wrapper">

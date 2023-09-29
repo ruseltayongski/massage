@@ -28,6 +28,7 @@ class OwnerController extends Controller
     }
 
     public function contractSave(Request $request) {
+        $user = Auth::user();
         //amountPicture
         $amountImage = $request->file('amount_picture');
         $amountFileName = 'payment'.uniqid() . '.' . $amountImage->getClientOriginalExtension();
@@ -41,18 +42,54 @@ class OwnerController extends Controller
         $signaturePath = '/fileupload/owner/signature/'.$signatureFileName;
         file_put_contents(base_path().'/public'.$signaturePath, $imageData);
 
+        $start_date = date('m/d/Y');
+        $end_date = $this->calculateEndDate($start_date,$request->contract_type);
+        $end_date = date('Y-m-d',strtotime($end_date));
         $contract = new Contracts();
-        $contract->owner_id = Auth::user()->id;
+        $contract->owner_id = $user->id;
+        $contract->start_date = date('Y-m-d',strtotime($start_date));
+        $contract->end_date = $end_date;
         $contract->type = $request->contract_type;
         $contract->amount_paid = $request->amount_paid;
         $contract->amount_picture = $amountFileName;
         $contract->spa_owner_signature = $signatureFileName;
         $contract->save();
 
+        $user = User::find($user->id);
+        $user->contract_type = $request->contract_type;
+        $user->contract_end = $end_date;
+        $user->save();
+
         session()->flash('contract_save', true);
         
         return true;
         #return response()->json(['message' => 'Signature uploaded and made transparent.']);
+    }
+
+    function calculateEndDate($startDate,$contract_type) {
+        $startDateObj = date_create_from_format('m/d/Y', $startDate);
+    
+        if ($startDateObj === false) {
+            return "Invalid start date format. Please use 'mm/dd/yyyy' format.";
+        }
+    
+        $endDateObj = clone $startDateObj;
+        if($contract_type == 'monthly') {
+            $endDateObj->modify('+1 month');
+        } else if($contract_type == 'yearly') {
+            $endDateObj->modify('+13 month');
+        }
+    
+        $nextMonth = date_format($endDateObj, 'm');
+        $nextYear = date_format($endDateObj, 'Y');
+    
+        if ($nextMonth == '02' && $nextYear % 4 == 0 && ($nextYear % 100 != 0 || $nextYear % 400 == 0)) {
+            $endDateObj->setDate($nextYear, 2, 29);
+        } else {
+            $endDateObj->setDate($nextYear, $nextMonth, 1);
+        }
+    
+        return date_format($endDateObj, 'm/d/Y');
     }
 
     public function addSpa(Request $request) {

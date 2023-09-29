@@ -41,8 +41,8 @@
                             <div class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">User</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="register.html" class="dropdown-item">Client</a>
-                                    <a href="register.html" class="dropdown-item">Spa Owner</a>
+                                    <a href="{{ route('register').'?type=client' }}" class="dropdown-item">Client</a>
+                                    <a href="{{ route('register').'?type=owner' }}" class="dropdown-item">Spa Owner</a>
                                 </div>
                             </div>
                         </div>
