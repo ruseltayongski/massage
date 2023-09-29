@@ -49,13 +49,12 @@
     });
 
     
+    $('.back-to-top').click(function () {
+        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        return false;
+    });
+
     $(document).ready(function () {
-        $('.back-to-top').click(function () {
-            $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
-            return false;
-        });
-
-
         // Facts counter
         $('[data-toggle="counter-up"]').counterUp({
             delay: 10,

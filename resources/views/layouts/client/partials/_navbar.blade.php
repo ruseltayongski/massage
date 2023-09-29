@@ -23,8 +23,22 @@
                     </div>
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
+                @if(Auth::check())
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ $user->fname.' '.$user->lname }}</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="#" class="dropdown-item">Profile</a>
+                            <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                @endif    
             </div>
-            <a href="{{ route('login') }}" class="btn btn-primary d-none d-lg-block">Book Now</a>
+            @if(!Auth::check())
+                <a href="{{ route('login') }}" class="btn btn-primary d-none d-lg-block">Login</a>
+            @endif
         </div>
     </nav>
 </div>

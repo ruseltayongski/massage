@@ -35,14 +35,14 @@
                         <div class="pt-1 mb-4">
                             <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                         </div>
-                        <a class="small text-muted" href="#!">Forgot password?</a>
+                        <!-- <a class="small text-muted" href="#!">Forgot password?</a> -->
                         <div class="row">
                             <p class="mb-5 pb-lg-2 px-2" style="color: #393f81;">Don't have an account? Register here as</p>
                             <div class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">User</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="{{ route('register').'?type=client' }}" class="dropdown-item">Client</a>
-                                    <a href="{{ route('register').'?type=owner' }}" class="dropdown-item">Spa Owner</a>
+                                    <a href="{{ route('register').'?type=CLIENT' }}" class="dropdown-item">Client</a>
+                                    <a href="{{ route('register').'?type=OWNER' }}" class="dropdown-item">Spa Owner</a>
                                 </div>
                             </div>
                         </div>

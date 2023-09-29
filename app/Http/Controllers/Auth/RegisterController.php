@@ -38,6 +38,8 @@ class RegisterController extends Controller
             return RouteServiceProvider::OWNER;
         } elseif (auth()->user()->roles == 'THERAPIST') {
             return RouteServiceProvider::THERAPIST;
+        } elseif (auth()->user()->roles == 'CLIENT') {
+            return RouteServiceProvider::CLIENT;
         }
     }
 
@@ -62,6 +64,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'fname' => ['required', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
+            'mobile' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -76,8 +79,10 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'roles' => $data['roles'],
             'fname' => $data['fname'],
             'lname' => $data['lname'],
+            'mobile' => $data['mobile'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
