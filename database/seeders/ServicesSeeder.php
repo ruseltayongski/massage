@@ -17,7 +17,7 @@ class ServicesSeeder extends Seeder
         $this->clearPictures();
 
         Services::factory()
-            ->count(20)
+            ->count(1)
             ->create()
             ->each(function ($services) {
                 $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();

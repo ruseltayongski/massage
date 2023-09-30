@@ -27,6 +27,14 @@ class OwnerController extends Controller
         ]);
     }
 
+    public function therapist() {
+        $user = Auth::user();
+        $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id)->paginate(15);
+        return view('owner.therapist',[
+            "therapists" => $therapists
+        ]);
+    }
+
     public function contractSave(Request $request) {
         $user = Auth::user();
         //amountPicture

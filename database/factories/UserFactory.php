@@ -16,6 +16,15 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $stateRoles;
+
+    public function withRoles($roles)
+    {
+        $this->stateRoles = $roles;
+
+        return $this;
+    }
+
     public function definition(): array
     {
         //$response = Http::get('https://placebeard.it/640x360');
@@ -25,7 +34,7 @@ class UserFactory extends Factory
             $image = $response->body();
 
             $filename = fake()->firstName().'.jpg';
-            $owner_picture_path = '/fileupload/owner/'.$filename;
+            $owner_picture_path = '/fileupload/'.$this->stateRoles.'/profile/'.$filename;
             file_put_contents(base_path().'/public'.$owner_picture_path, $image);
 
             return [

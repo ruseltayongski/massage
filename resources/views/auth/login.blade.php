@@ -4,7 +4,9 @@
     <section class="p-0">
         <div class="row m-0">
             <div class="col-md-6 p-0 d-none d-md-block">
-                <img src="{{ asset('client/img/about.jpg') }}" alt="login form" class="img-fluid h-100 w-100"/>
+                <a href="{{ route('client') }}">
+                    <img src="{{ asset('client/img/about.jpg') }}" alt="login form" class="img-fluid h-100 w-100"/>
+                </a>
             </div>
             <div class="col-md-6 d-flex align-items-center card" style="background-color: rgb(244, 225, 244); min-height: 100vh;">
                 <div class="card-body text-black">
