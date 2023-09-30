@@ -104,6 +104,45 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+        @if(session('spa_save'))
+        Lobibox.notify('success', {
+            msg: 'Successfully Added!',
+            img: "{{ asset('img/check.png') }}"
+        });
+
+        // Clear the session flash data using AJAX
+        $.ajax({
+            url: "{{ route('clear_spa_update_flash') }}",
+            method: 'POST',
+            data: {_token: "{{ csrf_token() }}"},
+            success: function(response) {
+                console.log('Flash data cleared');
+            },
+            error: function(error) {
+                console.error('Error clearing flash data');
+            }
+        });
+    @endif
+        @if(session('spa_update'))
+        Lobibox.notify('success', {
+            msg: 'Successfully updated!',
+            img: "{{ asset('img/check.png') }}"
+        });
+
+        // Clear the session flash data using AJAX
+        $.ajax({
+            url: "{{ route('clear_spa_update_flash') }}",
+            method: 'POST',
+            data: {_token: "{{ csrf_token() }}"},
+            success: function(response) {
+                console.log('Flash data cleared');
+            },
+            error: function(error) {
+                console.error('Error clearing flash data');
+            }
+        });
+    @endif
+
 
         // $("a[href='#sign_contract']").on('click',function(){
         //     $('.modal_content').html(loading);

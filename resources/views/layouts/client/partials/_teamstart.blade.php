@@ -11,7 +11,7 @@
             @foreach($spas as $spa)
             <div class="col-lg-3 col-md-6">
                 <div class="team position-relative overflow-hidden mb-5">
-                    <img class="img-fluid" src="{{ asset('fileupload/spa').'/'.$spa->picture }}" alt="">
+                    <img class="img-fluid" src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}" alt="">
                     <div class="position-relative text-center">
                         <div class="team-text bg-primary text-white">
                             <h5 class="text-white text-uppercase">{{ $spa->name }}</h5>

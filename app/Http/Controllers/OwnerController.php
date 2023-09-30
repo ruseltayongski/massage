@@ -7,7 +7,9 @@ use App\Models\Spa;
 use App\Models\User;
 use App\Models\Contracts;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\File;
 use Illuminate\Http\Response;
+
 
 class OwnerController extends Controller
 {
@@ -107,20 +109,50 @@ class OwnerController extends Controller
                 $spa->picture = $spaFileName;
                 $spa->save();
                 
+                session()->flash('spa_save', true);
                 $user = Auth::user();
                 $spas = Spa::where('owner_id',$user->id)->paginate(15);
                 return view('owner.spa',[
                     "spas" => $spas
                 ]);
-                // Return a JSON response indicating success
-               /*  return response()->json(['message' => 'Spa added successfully'], Response::HTTP_CREATED); */
             } else {
-              /*   return response()->json(['error' => 'No file uploaded'], Response::HTTP_BAD_REQUEST); */
             }
         } catch (\Exception $e) {
-            // Handle any exceptions and return an error JSON response
-           /*  return response()->json(['error' => 'Failed to add spa'], Response::HTTP_INTERNAL_SERVER_ERROR); */
         }
     }
-    
+
+    public function updateSpa(Request $request) {
+        try {
+            if ($request->has('id')) {
+                $spaId = $request->input('id');
+                $spa = Spa::find($spaId);
+                $spa->name = $request->input('name');
+                $spa->description = $request->input('description');
+
+                if ($request->hasFile('picture')) {
+                    $spaImage = $request->file('picture');
+                    $spaFileName = 'picture' . uniqid() . '.' . $spaImage->getClientOriginalExtension();
+                    $spaImage->move(base_path() . '/public/fileupload/owner/picture/', $spaFileName);
+                    $spa->picture = $spaFileName;
+                   
+                }
+                session()->flash('spa_update', true);
+                $spa->save();
+                $user = Auth::user();
+                $spas = Spa::where('owner_id', $user->id)->paginate(15);
+                return view('owner.spa', [
+                    "spas" => $spas,
+                ]);
+               
+            }
+            
+         
+         } catch (\Exception $e) { 
+       }
+    }
+    public function clearSpaUpdateFlash() {
+        session()->forget('spa_save');
+        session()->forget('spa_update');
+        return response()->json(['success' => true]);
+    }
 }
