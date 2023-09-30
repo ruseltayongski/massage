@@ -165,8 +165,9 @@
     </div>
 </div>
 @endsection
-
+@section('js')
 <script>
+<<<<<<< HEAD
     document.addEventListener("DOMContentLoaded", function() {
         $('#updateModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -224,4 +225,8 @@
     }
  */
 
+=======
+    // your javascript code here
+>>>>>>> 64373f6fb10b3f36d0a05c7ec3a66febb6cb1d2d
 </script>
+@endsection

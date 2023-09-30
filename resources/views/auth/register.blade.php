@@ -14,122 +14,102 @@
     <section class="p-0">
         <div class="row m-0">
             <div class="col-md-6 p-0 d-none d-md-block">
-                <img class="img-fluid h-100 w-100" src="{{ asset('client/img/about.jpg') }}" alt="login form">
+                <a href="{{ route('client') }}">
+                    <img class="img-fluid h-100 w-100" src="{{ asset('client/img/about.jpg') }}" alt="login form">
+                </a>
             </div>
             <div class="col-md-6 d-flex align-items-center card" style="background-color: rgb(244, 225, 244); min-height: 100%;">
                 <div class="text-black">
-                    <form>
-                    <div class="d-flex justify-content-center align-items-center mb-0">
-                        <img class="w-25" src="{{ asset('client/img/logo.png') }}" alt="logo">
-                    </div>
-                
-                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register</h5>
-                    <div class="row gx-5">
-                        <div class="col-lg-6 form-outline">
-                            <input type="email" id="form2Example17" class="form-control form-control-lg" />
-                            <label class="form-label" for="form2Example17">Email address</label>
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
+                        <input type="hidden" name="roles" id="roles">
+                        <div class="d-flex justify-content-center align-items-center mb-0">
+                            <img class="w-25" src="{{ asset('client/img/logo.png') }}" alt="logo">
                         </div>
-                        <div class="col-lg-6 form-outline">
-                            <input type="password" id="form2Example27" class="form-control form-control-lg" />
-                            <label class="form-label" for="form2Example27">Password</label>
+                    
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register</h5>
+
+                        <div class="row gx-5">
+                            <div class="col-lg-6 form-outline">
+                                <label class="form-label" for="fname">Firstname</label>
+                                <input type="text" id="fname" name="fname" value="{{ old('fname') }}" class="form-control form-control-lg @error('fname') is-invalid @enderror"/>
+                                @error('fname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 form-outline">
+                                <label class="form-label" for="lname">Lastname</label>
+                                <input type="text" id="lname" name="lname" value="{{ old('lname') }}" class="form-control form-control-lg @error('lname') is-invalid @enderror"/>
+                                @error('lname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                
-                    <div class="pt-1 mb-4">
-                        <button class="btn btn-dark btn-lg btn-block" type="button" id="registerButton">Register</button>
-                    </div>
-                    <a class="small text-muted" href="#!">Forgot password?</a>
-                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="login.html" style="color: #393f81;">Login here</a></p>
+
+                        <div class="row gx-5">
+                            <div class="col-lg-6 form-outline">
+                                <label class="form-label" for="mobile">Mobile Number</label>
+                                <input type="text" id="mobile" name="mobile" value="{{ old('mobile') }}" class="form-control form-control-lg @error('mobile') is-invalid @enderror"/>
+                                @error('mobile')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 form-outline">
+                                <label class="form-label" for="email">Email Address</label>
+                                <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control form-control-lg @error('email') is-invalid @enderror"/>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row gx-5">
+                            <div class="col-lg-6 form-outline">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" id="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror"/>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 form-outline">
+                                <label class="form-label" for="password-confirm">Confirm Password</label>
+                                <input type="password" id="password-confirm" name="password_confirmation" class="form-control form-control-lg"/>
+                            </div>
+                        </div>
+                    
+                        <div class="pt-1 mb-4 mt-3">
+                            <button class="btn btn-dark btn-lg btn-block" type="submit" id="registerButton">Register</button>
+                        </div>
+                        <!-- <a class="small text-muted" href="#!">Forgot password?</a> -->
+                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="{{ route('login') }}" style="color: #393f81;">Login here</a></p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-    <div class="container">
-        <div class="row">
-            <div class="pricing-overlay" id="pricing-plans">
-                <div class="col-lg-7 pt-5 pb-lg-5 mx-auto">
-                    <div class="pricing-text bg-light p-4 p-lg-5 my-lg-5">
-                        <div class="d-flex justify-content-end">
-                            <i class="fas fa-times" id="closePayment"></i>
-                        </div>
-                        <p>Note: </p>
-                        <span>For payment, just upload receipt of gcash<p>Gcash number: 09457163995</p></span>
-                        <div class="owl-carousel pricing-carousel">
-                            <div class="bg-white">
-                                <div class="d-flex align-items-center justify-content-between border-bottom border-primary p-4">
-                                    <h1 class="display-4 mb-0">
-                                        <small class="align-top text-muted font-weight-medium" style="font-size: 22px; line-height: 45px;">$</small>49<small class="align-bottom text-muted font-weight-medium" style="font-size: 16px; line-height: 40px;">/Mo</small>
-                                    </h1>
-                                    <h5 class="text-primary text-uppercase m-0">Basic Plan</h5>
-                                </div>
-                                <div class="p-4">
-                                    <p><i class="fa fa-check text-success mr-2"></i>Full Body Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Deep Tissue Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Hot Stone Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Tissue Body Polish</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Foot & Nail Care</p>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Pay Now!
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="bg-white">
-                                <div class="d-flex align-items-center justify-content-between border-bottom border-primary p-4">
-                                    <h1 class="display-4 mb-0">
-                                        <small class="align-top text-muted font-weight-medium" style="font-size: 22px; line-height: 45px;">$</small>99<small class="align-bottom text-muted font-weight-medium" style="font-size: 16px; line-height: 40px;">/Mo</small>
-                                    </h1>
-                                    <h5 class="text-primary text-uppercase m-0">Family Plan</h5>
-                                </div>
-                                <div class="p-4">
-                                    <p><i class="fa fa-check text-success mr-2"></i>Full Body Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Deep Tissue Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Hot Stone Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Tissue Body Polish</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Foot & Nail Care</p>
-                                    <a href="" class="btn btn-primary my-2">Order Now</a>
-                                </div>
-                            </div>
-                            <div class="bg-white">
-                                <div class="d-flex align-items-center justify-content-between border-bottom border-primary p-4">
-                                    <h1 class="display-4 mb-0">
-                                        <small class="align-top text-muted font-weight-medium" style="font-size: 22px; line-height: 45px;">$</small>149<small class="align-bottom text-muted font-weight-medium" style="font-size: 16px; line-height: 40px;">/Mo</small>
-                                    </h1>
-                                    <h5 class="text-primary text-uppercase m-0">VIP Plan</h5>
-                                </div>
-                                <div class="p-4">
-                                    <p><i class="fa fa-check text-success mr-2"></i>Full Body Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Deep Tissue Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Hot Stone Massage</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Tissue Body Polish</p>
-                                    <p><i class="fa fa-check text-success mr-2"></i>Foot & Nail Care</p>
-                                    <a href="" class="btn btn-primary my-2">Order Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Upload proof of payment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+            var results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        var type = getUrlParameter('type').toUpperCase();
+        $("#roles").val(type);
+        
+        if(!type || (type != 'CLIENT' && type != 'OWNER') ) {
+            alert("Please select a user type");
+            window.location.href="{{ route('login') }}";
+        }
+    </script>
 @endsection

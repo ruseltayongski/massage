@@ -17,7 +17,7 @@ class SpaSeeder extends Seeder
         $this->clearPictures();
 
         Spa::factory()
-            ->count(20)
+            ->count(1)
             ->create()
             ->each(function ($spa) {
                 $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();

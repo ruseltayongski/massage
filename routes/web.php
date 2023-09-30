@@ -33,8 +33,12 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::get('owner/contract',[App\Http\Controllers\OwnerController::class, 'contract'])->name('owner/contract');
         Route::post('owner/contract/save',[App\Http\Controllers\OwnerController::class, 'contractSave'])->name('owner.contract.save');
         Route::post('owner/spa',[App\Http\Controllers\OwnerController::class, 'addSpa'])->name('owner.spa.save');
+<<<<<<< HEAD
         Route::put('owner/spa', [App\Http\Controllers\OwnerController::class, 'updateSpa'])->name('owner.spa.update');
         Route::post('/clear_spa_update_flash', [App\Http\Controllers\OwnerController::class, 'clearSpaUpdateFlash'])->name('clear_spa_update_flash');
+=======
+        Route::get('owner/therapist',[App\Http\Controllers\OwnerController::class, 'therapist'])->name('owner/therapist');
+>>>>>>> 64373f6fb10b3f36d0a05c7ec3a66febb6cb1d2d
     });
 });
 

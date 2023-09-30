@@ -28,6 +28,8 @@ class RedirectIfAuthenticated
                     return redirect(RouteServiceProvider::OWNER);
                 } elseif (auth()->user()->roles == 'THERAPIST') {
                     return redirect(RouteServiceProvider::THERAPIST);
+                } elseif (auth()->user()->roles == 'CLIENT') {
+                    return redirect(RouteServiceProvider::CLIENT);
                 }
                 //return redirect(RouteServiceProvider::HOME);
                 // $user = Auth::guard($guard)->user();

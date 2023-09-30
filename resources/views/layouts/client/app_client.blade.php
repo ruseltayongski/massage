@@ -28,6 +28,7 @@
     <link href="{{ asset('client/css/style.css') }}" rel="stylesheet">
 </head>
 <body>
+    <?php $user = Auth::user(); ?>
     @include('layouts.client.partials._topbar')
     @include('layouts.client.partials._navbar')
     @include('layouts.client.partials._carousel')

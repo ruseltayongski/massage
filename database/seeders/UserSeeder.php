@@ -16,25 +16,30 @@ class UserSeeder extends Seeder
     {
         $this->clearPictures();
         
-         User::factory()
+        User::factory()
          ->count(1)
          ->state([
             'roles' => 'ADMIN',
-            'email' => 'admin@gmail.com'
+            'email' => 'admin@gmail.com',
         ])
-         ->create();
+        ->withRoles('admin')
+        ->create();
 
-         User::factory()
+        User::factory()
          ->count(1)
          ->state([
              'roles' => 'OWNER',
-             'email' => 'owner@gmail.com'
+             'email' => 'owner@gmail.com',
          ])
+         ->withRoles('owner')
          ->create();
 
         User::factory()
-            ->count(1)
-            ->state(['roles' => 'THERAPIST'])
+            ->count(20)
+            ->state([
+                'roles' => 'THERAPIST'
+            ])
+            ->withRoles('therapist')
             ->create()
             ->each(function ($user) {
                 $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();
@@ -47,21 +52,24 @@ class UserSeeder extends Seeder
                 'roles' => 'CLIENT',
                 'email' => 'client@gmail.com'
             ])
+            ->withRoles('client')
             ->create();    
     }
 
     public function clearPictures() {
-        $folderPath = base_path().'/public/fileupload/owner';
+        $directory = ['admin','owner','therapist','client'];
 
-        $allowedExtensions = ['jpg', 'png', 'gif']; 
-
-        if ($handle = opendir($folderPath)) {
-            while (false !== ($file = readdir($handle))) {
-                if (is_file($folderPath . '/' . $file) && in_array(pathinfo($file, PATHINFO_EXTENSION), $allowedExtensions)) {
-                    unlink($folderPath . '/' . $file);
+        foreach($directory as $dir) {
+            $folderPath = base_path().'/public/fileupload/'.$dir.'/profile';
+            $allowedExtensions = ['jpg', 'png', 'gif']; 
+            if ($handle = opendir($folderPath)) {
+                while (false !== ($file = readdir($handle))) {
+                    if (is_file($folderPath . '/' . $file) && in_array(pathinfo($file, PATHINFO_EXTENSION), $allowedExtensions)) {
+                        unlink($folderPath . '/' . $file);
+                    }
                 }
+                closedir($handle);
             }
-            closedir($handle);
         }
     }
 }
