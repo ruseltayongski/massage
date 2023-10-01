@@ -12,6 +12,7 @@
     <!-- endinject --> 
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
+    
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
@@ -105,43 +106,62 @@
             });
         @endif
         @if(session('spa_save'))
-        Lobibox.notify('success', {
-            msg: 'Successfully Added!',
-            img: "{{ asset('img/check.png') }}"
-        });
+            Lobibox.notify('success', {
+                msg: 'Successfully Added!',
+                img: "{{ asset('img/check.png') }}"
+            });
 
-        // Clear the session flash data using AJAX
-        $.ajax({
-            url: "{{ route('clear_spa_update_flash') }}",
-            method: 'POST',
-            data: {_token: "{{ csrf_token() }}"},
-            success: function(response) {
-                console.log('Flash data cleared');
-            },
-            error: function(error) {
-                console.error('Error clearing flash data');
-            }
-        });
-    @endif
+            // Clear the session flash data using AJAX
+            $.ajax({
+                url: "{{ route('clear_spa_update_flash') }}",
+                method: 'POST',
+                data: {_token: "{{ csrf_token() }}"},
+                success: function(response) {
+                    console.log('Flash data cleared');
+                },
+                error: function(error) {
+                    console.error('Error clearing flash data');
+                }
+            });
+        @endif
         @if(session('spa_update'))
-        Lobibox.notify('success', {
-            msg: 'Successfully updated!',
-            img: "{{ asset('img/check.png') }}"
-        });
+            Lobibox.notify('success', {
+                msg: 'Successfully updated!',
+                img: "{{ asset('img/check.png') }}"
+            });
 
-        // Clear the session flash data using AJAX
-        $.ajax({
-            url: "{{ route('clear_spa_update_flash') }}",
-            method: 'POST',
-            data: {_token: "{{ csrf_token() }}"},
-            success: function(response) {
-                console.log('Flash data cleared');
-            },
-            error: function(error) {
-                console.error('Error clearing flash data');
-            }
-        });
-    @endif
+            // Clear the session flash data using AJAX
+            $.ajax({
+                url: "{{ route('clear_spa_update_flash') }}",
+                method: 'POST',
+                data: {_token: "{{ csrf_token() }}"},
+                success: function(response) {
+                    console.log('Flash data cleared');
+                },
+                error: function(error) {
+                    console.error('Error clearing flash data');
+                }
+            });
+        @endif
+        @if(session('therapist_save'))
+            Lobibox.notify('success', {
+                msg: 'Successfully add!',
+                img: "{{ asset('img/check.png') }}"
+            });
+
+            // Clear the session flash data using AJAX
+            $.ajax({
+                url: "{{ route('clear_spa_update_flash') }}",
+                method: 'POST',
+                data: {_token: "{{ csrf_token() }}"},
+                success: function(response) {
+                    console.log('Flash data cleared');
+                },
+                error: function(error) {
+                    console.error('Error clearing flash data');
+                }
+            });
+        @endif
 
 
         // $("a[href='#sign_contract']").on('click',function(){

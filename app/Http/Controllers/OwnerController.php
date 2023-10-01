@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Spa;
 use App\Models\User;
 use App\Models\Contracts;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\File;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 
 class OwnerController extends Controller
@@ -21,21 +22,32 @@ class OwnerController extends Controller
         return view('owner.dashboard');
     }
 
-    public function spa() {
+    public function spa(Request $request) {
         $user = Auth::user();
-        $spas = Spa::where('owner_id',$user->id)->paginate(15);
-        return view('owner.spa',[
-            "spas" => $spas
+    
+        $query = Spa::where('owner_id', $user->id);
+    
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%$search%")
+                  ->orWhere('description', 'like', "%$search%");
+        }
+        $spas = $query->paginate(15);
+    
+        return view('owner.spa', [
+            "spas" => $spas,
         ]);
     }
+    
+    
 
-    public function therapist() {
+    /* public function therapist() {
         $user = Auth::user();
         $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id)->paginate(15);
         return view('owner.therapist',[
             "therapists" => $therapists
         ]);
-    }
+    } */
 
     public function contractSave(Request $request) {
         $user = Auth::user();
@@ -102,32 +114,42 @@ class OwnerController extends Controller
         return date_format($endDateObj, 'm/d/Y');
     }
 
+
     public function addSpa(Request $request) {
         try {
-            if ($request->hasFile('picture')) {
-                // File exists in the request
-                $spaImage = $request->file('picture');
-                $spaFileName = 'picture' . uniqid() . '.' . $spaImage->getClientOriginalExtension();
-                $spaImage->move(base_path() . '/public/fileupload/owner/picture/', $spaFileName);
-    
-                $spa = new Spa();
-                $spa->owner_id = Auth::user()->id;
-                $spa->name = $request->name;
-                $spa->description = $request->description;
-                $spa->picture = $spaFileName;
-                $spa->save();
-                
-                session()->flash('spa_save', true);
-                $user = Auth::user();
-                $spas = Spa::where('owner_id',$user->id)->paginate(15);
-                return view('owner.spa',[
-                    "spas" => $spas
-                ]);
-            } else {
+            $spaImage = $request->file('picture');
+
+            if ($spaImage) {
+                try {
+                    $spaFileName = 'picture' . uniqid() . '.' . $spaImage->getClientOriginalExtension();         
+                    $uploadPath = public_path('/fileupload/owner/picture/');
+                    $spaImage->move($uploadPath, $spaFileName);
+                    Image::Make($uploadPath . $spaFileName)
+                    ->resize(255,340)->save(); 
+                } catch (Exception $ex) {
+                    // Handle exception if needed
+                    dd($ex->getMessage());
+                }
             }
+            // Create and save the Spa model
+            $spa = new Spa();
+            $spa->owner_id = Auth::user()->id;
+            $spa->name = $request->name;
+            $spa->description = $request->description;
+            $spa->picture = $spaFileName;
+            $spa->save();
+    
+            session()->flash('spa_save', true);
+            $user = Auth::user();
+            $spas = Spa::where('owner_id', $user->id)->paginate(15);
+            return view('owner.spa', [
+                "spas" => $spas
+            ]);
         } catch (\Exception $e) {
+            // Handle exceptions
         }
     }
+
 
     public function updateSpa(Request $request) {
         try {
@@ -136,14 +158,29 @@ class OwnerController extends Controller
                 $spa = Spa::find($spaId);
                 $spa->name = $request->input('name');
                 $spa->description = $request->input('description');
-
+    
                 if ($request->hasFile('picture')) {
                     $spaImage = $request->file('picture');
                     $spaFileName = 'picture' . uniqid() . '.' . $spaImage->getClientOriginalExtension();
-                    $spaImage->move(base_path() . '/public/fileupload/owner/picture/', $spaFileName);
-                    $spa->picture = $spaFileName;
-                   
+                    $uploadPath = base_path() . '/public/fileupload/owner/picture/';
+                    $spaImage->move($uploadPath, $spaFileName);
+
+                    Image::make($uploadPath . $spaFileName)
+                          ->resize(255,340)->save();
+                    // Check if the new picture is different from the existing one
+                    if ($spa->picture != $spaFileName) {
+                        // Delete the old picture
+                        $oldPicturePath = $uploadPath . $spa->picture;
+                        if (file_exists($oldPicturePath)) {
+                            unlink($oldPicturePath);
+                        }
+    
+                        // Set the new picture
+                        $spa->picture = $spaFileName;
+                    
+                    }
                 }
+    
                 session()->flash('spa_update', true);
                 $spa->save();
                 $user = Auth::user();
@@ -151,13 +188,14 @@ class OwnerController extends Controller
                 return view('owner.spa', [
                     "spas" => $spas,
                 ]);
-               
             }
-            
-         
-         } catch (\Exception $e) { 
-       }
+    
+        } catch (\Exception $e) {
+            // Handle exceptions
+        }
     }
+  
+    
     public function clearSpaUpdateFlash() {
         session()->forget('spa_save');
         session()->forget('spa_update');
