@@ -4,7 +4,7 @@
     <section class="p-0">
         <div class="row m-0">
             <div class="col-md-6 p-0 d-none d-md-block">
-                <a href="{{ route('client') }}">
+                <a href="{{ route('/') }}">
                     <img src="{{ asset('client/img/about.jpg') }}" alt="login form" class="img-fluid h-100 w-100"/>
                 </a>
             </div>
