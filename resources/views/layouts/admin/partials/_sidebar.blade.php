@@ -31,12 +31,22 @@
       </div>
       <p class="sidebar-menu-title">Dash menu</p>
     </li>
+   
+    @if($user->roles == 'THERAPIST')
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
+        <i class="typcn typcn-device-desktop menu-icon"></i>
+        <span class="menu-title">Manage Profile</span>
+      </a>
+    </li>
+    @else
     <li class="nav-item">
       <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
         <i class="typcn typcn-device-desktop menu-icon"></i>
         <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
       </a>
     </li>
+    @endif
     @if($user->roles == 'ADMIN')
     <li class="nav-item">
       <a class="nav-link" href="{{ route($firstRoute.'/owner') }}">
