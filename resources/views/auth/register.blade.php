@@ -14,7 +14,7 @@
     <section class="p-0">
         <div class="row m-0">
             <div class="col-md-6 p-0 d-none d-md-block">
-                <a href="{{ route('client') }}">
+                <a href="{{ route('/') }}">
                     <img class="img-fluid h-100 w-100" src="{{ asset('client/img/about.jpg') }}" alt="login form">
                 </a>
             </div>
@@ -97,19 +97,21 @@
             </div>
         </div>
     </section>
-    <script>
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-            var results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
-        var type = getUrlParameter('type').toUpperCase();
-        $("#roles").val(type);
-        
-        if(!type || (type != 'CLIENT' && type != 'OWNER') ) {
-            alert("Please select a user type");
-            window.location.href="{{ route('login') }}";
-        }
-    </script>
 @endsection
+@section('js')
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    var type = getUrlParameter('type').toUpperCase();
+    $("#roles").val(type);
+    
+    if(!type || (type != 'CLIENT' && type != 'OWNER') ) {
+        alert("Please select a user type");
+        window.location.href="{{ route('login') }}";
+    }
+</script>
+@endsection   

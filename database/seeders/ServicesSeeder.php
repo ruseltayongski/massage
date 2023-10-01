@@ -17,11 +17,11 @@ class ServicesSeeder extends Seeder
         $this->clearPictures();
 
         Services::factory()
-            ->count(1)
+            ->count(2)
             ->create()
             ->each(function ($services) {
                 $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();
-                $spa = User::where('roles', 'OWNER')->inRandomOrder()->first();
+                $spa = Spa::where('owner_id', $owner->id)->inRandomOrder()->first();
                 $services->update([
                     'owner_id' => $owner->id,
                     'spa_id' => $spa->id

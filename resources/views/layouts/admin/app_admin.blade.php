@@ -61,10 +61,6 @@
                 @include('layouts.admin.partials._settings-panel')
                 @include('layouts.admin.partials._sidebar')
                 <div class="main-panel">
-                    <!-- Button trigger modal -->
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sign_contract">
-                    Launch demo modal
-                    </button> -->
                     @yield('content')
                     @include('layouts.admin.partials._footer')
                 </div>

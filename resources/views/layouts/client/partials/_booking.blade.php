@@ -1,65 +1,7 @@
-<style>
-    /* CSS */
-    /* .tag-price {
-        position: absolute;
-        top: 10px; 
-        right: 10px;
-        transform-origin: center center;
-        animation: rotate360 10s linear infinite;
-        background-color:red;
-        padding:5px;
-    }
-
-    @keyframes rotate360 {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    } */
-    
-    /* CSS */
-    .tag-price {
-        position: absolute;
-        top: 10px; 
-        right: 5px; 
-        background-color:red;
-        padding:5px;
-        transform: rotate(30deg);
-    }
-
-</style>
-</style>
-<!-- Service Start -->
 <div class="container-fluid px-0">
-    <div class="row mx-0 justify-content-center text-center">
+    <div class="row justify-content-center bg-appointment mx-0">
         <div class="col-lg-6">
-            <h6 class="d-inline-block bg-light text-primary text-uppercase py-1 px-2">Our Service</h6>
-            <h1>Spa & Beauty Services</h1>
-        </div>
-    </div>
-    <div class="owl-carousel service-carousel">
-        @foreach($services as $service)
-        <div class="service-item position-relative">
-            <img class="img-fluid" src="{{ asset('/fileupload/services').'/'.$service->picture }}" alt="">
-            <div class="service-text text-center">
-                <h4 class="text-white font-weight-medium px-3">{{ $service->name }}</h4>
-                <p class="text-white px-3 mb-3">{{ $service->description }}</p>
-                <div class="w-100 bg-white text-center p-4" >
-                    <a class="btn btn-primary" href="{{ route('therapist').'?spa='.$spa_id.'&service='.$service->id }}">Select Service</a>
-                </div>
-            </div>
-            <div class="tag-price">
-                <strong class="text-white">₱&nbsp;{{ $service->price }}</strong>
-            </div>
-        </div>
-        @endforeach
-    </div>
-    <!-- <div class="row justify-content-center bg-appointment mx-0">
-        <div class="col-lg-6 py-5">
             <div class="p-5 my-5" style="background: rgba(33, 30, 28, 0.7);">
-                <h1 class="text-white text-center mb-4">Make Appointment</h1>
                 <form>
                     <div class="form-row">
                         <div class="col-sm-6">
@@ -101,12 +43,11 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <button class="btn btn-primary btn-block" type="submit" style="height: 47px;">Make Appointment</button>
+                            <button class="btn btn-primary btn-block" type="submit" style="height: 47px;">Make Booking</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>
-<!-- Service End -->

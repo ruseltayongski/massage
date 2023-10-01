@@ -29,7 +29,8 @@ class UserFactory extends Factory
     {
         //$response = Http::get('https://placebeard.it/640x360');
         //https://placebeard.it/255x366
-        $response = Http::get('https://placebeard.it/100/100');
+        //$response = Http::get('https://placebeard.it/100/100');
+        $response = Http::timeout(60)->get('https://placebeard.it/255x366');
         if ($response->successful()) {
             $image = $response->body();
 
