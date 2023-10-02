@@ -19,13 +19,13 @@ class TherapistController extends Controller
         ]);
     }
 
-    public function therapist() {
+    /* public function therapist() {
         $user = Auth::user();
         $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id)->paginate(15);
         return view('owner.therapist',[
             "therapists" => $therapists
         ]);
-    }
+    } */
     public function addTherapist(Request $request) {
         $therapist_profile = $request->file('picture');
       
@@ -58,5 +58,49 @@ class TherapistController extends Controller
         ]); */
         
         return redirect()->route('owner/therapist');
+    }
+
+    public function updateTherapist(Request $request) {
+        
+      /*   dd($request->all()); */
+    
+        if($request->has('id')) {
+            $therapistId = $request->input('id');
+            $user = User::find($therapistId);
+            $user->fname = $request->input('fname');
+            $user->lname = $request->input('lname');
+            $user->address = $request->input('address');
+            $user->mobile = $request->input('mobile');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+         
+
+            if($request->hasFile('picture')) {
+                $therapistProfile = $request->file('picture');
+                $therapistFileName = 'therapist' .uniqid() . '.' . $therapistProfile->getClientOriginalExtension();
+                $uploadPath = public_path('/fileupload/owner/therapist/');
+                $therapistProfile->move($uploadPath, $therapistFileName);
+                
+                Image::make($uploadPath . $therapistFileName)
+                        ->resize(355,355)
+                        ->save();
+
+                if($user->picture != $therapistFileName) {
+                    $old_picure = $uploadPath . $user->picture;
+
+                    if(file_exists($old_picure)) {
+                        unlink($old_picure);
+                    }
+
+                    
+                    $user->picture = $therapistFileName;
+                  
+                }
+               
+            }
+            session()->flash('therapist_update', true);
+            $user->save(); 
+        }  
+        return redirect()->route('therapist/dashboard');
     }
 }

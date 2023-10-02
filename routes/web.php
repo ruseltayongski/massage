@@ -25,6 +25,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::get('/therapist', [App\Http\Controllers\ClientController::class, 'therapist'])->name('therapist');
     Route::get('/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('booking');
     Route::get('therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
+    Route::put('therapist/update',  [App\Http\Controllers\TherapistController::class, 'updateTherapist'])->name('therapist.update');
     
     
     Route::group(['middleware' => 'admin'], function () {
@@ -40,7 +41,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::post('owner/spa',[App\Http\Controllers\OwnerController::class, 'addSpa'])->name('owner.spa.save');
         Route::put('owner/spa', [App\Http\Controllers\OwnerController::class, 'updateSpa'])->name('owner.spa.update');
         Route::post('/clear_spa_update_flash', [App\Http\Controllers\OwnerController::class, 'clearSpaUpdateFlash'])->name('clear_spa_update_flash');
-        Route::get('owner/therapist',[App\Http\Controllers\TherapistController::class, 'therapist'])->name('owner/therapist');
+        Route::get('owner/therapist',[App\Http\Controllers\OwnerController::class, 'therapist'])->name('owner/therapist');
         Route::post('owner/therapist', [App\Http\Controllers\TherapistController::class, 'addTherapist'])->name('owner.therapist.save');
     });
 

@@ -101,6 +101,13 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+        @if(session('therapist_update'))
+            <?php //session('contract_save',false); ?>
+            Lobibox.notify('success', {
+                msg: 'Successfully Updated',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
         @if(session('spa_save'))
             Lobibox.notify('success', {
                 msg: 'Successfully Added!',
