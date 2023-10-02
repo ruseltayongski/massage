@@ -79,6 +79,7 @@ class ClientController extends Controller
         $booking->status = 'Pending';
         $booking->save();
 
+        session()->flash('booking_save', true);
         return redirect(route('booking.history'));
     }
 
@@ -102,7 +103,7 @@ class ClientController extends Controller
                     ->leftJoin('users','users.id','=','bookings.therapist_id')
                     ->paginate(2);
 
-        session()->flash('booking_save', true);
+        
         return view('client.booking_history',[
             'bookings' => $bookings
         ]);

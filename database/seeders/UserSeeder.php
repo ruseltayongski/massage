@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
         $this->call(SpaSeeder::class);
 
         User::factory()
-            ->count(20)
+            ->count(1)
             ->state([
                 'roles' => 'THERAPIST'
             ])

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Bookings;
+use App\Models\Spa;
+use App\Models\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class TherapistController extends Controller
 {
@@ -58,5 +62,30 @@ class TherapistController extends Controller
         ]); */
         
         return redirect()->route('owner/therapist');
+    }
+
+    public function booking() {
+        $user = Auth::user();
+        $bookings = Bookings::select(
+                        'bookings.id',
+                        'spa.name as spa',
+                        'services.name as services',
+                        DB::raw("concat(users.fname,' ',users.lname) as therapist"),
+                        'bookings.booking_type',
+                        'bookings.start_date',
+                        'bookings.start_time',
+                        'bookings.amount_paid',
+                        'bookings.status',
+                        'bookings.payment_picture'
+                    )
+                    ->where('therapist_id',$user->id)
+                    ->leftJoin('spa','spa.id','=','bookings.spa_id')
+                    ->leftJoin('services','services.id','=','bookings.id')
+                    ->leftJoin('users','users.id','=','bookings.therapist_id')
+                    ->paginate(15);
+        
+        return view('therapist.booking',[
+            'bookings' => $bookings
+        ]);
     }
 }

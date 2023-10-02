@@ -2,78 +2,80 @@
 
 @section('content')
 <div class="content-wrapper">
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <h4 class="card-title">Manage Spa</h4>
-                <button type="button" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#exampleModal1"
-                    class="btn btn-success mb-3"
-                    onclick="clearForm()"
-                 >
-                 Add
-                </button>
-            </div>
-           <form action="{{ route('owner/spa') }}" method="GET">
-                <div class="input-group">
-                    <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Manage Spa</h4>
+                    <button type="button" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal1"
+                        class="btn btn-success mb-3"
+                        onclick="clearForm()"
+                    >
+                    Add
+                    </button>
                 </div>
-            </form>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Spa</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Therapist</th>
-                                <th>Created at</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($spas as $spa)
+            <form action="{{ route('owner/spa') }}" method="GET">
+                    <div class="input-group">
+                        <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
+                    </div>
+                </form>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td class="py-1">
-                                        <img src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}" alt="image"/>
-                                    </td>
-                                    <td>
-                                        {{ $spa->name }}
-                                    </td>
-                                    <td>
-                                        {{ $spa->description }}
-                                    </td>
-                                    <td>
-                                        5
-                                    </td>
-                                    <td>
-                                        {{ date("M j, Y",strtotime($spa->created_at)) }}<br>
-                                        <small>({{ date("g:i a",strtotime($spa->created_at)) }})</small>
-                                    </td>
-                                    <td>
-                                        <button type="button" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#updateModal"
-                                            data-id="{{ $spa->id }}"
-                                            data-name="{{ $spa->name }}"
-                                            data-description="{{ $spa->description }}"
-                                            data-picture="{{ $spa->picture }}"
-                                            class="btn btn-info btn-sm"
-                                        >
-                                            Update
-                                    </button>
-                                    </td>
+                                    <th>Spa</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Therapist</th>
+                                    <th>Created at</th>
+                                    <th></th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($spas as $spa)
+                                    <tr>
+                                        <td class="py-1">
+                                            <img src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}" alt="image"/>
+                                        </td>
+                                        <td>
+                                            {{ $spa->name }}
+                                        </td>
+                                        <td>
+                                            {{ $spa->description }}
+                                        </td>
+                                        <td>
+                                            5
+                                        </td>
+                                        <td>
+                                            {{ date("M j, Y",strtotime($spa->created_at)) }}<br>
+                                            <small>({{ date("g:i a",strtotime($spa->created_at)) }})</small>
+                                        </td>
+                                        <td>
+                                            <button type="button" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#updateModal"
+                                                data-id="{{ $spa->id }}"
+                                                data-name="{{ $spa->name }}"
+                                                data-description="{{ $spa->description }}"
+                                                data-picture="{{ $spa->picture }}"
+                                                class="btn btn-info btn-sm"
+                                            >
+                                                Update
+                                        </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="pl-5 pr-5">
-                {!! $spas->appends(request()->query())->links('pagination::bootstrap-5') !!}
+                <div class="pl-5 pr-5">
+                    {!! $spas->appends(request()->query())->links('pagination::bootstrap-5') !!}
+                </div>
             </div>
         </div>
     </div>
