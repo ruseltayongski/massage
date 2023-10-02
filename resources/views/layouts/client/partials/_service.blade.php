@@ -1,25 +1,5 @@
 <style>
     /* CSS */
-    /* .tag-price {
-        position: absolute;
-        top: 10px; 
-        right: 10px;
-        transform-origin: center center;
-        animation: rotate360 10s linear infinite;
-        background-color:red;
-        padding:5px;
-    }
-
-    @keyframes rotate360 {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    } */
-    
-    /* CSS */
     .tag-price {
         position: absolute;
         top: 10px; 

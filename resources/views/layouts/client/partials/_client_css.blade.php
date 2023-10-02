@@ -23,3 +23,6 @@
 
 <!-- Customized Bootstrap Stylesheet -->
 <link href="{{ asset('client/css/style.css') }}" rel="stylesheet">
+
+<!-- LOBIBOX -->
+<link rel="stylesheet" href="{{ asset('plugin/lobibox/dist/css/LobiBox.min.css') }}">

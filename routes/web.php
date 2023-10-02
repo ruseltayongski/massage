@@ -24,8 +24,9 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::get('/services', [App\Http\Controllers\ClientController::class, 'services'])->name('services');
     Route::get('/therapist', [App\Http\Controllers\ClientController::class, 'therapist'])->name('therapist');
     Route::get('/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('booking');
-    Route::get('therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
-    
+    Route::post('/booking/save', [App\Http\Controllers\ClientController::class, 'bookingSave'])->name('booking.save');
+    Route::get('/booking/history', [App\Http\Controllers\ClientController::class, 'bookingHistory'])->name('booking.history');
+    Route::get('/therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
     
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin/dashboard');

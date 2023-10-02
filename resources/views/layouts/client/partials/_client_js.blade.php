@@ -18,3 +18,6 @@
 
 <!-- Template Javascript -->
 <script src="{{ asset('client/js/main.js?v=').date('His') }}"></script>
+<!-- LOBIBOX -->
+<script src="{{ asset('plugin/lobibox/dist/js/lobibox.min.js?v='.date('his')) }}"></script>
+@yield('js')
