@@ -42,6 +42,7 @@ class TherapistController extends Controller
             ->resize(315,315)->save(); 
         }
 
+
         $user = new User();
         $user->owner_id = Auth::user()->id;
         $user->fname = $request->fname;
@@ -54,6 +55,7 @@ class TherapistController extends Controller
         $user->roles = "THERAPIST";
         $user->save();
 
+        
         session()->flash('therapist_save', true);
 
        /*  $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id);
