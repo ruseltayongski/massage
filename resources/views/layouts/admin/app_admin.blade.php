@@ -109,6 +109,12 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+        @if(session('booking_update_status'))
+            Lobibox.notify('success', {
+                msg: 'Successfully Updated Booking Status',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
         @if(session('spa_save'))
             Lobibox.notify('success', {
                 msg: 'Successfully Added!',

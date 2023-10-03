@@ -132,4 +132,16 @@ class TherapistController extends Controller
             'bookings' => $bookings
         ]);
     }
+
+    public function updateBookingStatus(Request $request) {
+        $booking = Bookings::find($request->booking_id);
+        $booking->status = $request->booking_status;
+        $booking->approved_date = date('Y-m-d H:i:s');
+        $booking->save();
+
+        session()->flash('booking_update_status', true);
+
+        return redirect()->back();
+    }
+
 }
