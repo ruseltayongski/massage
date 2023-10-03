@@ -50,7 +50,7 @@
 }
 .toggle-on {
     position: absolute;
-    top: 2px;
+    top: -3px;
     bottom: 0;
     left: 0;
     right: 100px;
@@ -61,7 +61,7 @@
 }
 .toggle-off {
     position: absolute;
-    top: 2px;
+    top: -3px;
     bottom: 0;
     left: 110px;
     right: 0;

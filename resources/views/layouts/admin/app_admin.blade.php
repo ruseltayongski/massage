@@ -27,6 +27,7 @@
             background-color: red;
         }
     </style>
+    @yield('css')
 </head>
 <body>
     <?php 

@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('receipt_number')->nullable(); //00001
             $table->decimal('total_amount', 8, 2)->nullable();
             $table->decimal('tax_amount', 8, 2)->nullable();
-            $table->dateTime('approved_date')->nullable;
+            $table->dateTime('approved_date')->nullable();
             //
             $table->boolean('is_deleted')->nullable();
             $table->rememberToken();
