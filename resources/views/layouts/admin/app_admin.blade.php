@@ -27,6 +27,7 @@
             background-color: red;
         }
     </style>
+    @yield('css')
 </head>
 <body>
     <?php 
@@ -105,6 +106,12 @@
             <?php //session('contract_save',false); ?>
             Lobibox.notify('success', {
                 msg: 'Successfully Updated',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('booking_update_status'))
+            Lobibox.notify('success', {
+                msg: 'Successfully Updated Booking Status',
                 img: "{{ asset('img/check.png') }}"
             });
         @endif

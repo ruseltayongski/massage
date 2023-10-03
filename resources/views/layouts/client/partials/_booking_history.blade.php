@@ -48,7 +48,11 @@
                                     {{ $booking->therapist }}
                                 </td>
                                 <td>
-                                    {{ $booking->booking_type }}
+                                    @if($booking->booking_type == 'home_service')
+                                        Home Service
+                                    @else
+                                        Onsite
+                                    @endif  
                                 </td>
                                 <td>
                                     {{ date("M j, Y",strtotime($booking->start_date)) }}<br>
@@ -58,7 +62,9 @@
                                     ₱&nbsp;{{ number_format($booking->amount_paid, 2, '.', ',') }}
                                 </td>
                                 <td>
-                                    <span class="badge badge-danger p-2">{{ $booking->status }}</span>
+                                    <span class="badge badge-danger p-2">
+                                        {{ $booking->status }}     
+                                    </span>
                                 </td>
                             </tr>
                             @endforeach
