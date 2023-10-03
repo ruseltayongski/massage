@@ -136,7 +136,9 @@ class TherapistController extends Controller
     public function updateBookingStatus(Request $request) {
         $booking = Bookings::find($request->booking_id);
         $booking->status = $request->booking_status;
-        $booking->approved_date = date('Y-m-d H:i:s');
+        if($request->booking_status == 'Approved') {
+            $booking->approved_date = date('Y-m-d H:i:s');
+        }
         $booking->save();
 
         session()->flash('booking_update_status', true);

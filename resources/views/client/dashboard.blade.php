@@ -11,11 +11,26 @@
             </div>
         </div>
     </div>
-    {{--
-    @include('layouts.client.partials._about')
-    @include('layouts.client.partials._service')
-    @include('layouts.client.partials._openhours')
-    @include('layouts.client.partials._pricingstart')
-    --}}
-    @include('layouts.client.partials._spa') 
+    <div class="container-fluid ">
+        <div class="container ">
+            <div class="row">
+                @foreach($spas as $spa)
+                <div class="col-lg-3 col-md-6">
+                    <div class="team position-relative overflow-hidden mb-5" style="cursor:pointer;">
+                        <img class="img-fluid" src="{{ asset('/fileupload/spa').'/'.$spa->picture }}" alt="">
+                        <div class="position-relative text-center">
+                            <div class="team-text bg-primary text-white">
+                                <h5 class="text-white text-uppercase">{{ $spa->name }}</h5>
+                                <p class="m-0">{{ $spa->description }}</p>
+                            </div>
+                            <div class="team-social bg-dark text-center">
+                                <a class="btn btn-outline-primary btn-square" href="{{ route('services').'?spa='.$spa->id }}" style="width:100px;">SELECT</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
 @endsection

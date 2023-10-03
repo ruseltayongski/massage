@@ -26,3 +26,5 @@
 
 <!-- LOBIBOX -->
 <link rel="stylesheet" href="{{ asset('plugin/lobibox/dist/css/LobiBox.min.css') }}">
+
+@yield('css')
