@@ -24,16 +24,12 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::get('/services', [App\Http\Controllers\ClientController::class, 'services'])->name('services');
     Route::get('/therapist', [App\Http\Controllers\ClientController::class, 'therapist'])->name('therapist');
     Route::get('/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('booking');
-<<<<<<< HEAD
-    Route::get('therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
+    Route::get('therapist/dashboard',[App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
     Route::put('therapist/update',  [App\Http\Controllers\TherapistController::class, 'updateTherapist'])->name('therapist.update');
     
-=======
     Route::post('/booking/save', [App\Http\Controllers\ClientController::class, 'bookingSave'])->name('booking.save');
     Route::get('/booking/history', [App\Http\Controllers\ClientController::class, 'bookingHistory'])->name('booking.history');
-    Route::get('/therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
     Route::get('/therapist/booking',  [App\Http\Controllers\TherapistController::class, 'booking'])->name('therapist.booking');
->>>>>>> 35c515e80fe248cd01ae3dd4b8c6cc2952b3f4f5
     
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin/dashboard');

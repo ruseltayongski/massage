@@ -42,6 +42,7 @@ class TherapistController extends Controller
             ->resize(315,315)->save(); 
         }
 
+
         $user = new User();
         $user->owner_id = Auth::user()->id;
         $user->fname = $request->fname;
@@ -54,6 +55,7 @@ class TherapistController extends Controller
         $user->roles = "THERAPIST";
         $user->save();
 
+        
         session()->flash('therapist_save', true);
 
        /*  $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id);
@@ -64,7 +66,6 @@ class TherapistController extends Controller
         return redirect()->route('owner/therapist');
     }
 
-<<<<<<< HEAD
     public function updateTherapist(Request $request) {
         
       /*   dd($request->all()); */
@@ -107,7 +108,7 @@ class TherapistController extends Controller
             $user->save(); 
         }  
         return redirect()->route('therapist/dashboard');
-=======
+    }
     public function booking() {
         $user = Auth::user();
         $bookings = Bookings::select(
@@ -131,6 +132,5 @@ class TherapistController extends Controller
         return view('therapist.booking',[
             'bookings' => $bookings
         ]);
->>>>>>> 35c515e80fe248cd01ae3dd4b8c6cc2952b3f4f5
     }
 }
