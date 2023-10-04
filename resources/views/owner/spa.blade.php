@@ -1,5 +1,11 @@
 @extends('layouts.admin.app_admin')
 
+<style>
+    .button-menu {
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>
 @section('content')
 <div class="content-wrapper">
     <div class="row">
@@ -45,17 +51,26 @@
                                             {{ $spa->name }}
                                         </td>
                                         <td>
-                                            {{ $spa->description }}
+                                           {{ $spa->description }}
                                         </td>
                                         <td>
-                                            5
+                                            <button
+                                                type="button" 
+                                                class="btn btn-info btn-sm"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#view_therapist"
+                                                data-id="{{ $spa->id }}"
+                                             >
+                                             View
+                                           </button>
                                         </td>
                                         <td>
                                             {{ date("M j, Y",strtotime($spa->created_at)) }}<br>
                                             <small>({{ date("g:i a",strtotime($spa->created_at)) }})</small>
                                         </td>
                                         <td>
-                                            <button type="button" 
+                                            <div class="button-menu">
+                                                <button type="button" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#updateModal"
                                                 data-id="{{ $spa->id }}"
@@ -63,9 +78,19 @@
                                                 data-description="{{ $spa->description }}"
                                                 data-picture="{{ $spa->picture }}"
                                                 class="btn btn-info btn-sm"
-                                            >
-                                                Update
-                                        </button>
+                                                >
+                                                    Update
+                                                </button>
+                                                <button
+                                                    type="button" 
+                                                    class="btn btn-info btn-sm"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#add_therapist"
+                                                    data-id="{{ $spa->id }}"
+                                                 >
+                                                    Assign Therapist
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -187,6 +212,56 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="add_therapist" tabindex="-1" aria-labelledby="add_therapist" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add_therapist">Therapist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
+                  
+                    <form action="{{ route('assigned.therapist.save') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id">
+                        <select name="therapist_id">
+                            @foreach($usersList as $user)
+                              {{--   @if ($usersList->spa_id === null) --}}
+                                    <option value="{{ $user->id }}">
+                                        {{ $user->fname }}
+                                    </option>
+                              {{--   @endif --}}
+                            @endforeach  
+                         </select>
+                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                     </div>
+                    </form>
+                </div>
+               
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="view_therapist" tabindex="-1" aria-labelledby="view_therapist" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="view_therapist">Therapist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
+                
+                    <input type="hidden" name="id" value="{{ $spa->id }}">
+               
+                </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('js')
 <script>
@@ -218,6 +293,58 @@
         } 
     });
 
+
+    $(document).ready(function () {
+        'use strict';
+    
+        $('#add_therapist').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var spaId = button.data('id');
+            $('input[name="id"]').val(spaId);
+            console.log('spa_id:', spaId);
+        });
+
+       
+        $('#view_therapist').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var spaId = button.data('id');
+
+            $.ajax({
+                url: '{{ route('owner.get-therapists') }}',
+                method: 'GET',
+                data: { spa_id: spaId },
+                success: function(response) {
+                    var modalBody = $('#view_therapist').find('.modal-body');
+                    modalBody.empty();
+
+                    response.forEach(function(therapist) {
+                        modalBody.append('<span>' + therapist.fname + '</span>');
+                    });
+                },
+                error: function(error) {
+                    console.error(error);
+                }   
+            });
+        });
+        var forms = $('.needs-validation');
+            console.log("forms", forms);
+
+            // Loop over them and prevent submission
+            forms.on('submit', function(event) {
+                var form = $(this);
+
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+            form.addClass('was-validated');
+        });
+
+    });
+
+    
+
     function clearForm() {
         $('#id').val('');
         $('#name').val('');
@@ -226,7 +353,7 @@
     }
    
    
-    (function() {
+  /*   (function() {
     'use strict';
     window.addEventListener('load', function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -244,6 +371,6 @@
       });
     }, false);
    })();
-
+ */
 </script>
 @endsection
