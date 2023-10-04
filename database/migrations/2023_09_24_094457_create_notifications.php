@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('booking_id');
+            $table->bigInteger('booking_id');
+            $table->bigInteger('booked_by');
+            $table->bigInteger('notifier_id');
             $table->text('message')->nullable();
             $table->boolean('is_deleted')->nullable();
             $table->rememberToken();

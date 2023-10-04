@@ -8,7 +8,7 @@
                 <small><i class="fa fa-envelope mr-2"></i>info@example.com</small>
             </div>
         </div>
-        <div class="col-lg-6 text-right">
+        {{-- <div class="col-lg-6 text-right">
             <div class="d-inline-flex align-items-center">
                 <a class="text-primary px-2" href="">
                     <i class="fab fa-facebook-f"></i>
@@ -26,7 +26,7 @@
                     <i class="fab fa-youtube"></i>
                 </a>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 <!-- Topbar End -->

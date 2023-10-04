@@ -101,7 +101,7 @@ class ClientController extends Controller
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
                     ->leftJoin('services','services.id','=','bookings.id')
                     ->leftJoin('users','users.id','=','bookings.therapist_id')
-                    ->paginate(2);
+                    ->paginate(15);
         
         return view('client.booking_history',[
             'bookings' => $bookings
