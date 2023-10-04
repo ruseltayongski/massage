@@ -64,7 +64,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Manage Contract</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -165,7 +165,7 @@
         const url = "{{ route('owner.contract.save') }}";
         var formData = new FormData();
         formData.append('contract_type', contractType);
-        formData.append('amountPaid', amountPaid);
+        formData.append('amount_paid', amountPaid);
         formData.append('amount_picture', amountPicture);
         formData.append('signature', signatureImage);
 

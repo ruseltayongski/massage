@@ -32,13 +32,15 @@
 <body>
     <?php 
         $user = Auth::user(); 
-        function hasContractEnded($date_end) {
-            $currentDate = date("Y-m-d"); 
-            
-            if ($currentDate <= $date_end) {
-                return false; 
-            } else {
-                return true; 
+        if (!function_exists('hasContractEnded')) {
+            function hasContractEnded($date_end) {
+                $currentDate = date("Y-m-d"); 
+                
+                if ($currentDate <= $date_end) {
+                    return false; 
+                } else {
+                    return true; 
+                }
             }
         }
     ?>
@@ -119,6 +121,12 @@
             Lobibox.notify('success', {
                 msg: 'Successfully Added Services',
                 img: "{{ asset('img/check.png') }}"
+            }
+        @endif
+        @if(session('insuficient_spa'))
+            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+            {
+                msg: "Reached limit in creating a SPA"
             });
         @endif
         @if(session('spa_save'))

@@ -63,6 +63,14 @@ class OwnerController extends Controller
         ]);
     }
 
+    public function contract() {
+        $user = Auth::user();
+        $contracts = Contracts::where('owner_id',$user->id)->paginate(15);
+        return view('owner.contract',[
+            'contracts' => $contracts
+        ]);
+    }
+
     public function contractSave(Request $request) {
         $user = Auth::user();
         //amountPicture
@@ -87,8 +95,10 @@ class OwnerController extends Controller
         $contract->end_date = $end_date;
         $contract->type = $request->contract_type;
         $contract->amount_paid = $request->amount_paid;
-        $contract->amount_picture = $amountFileName;
-        $contract->spa_owner_signature = $signatureFileName;
+        $contract->payment_proof = $amountFileName;
+        $contract->owner_signature = $signatureFileName;
+        $contract->status = 'Active';
+        $contract->active_date = date('Y-m-d H:i:s');
         $contract->save();
 
         $user = User::find($user->id);
@@ -130,6 +140,18 @@ class OwnerController extends Controller
 
 
     public function addSpa(Request $request) {
+        $user = Auth::user();
+        //check subscription
+        $countSpa = Spa::where('owner_id',$user->id)->count();
+        if($user->contract_type == 'monthly' && $countSpa > 5) {
+            session()->flash('insuficient_spa', true);
+            return redirect()->back();
+        }
+        else if($user->contract_type == 'yearly' && $countSpa > 20) {
+            session()->flash('insuficient_spa', true);
+            return redirect()->back();
+        }
+        
         try {
             $spaImage = $request->file('picture');
 
@@ -147,18 +169,15 @@ class OwnerController extends Controller
             }
             // Create and save the Spa model
             $spa = new Spa();
-            $spa->owner_id = Auth::user()->id;
+            $spa->owner_id = $user->id;
             $spa->name = $request->name;
             $spa->description = $request->description;
             $spa->picture = $spaFileName;
             $spa->save();
     
             session()->flash('spa_save', true);
-            $user = Auth::user();
-            $spas = Spa::where('owner_id', $user->id)->paginate(15);
-            return view('owner.spa', [
-                "spas" => $spas
-            ]);
+
+            return redirect()->back();
         } catch (\Exception $e) {
             // Handle exceptions
         }
@@ -196,14 +215,10 @@ class OwnerController extends Controller
                     
                     }
                 }
-    
                 session()->flash('spa_update', true);
                 $spa->save();
-                $user = Auth::user();
-                $spas = Spa::where('owner_id', $user->id)->paginate(15);
-                return view('owner.spa', [
-                    "spas" => $spas,
-                ]);
+                
+                return redirect()->back();
             }
     
         } catch (\Exception $e) {

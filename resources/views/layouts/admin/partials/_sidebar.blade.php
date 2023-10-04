@@ -63,21 +63,21 @@
     @endif
     @if($user->roles == 'OWNER')
     <li class="nav-item">
-      <a class="nav-link" href="{{ route($firstRoute.'/contract') }}">
+      <a class="nav-link" href="{{ route($firstRoute.'.contract') }}">
         <i class="typcn typcn-news menu-icon"></i>
-        <span class="menu-title">Contract</span>
+        <span class="menu-title">Manage Contract</span>
       </a>
     </li>
     <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">
       <a class="nav-link" href="{{ route($firstRoute.'/spa') }}">
         <i class="typcn typcn-tags menu-icon"></i>
-        <span class="menu-title">Spa</span>
+        <span class="menu-title">Manage Spa</span>
       </a>
     </li>
     <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">
       <a class="nav-link" href="{{ route($firstRoute.'/therapist') }}">
         <i class="typcn typcn-user-add-outline menu-icon"></i>
-        <span class="menu-title">Therapist</span>
+        <span class="menu-title">Manage Therapist</span>
       </a>
     </li>
     <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">

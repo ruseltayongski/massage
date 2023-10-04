@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Bookings;
 use App\Models\Spa;
+use App\Models\Notifications;
 use App\Models\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,13 +24,6 @@ class TherapistController extends Controller
         ]);
     }
 
-    /* public function therapist() {
-        $user = Auth::user();
-        $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id)->paginate(15);
-        return view('owner.therapist',[
-            "therapists" => $therapists
-        ]);
-    } */
     public function addTherapist(Request $request) {
         $therapist_profile = $request->file('picture');
       
@@ -136,13 +130,22 @@ class TherapistController extends Controller
     }
 
     public function updateBookingStatus(Request $request) {
+        $user = Auth::user();
         $booking = Bookings::find($request->booking_id);
         $booking->status = $request->booking_status;
-        $booking->approved_date = date('Y-m-d H:i:s');
+        if($request->booking_status == 'Approved') {
+            $booking->approved_date = date('Y-m-d H:i:s');
+        }
         $booking->save();
 
-        session()->flash('booking_update_status', true);
+        $notification = new Notifications();
+        $notification->booking_id = $booking->id;
+        $notification->booked_by = $booking->client_id;
+        $notification->notifier_id = $user->id;                       
+        $notification->message = $booking->status.' you booking';
+        $notification->save();
 
+        session()->flash('booking_update_status', true);
         return redirect()->back();
     }
 
