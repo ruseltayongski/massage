@@ -71,13 +71,13 @@
                                         <td>
                                             <div class="button-menu">
                                                 <button type="button" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#updateModal"
-                                                data-id="{{ $spa->id }}"
-                                                data-name="{{ $spa->name }}"
-                                                data-description="{{ $spa->description }}"
-                                                data-picture="{{ $spa->picture }}"
-                                                class="btn btn-info btn-sm"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#updateModal"
+                                                    data-id="{{ $spa->id }}"
+                                                    data-name="{{ $spa->name }}"
+                                                    data-description="{{ $spa->description }}"
+                                                    data-picture="{{ $spa->picture }}"
+                                                    class="btn btn-info btn-sm"
                                                 >
                                                     Update
                                                 </button>
@@ -221,27 +221,25 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
-                <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
-                  
-                    <form action="{{ route('assigned.therapist.save') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="id">
-                        <select name="therapist_id">
-                            @foreach($usersList as $user)
-                              {{--   @if ($usersList->spa_id === null) --}}
-                                    <option value="{{ $user->id }}">
-                                        {{ $user->fname }}
-                                    </option>
-                              {{--   @endif --}}
-                            @endforeach  
-                         </select>
-                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                     </div>
-                    </form>
-                </div>
-               
+                <div class="modal-body">
+                <form action="{{ route('assigned.therapist.save') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id">
+                    <select name="therapist_id">
+                        @foreach($usersList as $user)
+                            @if ($user->spa_id === null)
+                                <option value="{{ $user->id }}">
+                                    {{ $user->fname }}
+                                </option>
+                            @endif
+                        @endforeach  
+                        </select>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,14 @@
 @extends('layouts.admin.app_admin')
 
+<style>
+    .button-menu {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 2rem;
+
+    }
+</style>
+
 @section('content')
 <div class="content-wrapper">
     <div class="col-lg-12 grid-margin stretch-card">
@@ -45,15 +54,30 @@
                                         {{ $service->price }}
                                     </td>
                                     <td>
-                                        <button
-                                            type="button" 
-                                            class="btn btn-info btn-sm"
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#assign_spa"
-                                            data-id="{{ $service->id }}"
+                                        <div class="button-menu">
+                                                <button
+                                                type="button" 
+                                                class="btn btn-info btn-sm"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#assign_spa"
+                                                data-id="{{ $service->id }}"
                                             >
-                                            Assign Spa
-                                        </button>
+                                                Assign Spa
+                                            </button>
+                                            <button 
+                                                type="button" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#updateModal"
+                                                data-id="{{ $service->id }}"
+                                                data-name="{{ $service->name }}"
+                                                data-description="{{ $service->description }}"
+                                                data-price="{{ $service->price }}"
+                                                data-picture="{{ $service->picture }}"
+                                                class="btn btn-info btn-sm"
+                                            >
+                                                Update
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -126,46 +150,114 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
-                <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
-                  
-                    <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="id">
-                        <select name="spa_id">
-                            @foreach($spa as $spas)
-                                @if ($spas->spa_id === null)
-                                    <option value="{{ $spas->id }}">
-                                        {{ $spas->name }}
-                                    </option>
-                                @endif
-                            @endforeach  
-                         </select>
-                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                     </div>
-                    </form>
-                </div>
-               
+                <div class="modal-body">
+                <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id">
+                    <select name="spa_id">
+                        @foreach($spa as $spas)
+                            @if ($spas->spa_id === null)
+                                <option value="{{ $spas->id }}">
+                                    {{ $spas->name }}
+                                </option>
+                            @endif
+                        @endforeach  
+                        </select>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-  @endsection
-  @section('js')
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Spa</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('owner.services.update') }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="id" value="">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="picture">Spa Picture</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                           {{--  <label for="new_picture">New Spa Picture</label> --}}
+                            <input type="file" class="form-control-file" id="files" name="picture"> 
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                @if(empty($spa->picture))
+                                    <img 
+                                        name="picture" 
+                                        id="picture"
+                                        src="{{ asset('img/check.png') }}"
+                                        alt="image" 
+                                        style="width:100px; height:100px;"
+                                    />
+                                    @else
+                                    <img 
+                                        name="picture" 
+                                        id="picture"
+                                        src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}"
+                                        alt="image" 
+                                        style="width:100px; height:100px;"
+                                    />
+                                 @endif
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+@section('js')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         $('#updateModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var spaId = button.data('id');
-        var spaName = button.data('name');
-        var spaDescription = button.data('description');
+        var servicesId = button.data('id');
+        var servicesName = button.data('name');
+        var servicesDesc = button.data('description');
+        var servicesPrice = button.data('price');
         var currentPicture = button.data('picture');
         
         var modal = $(this);
-        modal.find('#id').val(spaId);
+        modal.find('#id').val(servicesId);
         modal.find('#picture').val(currentPicture);
-        modal.find('#name').val(spaName);
-        modal.find('#description').val(spaDescription);
+        modal.find('#price').val(servicesPrice);
+        modal.find('#name').val(servicesName);
+        modal.find('#description').val(servicesDesc);
         });
 
         document.getElementById('files').addEventListener('change', handleNewPictureChange, false)

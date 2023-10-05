@@ -53,6 +53,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::get('/get-therapists', [App\Http\Controllers\OwnerController::class, 'getTherapists'])->name('owner.get-therapists');
         Route::post('assign/therapist', [App\Http\Controllers\OwnerController::class, 'assignTherapist'])->name('assigned.therapist.save');
         Route::get('owner/services',[App\Http\Controllers\ServicesController::class, 'servicesView'])->name('owner/services');
+        Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
         Route::post('assign/services',[App\Http\Controllers\ServicesController::class, 'assignSpa'])->name('owner.assign.save');
     });
