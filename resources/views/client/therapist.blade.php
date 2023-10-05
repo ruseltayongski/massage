@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 <div class="team-social bg-dark text-center">
-                                    <a class="btn btn-outline-primary btn-square" href="{{ route('booking').'?spa='.$spa_id.'&service='.$service_id.'&therapist='.$therapist->id }}" style="width:100px;">SELECT</i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?spa='.$spa_id.'&service='.$service_id.'&therapist='.$therapist->id }}" style="width:100px;">SELECT</i></a>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Therapist Not Found</h3>
                 <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client') }}">Please click here to select a spa first</a></p>
+                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
                 </div>
             </div>
         </div>

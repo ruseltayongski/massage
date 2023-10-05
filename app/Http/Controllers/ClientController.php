@@ -80,13 +80,14 @@ class ClientController extends Controller
         $booking->save();
 
         session()->flash('booking_save', true);
-        return redirect(route('booking.history'));
+        return redirect(route('client.booking.history'));
     }
 
     public function bookingHistory(Request $request) {
         $user = Auth::user();
         $bookings = Bookings::select(
                         'bookings.id',
+                        'users.id as therapist_id',
                         'spa.name as spa',
                         'services.name as services',
                         DB::raw("concat(users.fname,' ',users.lname) as therapist"),
@@ -105,6 +106,17 @@ class ClientController extends Controller
         
         return view('client.booking_history',[
             'bookings' => $bookings
+        ]);
+    }
+
+    public function rateSpa(Request $request) {
+
+    }
+
+    public function rateTherapist(Request $request) {
+        $therapist = User::find($request->therapist_id);
+        return view('client.rate_therapist', [
+            'therapist' => $therapist
         ]);
     }
 

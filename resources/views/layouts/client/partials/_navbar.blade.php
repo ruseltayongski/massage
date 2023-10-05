@@ -20,7 +20,7 @@
                     ->whereDate('notifications.created_at', now())
                     ->leftJoin('users','users.id','=','notifications.notifier_id')
                     ->get();
-    }                          
+    }                      
 ?>
 <style>
     /* Style the notification badge nagamit*/
@@ -84,7 +84,7 @@
 <!-- Navbar Start -->
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
-        <a href="@if(Auth::check()){{ route('client') }}@else{{ route('/') }}@endif" class="navbar-brand ml-lg-3">
+        <a href="@if(Auth::check()){{ route('client.dashboard') }}@else{{ route('/') }}@endif" class="navbar-brand ml-lg-3">
             <h1 class="m-0 text-primary"><span class="text-dark">SPA</span> Center</h1>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -93,40 +93,44 @@
         <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
             <div class="navbar-nav m-auto py-0">
                 @if(Auth::check())  
-                    <a href="{{ route('client') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client' ? 'active' : '' }}">Spa</a>
-                    <a href="{{ route('services') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'services' ? 'active' : '' }}">Services</a>
-                    <a href="{{ route('therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'therapist' ? 'active' : '' }}">Therapist</a>
-                    <a href="{{ route('booking') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'booking' ? 'active' : '' }}">Booking</a>
-                    <a href="{{ route('booking.history') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'booking.history' ? 'active' : '' }}">Booking History</a>
+                    <a href="{{ route('client.dashboard') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.dashboard' ? 'active' : '' }}">Spa</a>
+                    <a href="{{ route('client.services') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.services' ? 'active' : '' }}">Services</a>
+                    <a href="{{ route('client.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.therapist' ? 'active' : '' }}">Therapist</a>
+                    <a href="{{ route('client.booking') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Booking</a>
+                    <a href="{{ route('client.booking.history') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">Booking History</a>
+                    <a href="{{ route('client.rate.spa') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.spa' ? 'active' : '' }}">Rate Spa</a>
+                    <a href="{{ route('client.rate.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.therapist' ? 'active' : '' }}">Rate Therapist</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                             Notifications
                             <span class="badge badge-notification">{{ count($notifications) }}</span> <!-- Display the number of unread notifications -->
                         </a>
-                        <div class="dropdown-menu notifications rounded-0 m-0">
-                            @foreach($notifications as $notification)
-                                <div class="notification-ui_dd-content">
-                                    <div class="notification-list notification-list--unread">
-                                        <div class="notification-list_detail">
-                                            <div class="row">
-                                                <div class="col-md-2" style="padding: 0;">
-                                                    <img src="{{ asset('fileupload/therapist/profile').'/'.$notification->notifier_picture }}" class="img-notification" alt="user">
-                                                </div>
-                                                <div class="col-md-6" style="padding: 0;padding-left:5px;">
-                                                    <p><small>{{ $notification->message }}</small></p>
-                                                </div>
-                                                <div class="col-md-4" style="padding: 0; padding-top:10px;">
-                                                    <p><small class="text-info">{{ $notification->time_ago }}</small></p>
+                        @if(count($notifications) > 0)
+                            <div class="dropdown-menu notifications rounded-0 m-0">
+                                @foreach($notifications as $notification)
+                                    <div class="notification-ui_dd-content">
+                                        <div class="notification-list notification-list--unread">
+                                            <div class="notification-list_detail">
+                                                <div class="row">
+                                                    <div class="col-md-2" style="padding: 0;">
+                                                        <img src="{{ asset('fileupload/therapist/profile').'/'.$notification->notifier_picture }}" class="img-notification" alt="user">
+                                                    </div>
+                                                    <div class="col-md-6" style="padding: 0;padding-left:5px;">
+                                                        <p><small>{{ $notification->message }}</small></p>
+                                                    </div>
+                                                    <div class="col-md-4" style="padding: 0; padding-top:5px;">
+                                                        <p><small class="text-info">{{ $notification->time_ago }}</small></p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                @endforeach
+                                <div style="text-align: center;">
+                                    <a href="{{ route('client.booking.history') }}">View All</a>
                                 </div>
-                            @endforeach
-                            <div style="text-align: center;">
-                                <a href="{{ route('booking.history') }}">View All</a>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 @endif
             </div>

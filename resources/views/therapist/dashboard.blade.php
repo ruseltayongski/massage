@@ -1,18 +1,21 @@
-@extends('layouts.admin.app_admin')
+@section('css')
 <style>
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        input[disabled]:hover {
-           cursor: not-allowed;
-        }
-        .disable[disabled]:hover {
-            cursor: not-allowed;
-        }
+    input[disabled]:hover {
+       cursor: not-allowed;
+    }
+    .disable[disabled]:hover {
+        cursor: not-allowed;
+    }
 </style>
+@endsection
+@extends('layouts.admin.app_admin')
+
 @section('content')
 <div class="content-wrapper">
     <div class="row">
@@ -36,7 +39,7 @@
                                             @else
                                                 <img
                                                     class="img-account-profile rounded-circle mb-2 w-75" 
-                                                    src="{{ asset('/fileupload/owner/therapist/').'/'. $therapists->picture }}" 
+                                                    src="{{ asset('/fileupload/therapist/profile/').'/'. $therapists->picture }}" 
                                                     alt=""
                                                     id="picture"
                                                     name="picture"

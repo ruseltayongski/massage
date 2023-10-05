@@ -7,7 +7,7 @@
         z-index: 9999;
     }
 </style>
-<!-- <div class="modal fade mt-3" id="sign_contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+{{-- <div class="modal fade mt-3" id="sign_contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -58,7 +58,7 @@
             </form>
         </div>
     </div>
-</div> -->
+</div>  --}}
 
 <div class="modal fade" id="sign_contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -77,13 +77,13 @@
                     <div class="p-2">
                         <div class="form-check form-check-primary">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="contract_type" id="contract_type" value="monthly" checked>
+                                <input type="radio" class="form-check-input" name="contract_type" value="monthly" checked>
                                 Monthly
                             </label>
                         </div>
                         <div class="form-check form-check-primary">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="contract_type" value="yearly" id="contract_type">
+                                <input type="radio" class="form-check-input" name="contract_type" value="yearly">
                                 Yearly
                             </label>
                         </div>

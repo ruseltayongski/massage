@@ -24,7 +24,7 @@
                                 <p class="m-0">{{ $spa->description }}</p>
                             </div>
                             <div class="team-social bg-dark text-center">
-                                <a class="btn btn-outline-primary btn-square" href="{{ route('services').'?spa='.$spa->id }}" style="width:100px;">SELECT</i></a>
+                                <a class="btn btn-outline-primary btn-square" href="{{ route('client.services').'?spa='.$spa->id }}" style="width:100px;">SELECT</i></a>
                             </div>
                         </div>
                     </div>

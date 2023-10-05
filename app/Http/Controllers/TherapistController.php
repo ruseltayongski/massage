@@ -78,7 +78,7 @@ class TherapistController extends Controller
             if($request->hasFile('picture')) {
                 $therapistProfile = $request->file('picture');
                 $therapistFileName = 'therapist' .uniqid() . '.' . $therapistProfile->getClientOriginalExtension();
-                $uploadPath = public_path('/fileupload/owner/therapist/');
+                $uploadPath = public_path('/fileupload/therapist/profile/');
                 $therapistProfile->move($uploadPath, $therapistFileName);
                 
                 Image::make($uploadPath . $therapistFileName)
@@ -148,6 +148,5 @@ class TherapistController extends Controller
         session()->flash('booking_update_status', true);
         return redirect()->back();
     }
-
    
 }

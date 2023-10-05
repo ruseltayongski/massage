@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('spa_id');
             $table->bigInteger('therapist_id');
-            $table->text('description');
-            $table->smallInteger('rate');
+            $table->text('feedback');
+            $table->bigInteger('rate');
             $table->boolean("is_deleted")->nullable();
             $table->rememberToken();
             $table->timestamps();

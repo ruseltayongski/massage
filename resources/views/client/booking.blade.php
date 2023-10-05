@@ -17,7 +17,7 @@
             <div class="row justify-content-center bg-appointment mx-0">
                 <div class="col-lg-6">
                     <div class="p-5 my-5" style="background: rgba(33, 30, 28, 0.7);">
-                        <form action="{{ route('booking.save') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('client.booking.save') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="spa_id" value="{{ $spa_id }}">
                             <input type="hidden" name="service_id" value="{{ $service_id }}">
@@ -74,7 +74,7 @@
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Spa Not Found</h3>
                 <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client') }}">Please click here to select a spa first</a></p>
+                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
                 </div>
             </div>
         </div>

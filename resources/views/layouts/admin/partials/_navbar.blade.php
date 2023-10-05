@@ -133,11 +133,11 @@
                     <i class="typcn typcn-cog text-primary"></i>
                     Settings
                 </a>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();">
                     <i class="typcn typcn-power text-primary"></i>
                     Logout
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                <form id="logout-form1" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
             </div>

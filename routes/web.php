@@ -20,20 +20,20 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     ->name('home');
 
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/');
-    Route::get('/client', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client');
-    Route::get('/services', [App\Http\Controllers\ClientController::class, 'services'])->name('services');
-    Route::get('/therapist', [App\Http\Controllers\ClientController::class, 'therapist'])->name('therapist');
-    Route::get('/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('booking');
-    Route::post('/booking/save', [App\Http\Controllers\ClientController::class, 'bookingSave'])->name('booking.save');
-    Route::get('/booking/history', [App\Http\Controllers\ClientController::class, 'bookingHistory'])->name('booking.history');
-    Route::post('/booking/status/update', [App\Http\Controllers\TherapistController::class, 'updateBookingStatus'])->name('booking.status.update');
+    Route::get('/client/dashboard', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client.dashboard');
+    Route::get('/client/services', [App\Http\Controllers\ClientController::class, 'services'])->name('client.services');
+    Route::get('/client/therapist', [App\Http\Controllers\ClientController::class, 'therapist'])->name('client.therapist');
+    Route::get('/client/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('client.booking');
+    Route::post('/client/booking/save', [App\Http\Controllers\ClientController::class, 'bookingSave'])->name('client.booking.save');
+    Route::get('/client/booking/history', [App\Http\Controllers\ClientController::class, 'bookingHistory'])->name('client.booking.history');
+    Route::get('/client/rate/spa',  [App\Http\Controllers\ClientController::class, 'rateSpa'])->name('client.rate.spa');
+    Route::get('/client/rate/therapist',  [App\Http\Controllers\ClientController::class, 'rateTherapist'])->name('client.rate.therapist');
+    Route::post('/therapist/update/booking/status', [App\Http\Controllers\TherapistController::class, 'updateBookingStatus'])->name('therapist.update.booking.status');
     Route::get('/therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
     Route::get('/therapist/booking',  [App\Http\Controllers\TherapistController::class, 'booking'])->name('therapist.booking');
     Route::put('therapist/update',  [App\Http\Controllers\TherapistController::class, 'updateTherapist'])->name('therapist.update');
-    
 
     //Services
-  
 
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin/dashboard');

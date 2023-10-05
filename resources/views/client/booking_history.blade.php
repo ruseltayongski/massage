@@ -5,11 +5,6 @@
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Booking History</h3>
-                <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-white" href="">Select</a></p>
-                    <i class="far fa-circle px-3"></i>
-                    <p class="m-0">Booking</p>
-                </div>
             </div>
         </div>
         
@@ -60,7 +55,7 @@
                                             {{ $booking->services }}
                                         </td>
                                         <td>
-                                            {{ $booking->therapist }}
+                                            <a href="{{ route('client.rate.therapist').'?therapist_id='.$booking->therapist_id }}">{{ $booking->therapist }}</a>
                                         </td>
                                         <td>
                                             @if($booking->booking_type == 'home_service')

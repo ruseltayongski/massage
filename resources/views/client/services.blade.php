@@ -41,7 +41,7 @@
                         <h4 class="text-white font-weight-medium px-3">{{ $service->name }}</h4>
                         <p class="text-white px-3 mb-3">{{ $service->description }}</p>
                         <div class="w-100 bg-white text-center p-4" >
-                            <a class="btn btn-primary" href="{{ route('therapist').'?spa='.$spa_id.'&service='.$service->id }}">Select Service</a>
+                            <a class="btn btn-primary" href="{{ route('client.therapist').'?spa='.$spa_id.'&service='.$service->id }}">Select Service</a>
                         </div>
                     </div>
                     <div class="tag-price">
@@ -56,7 +56,7 @@
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Services Not Found</h3>
                 <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client') }}">Please click here to select a spa first</a></p>
+                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
                 </div>
             </div>
         </div>
