@@ -149,4 +149,5 @@ class TherapistController extends Controller
         return redirect()->back();
     }
 
+   
 }

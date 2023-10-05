@@ -23,21 +23,37 @@ class OwnerController extends Controller
     }
 
     public function spa(Request $request) {
+       /*  dd($request->all()); */
         $user = Auth::user();
-    
         $query = Spa::where('owner_id', $user->id);
-    
+        $usersList = User::where('roles', 'THERAPIST')->where('owner_id', $user->id)->get();
+      
+  
         if ($request->has('search')) {
             $search = $request->input('search');
             $query->where('name', 'like', "%$search%")
                   ->orWhere('description', 'like', "%$search%");
         }
         $spas = $query->paginate(15);
-    
+     /*    dd($specificTherapist, \DB::getQueryLog()); */
         return view('owner.spa', [
             "spas" => $spas,
+            "usersList" => $usersList
         ]);
     }
+    
+    public function getTherapists(Request $request) {
+        $user = Auth::user();
+        $spaId = $request->input('spa_id');
+
+        $specificTherapists = User::where('roles', 'THERAPIST')
+            ->where('owner_id', $user->id)
+            ->where('spa_id', $spaId)
+            ->get();
+
+        return response()->json($specificTherapists);
+    }
+    
 
     public function therapist() {
         $user = Auth::user();
@@ -209,7 +225,34 @@ class OwnerController extends Controller
             // Handle exceptions
         }
     }
+
+
+    public function assignTherapist(Request $request) {
+     
+       /*  dd($request->all()); */
+        if ($request->has('id') && $request->has('therapist_id')) {
+            $spa_id = $request->input('id');
+            $therapist_id = $request->input('therapist_id');
+
+            $user = User::find($therapist_id);
+            $user->spa_id = $spa_id;
+
+            $user->save();
+        }
+        return redirect()->back();
+    }
   
+   /*  public function specificTherapist(Request $request) {
+        dd($request->all());
+        $spa_id = $request->input('id');
+        $users = User::where('id', $spa_id)->get();
+    
+        // Now $users contains all users with the specified spa_id
+    
+        dd($users);
+
+    } */
+
     
     public function clearSpaUpdateFlash() {
         session()->forget('spa_save');

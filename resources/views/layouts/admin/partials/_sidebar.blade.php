@@ -80,6 +80,12 @@
         <span class="menu-title">Manage Therapist</span>
       </a>
     </li>
+    <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">
+      <a class="nav-link" href="{{ route($firstRoute.'/services') }}">
+        <i class="typcn typcn-user-add-outline menu-icon"></i>
+        <span class="menu-title">Services</span>
+      </a>
+    </li>
     @endif
     <li class="nav-item">
       <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

@@ -117,6 +117,12 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+        @if(session('services_save'))
+            Lobibox.notify('success', {
+                msg: 'Successfully Added Services',
+                img: "{{ asset('img/check.png') }}"
+            }
+        @endif
         @if(session('insuficient_spa'))
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
             {
