@@ -233,7 +233,7 @@
             <span aria-hidden="true">×</span>
             </button>
         </div>
-        <form action="{{ route('booking.status.update') }}" method="POST">
+        <form action="{{ route('therapist.update.booking.status') }}" method="POST">
             @csrf
             <div class="modal-body text-center">
                 <input type="hidden" id="booking_id" name="booking_id">
