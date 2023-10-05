@@ -45,13 +45,17 @@ class OwnerController extends Controller
     public function getTherapists(Request $request) {
         $user = Auth::user();
         $spaId = $request->input('spa_id');
-
+    
         $specificTherapists = User::where('roles', 'THERAPIST')
             ->where('owner_id', $user->id)
             ->where('spa_id', $spaId)
             ->get();
+    
+      /*   return response()->json([
+            'data' => $specificTherapists->items(),
+        ]); */
 
-        return response()->json($specificTherapists);
+        return response()->json($specificTherapists);   
     }
     
 
@@ -140,10 +144,10 @@ class OwnerController extends Controller
 
 
     public function addSpa(Request $request) {
+       /*  dd($request->all()); */
         $user = Auth::user();
-        //check subscription
         $countSpa = Spa::where('owner_id',$user->id)->count();
-        if($user->contract_type == 'monthly' && $countSpa > 5) {
+        if($user->contract_type == 'monthly' && $countSpa >= 5) {
             session()->flash('insuficient_spa', true);
             return redirect()->back();
         }
@@ -158,7 +162,7 @@ class OwnerController extends Controller
             if ($spaImage) {
                 try {
                     $spaFileName = 'picture' . uniqid() . '.' . $spaImage->getClientOriginalExtension();         
-                    $uploadPath = public_path('/fileupload/owner/picture/');
+                    $uploadPath = public_path('/fileupload/spa/');
                     $spaImage->move($uploadPath, $spaFileName);
                     Image::Make($uploadPath . $spaFileName)
                     ->resize(255,340)->save(); 
@@ -195,7 +199,7 @@ class OwnerController extends Controller
                 if ($request->hasFile('picture')) {
                     $spaImage = $request->file('picture');
                     $spaFileName = 'picture' . uniqid() . '.' . $spaImage->getClientOriginalExtension();
-                    $uploadPath = base_path() . '/public/fileupload/owner/picture/';
+                    $uploadPath = public_path() . '/fileupload/spa/';
                     $spaImage->move($uploadPath, $spaFileName);
 
                     

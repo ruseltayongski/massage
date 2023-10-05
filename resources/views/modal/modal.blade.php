@@ -6,6 +6,17 @@
     #sign_contract {
         z-index: 9999;
     }
+    #monthlyMessageContainer,
+    #yearlyMessageContainer {
+        opacity: 0;
+        transition: opacity 0.5s ease; /* Adjust the duration and easing as needed */
+    }
+
+    #monthlyMessageContainer.visible,
+    #yearlyMessageContainer.visible {
+        opacity: 1;
+        color: red;
+    }
 </style>
 {{-- <div class="modal fade mt-3" id="sign_contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -61,15 +72,15 @@
 </div>  --}}
 
 <div class="modal fade" id="sign_contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Manage Contract</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <span aria-hidden="true">×</span>
         </button>
-      </div>
-      <form id="contractForm" method="POST">
+    </div>
+    <form id="contractForm" method="POST">
             <div class="modal-body">
                 @csrf
                 <div class="form-group">
@@ -77,7 +88,7 @@
                     <div class="p-2">
                         <div class="form-check form-check-primary">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="contract_type" value="monthly" checked>
+                                <input type="radio" class="form-check-input" name="contract_type" value="monthly">
                                 Monthly
                             </label>
                         </div>
@@ -88,7 +99,10 @@
                             </label>
                         </div>
                     </div>
+                
+                    
                 </div>
+            
                 <div class="form-group">
                     <label for="amount_paid">Amount Paid</label>
                     <input type="number" step="0.01" class="form-control" id="amount_paid" name="amount_paid" required>
@@ -110,7 +124,7 @@
             </div>
         </form>
     </div>
-  </div>
+</div>
 </div>
 
 <script>
@@ -196,4 +210,68 @@
         event.preventDefault();
         saveContract();
     });
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var monthlyRadio = document.querySelector('input[name="contract_type"][value="monthly"]');
+        var yearlyRadio = document.querySelector('input[name="contract_type"][value="yearly"]');
+        var monthlyContainer = monthlyRadio.closest('.form-check');
+        var yearlyContainer = yearlyRadio.closest('.form-check');
+        var monthlyMessageContainer = document.createElement('div');
+        monthlyMessageContainer.id = 'monthlyMessageContainer';
+        var yearlyMessageContainer = document.createElement('div');
+        yearlyMessageContainer.id = 'yearlyMessageContainer';
+
+        function updateMessage() {
+            var monthlyMessage = '';
+        var yearlyMessage = '';
+
+        if (monthlyRadio.checked) {
+            monthlyMessage = '-> Only 5 SPA available for monthly contracts.';
+        } else if (yearlyRadio.checked) {
+            yearlyMessage = '-> Special discount for yearly contracts and can create upto 20 SPA!';
+        }
+
+        monthlyMessageContainer.textContent = monthlyMessage;
+        monthlyMessageContainer.classList.toggle('visible', monthlyRadio.checked);
+
+        yearlyMessageContainer.textContent = yearlyMessage;
+        yearlyMessageContainer.classList.toggle('visible', yearlyRadio.checked);
+        }
+
+        // Append the message containers to their respective containers
+        monthlyContainer.appendChild(monthlyMessageContainer);
+        yearlyContainer.appendChild(yearlyMessageContainer);
+
+        // Add event listener to update message and visibility on radio button change
+        monthlyRadio.addEventListener('change', updateMessage);
+        yearlyRadio.addEventListener('change', updateMessage);
+
+        // Set initial message and visibility
+        updateMessage();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var monthlyRadio = document.querySelector('input[name="contract_type"][value="monthly"]');
+    var yearlyRadio = document.querySelector('input[name="contract_type"][value="yearly"]');
+    var amountPaidInput = document.getElementById('amount_paid');
+
+    function updateAmount() {
+        var monthlyPrice = 100; // Replace with your actual monthly price
+        var yearlyPrice = 1000; // Replace with your actual yearly price
+
+        if (monthlyRadio.checked) {
+            amountPaidInput.value = monthlyPrice;
+        } else if (yearlyRadio.checked) {
+            amountPaidInput.value = yearlyPrice;
+        }
+    }
+
+    // Add event listener to update amount on radio button change
+    monthlyRadio.addEventListener('change', updateAmount);
+    yearlyRadio.addEventListener('change', updateAmount);
+
+    // Set initial amount based on default selection
+    updateAmount();
+});
 </script>

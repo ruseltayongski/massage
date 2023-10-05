@@ -44,7 +44,7 @@
                 <div class="row" id="proBanner">
                     <div class="col-12">
                         <span class="d-flex align-items-center purchase-popup">
-                            <p>Get tons of features as a owner, and more!</p>
+                            <p>Sign now!, to avail exciting features!</p>
                             <a href="#sign_contract" class="btn download-button purchase-button ml-auto" data-backdrop="static" data-toggle="modal">Sign a contract</a>
                             <i class="typcn typcn-delete-outline" id="bannerClose"></i>
                         </span>
