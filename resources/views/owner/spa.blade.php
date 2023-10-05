@@ -1,11 +1,30 @@
-@extends('layouts.admin.app_admin')
+@section('css')
+    <style>
+        #view_therapist .modal-body .therapist-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-<style>
+    #view_therapist .modal-body .therapist-table th, 
+    #view_therapist .modal-body .therapist-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #view_therapist .modal-body .therapist-table th {
+        background-color: #f2f2f2;
+    }
     .button-menu {
         display: flex;
         justify-content: space-evenly;
     }
-</style>
+    </style>
+@endsection
+
+@extends('layouts.admin.app_admin')
+
 @section('content')
 <div class="content-wrapper">
     <div class="row">
@@ -259,8 +278,10 @@
                 <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
                 
                     <input type="hidden" name="id" {{-- value="{{ $spa->id }}" --}}>
-               
+                    <div class="therapist-table-container"></div>
+                     <div class="pagination-container"></div>
                 </div>
+             
         </div>
     </div>
 </div>
@@ -274,13 +295,17 @@
         var spaName = button.data('name');
         var spaDescription = button.data('description');
         var currentPicture = button.data('picture');
-        
+
         var modal = $(this);
         modal.find('#id').val(spaId);
-        modal.find('#picture').val(currentPicture);
         modal.find('#name').val(spaName);
         modal.find('#description').val(spaDescription);
-        });
+
+        // Set the current picture value to the hidden input field
+        modal.find('#currentPicture').val(currentPicture);
+
+        // Update the image source
+        updateImageSource(currentPicture, modal);
 
         document.getElementById('files').addEventListener('change', handleNewPictureChange, false)
         
@@ -293,10 +318,22 @@
         }
             reader.readAsDataURL(input.files[0]);
         } 
+
+    });
+
+    // Function to update the image source
+    function updateImageSource(currentPicture, modal) {
+        var pictureElement = modal.find('#picture');
+        if (currentPicture) {
+            pictureElement.attr('src', "{{ asset('/fileupload/spa/') }}/" + currentPicture);
+        } else {
+            pictureElement.attr('src', "{{ asset('img/check.png') }}");
+        }
+    }
     });
 
 
-    $(document).ready(function () {
+     $(document).ready(function () {
         'use strict';
     
         $('#add_therapist').on('show.bs.modal', function (event) {
@@ -307,27 +344,7 @@
         });
 
        
-        $('#view_therapist').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var spaId = button.data('id');
-
-            $.ajax({
-                url: '{{ route('owner.get-therapists') }}',
-                method: 'GET',
-                data: { spa_id: spaId },
-                success: function(response) {
-                    var modalBody = $('#view_therapist').find('.modal-body');
-                    modalBody.empty();
-
-                    response.forEach(function(therapist) {
-                        modalBody.append('<span>' + therapist.fname + '</span>');
-                    });
-                },
-                error: function(error) {
-                    console.error(error);
-                }   
-            });
-        });
+      
         var forms = $('.needs-validation');
             console.log("forms", forms);
 
@@ -343,9 +360,35 @@
             form.addClass('was-validated');
         });
 
-    });
+            $('#view_therapist').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var spaId = button.data('id');
 
-    
+            var modalBody = $('#view_therapist').find('.modal-body');
+            modalBody.empty();
+
+            $.ajax({
+                url: '{{ route('owner.get-therapists') }}',
+                method: 'GET',
+                data: { spa_id: spaId },
+                success: function(response) {
+                    console.log("response", response);
+                    var table = $('<table class="therapist-table"></table>').appendTo(modalBody);
+                    table.append('<thead><tr><th>Name</th></tr></thead>');
+
+                    var tbody = $('<tbody></tbody>').appendTo(table);
+
+                    response.forEach(function(therapist) {
+                        tbody.append('<tr><td>' + therapist.fname + '</td></tr>');
+                    });
+
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
 
     function clearForm() {
         $('#id').val('');

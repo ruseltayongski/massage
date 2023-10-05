@@ -45,13 +45,17 @@ class OwnerController extends Controller
     public function getTherapists(Request $request) {
         $user = Auth::user();
         $spaId = $request->input('spa_id');
-
+    
         $specificTherapists = User::where('roles', 'THERAPIST')
             ->where('owner_id', $user->id)
             ->where('spa_id', $spaId)
             ->get();
+    
+      /*   return response()->json([
+            'data' => $specificTherapists->items(),
+        ]); */
 
-        return response()->json($specificTherapists);
+        return response()->json($specificTherapists);   
     }
     
 
@@ -143,7 +147,7 @@ class OwnerController extends Controller
        /*  dd($request->all()); */
         $user = Auth::user();
         $countSpa = Spa::where('owner_id',$user->id)->count();
-        if($user->contract_type == 'monthly' && $countSpa > 5) {
+        if($user->contract_type == 'monthly' && $countSpa >= 5) {
             session()->flash('insuficient_spa', true);
             return redirect()->back();
         }
