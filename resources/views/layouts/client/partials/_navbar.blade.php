@@ -1,5 +1,5 @@
 <?php
-    use App\Models\Notifications; 
+    use App\Models\Notifications;
     use Illuminate\Support\Facades\DB;
     $notification = [];
     if(isset($user->id)) {
@@ -20,7 +20,7 @@
                     ->whereDate('notifications.created_at', now())
                     ->leftJoin('users','users.id','=','notifications.notifier_id')
                     ->get();
-    }                      
+    }
 ?>
 <style>
     /* Style the notification badge nagamit*/
@@ -92,14 +92,14 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
             <div class="navbar-nav m-auto py-0">
-                @if(Auth::check())  
+                @if(Auth::check())
                     <a href="{{ route('client.dashboard') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.dashboard' ? 'active' : '' }}">Spa</a>
                     <a href="{{ route('client.services') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.services' ? 'active' : '' }}">Services</a>
                     <a href="{{ route('client.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.therapist' ? 'active' : '' }}">Therapist</a>
                     <a href="{{ route('client.booking') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Booking</a>
-                    <a href="{{ route('client.booking.history') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">Booking History</a>
-                    <a href="{{ route('client.rate.spa') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.spa' ? 'active' : '' }}">Rate Spa</a>
-                    <a href="{{ route('client.rate.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.therapist' ? 'active' : '' }}">Rate Therapist</a>
+                    <a href="{{ route('client.booking.history') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">History</a>
+                    {{-- <a href="{{ route('client.rate.spa') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.spa' ? 'active' : '' }}">Rate Spa</a>
+                    <a href="{{ route('client.rate.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.therapist' ? 'active' : '' }}">Rate Therapist</a> --}}
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                             Notifications
@@ -148,7 +148,7 @@
             </div>
         @else
             <a href="{{ route('login') }}" class="btn btn-primary d-none d-lg-block">Login</a>
-        @endif  
+        @endif
     </nav>
 </div>
 <!-- Navbar End -->

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('spa_id');
-            $table->bigInteger('therapist_id');
+            $table->bigInteger('spa_id')->nullable();
+            $table->bigInteger('therapist_id')->nullable();
+            $table->bigInteger('feedback_by')->nullable();
             $table->text('feedback');
             $table->bigInteger('rate');
             $table->boolean("is_deleted")->nullable();

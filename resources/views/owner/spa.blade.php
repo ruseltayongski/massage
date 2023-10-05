@@ -1,11 +1,13 @@
-@extends('layouts.admin.app_admin')
-
+@section('css')
 <style>
     .button-menu {
         display: flex;
         justify-content: space-evenly;
     }
 </style>
+@endsection
+@extends('layouts.admin.app_admin')
+
 @section('content')
 <div class="content-wrapper">
     <div class="row">

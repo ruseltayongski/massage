@@ -55,68 +55,6 @@
         .rate > label:hover ~ input:checked ~ label {
             color: #c59b08;
         }
-
-    /* #half-stars-example {
-        .rating-group {
-            display: inline-flex;
-        }
-
-        .rating__icon {
-            pointer-events: none;
-        }
-
-        .rating__input {
-            position: absolute !important;
-            left: -9999px !important;
-        }
-
-        .rating__label {
-            cursor: pointer;
-            padding: 0 0.1em;
-            font-size: 2rem;
-        }
-
-        .rating__label--half {
-            padding-right: -30px;
-            margin-right: -20px;
-            z-index: 2;
-        }
-
-        .rating__icon--star {
-            color: orange;
-        }
-
-        .rating__icon--none {
-            color: #eee;
-        }
-
-        .rating__input--none:checked + .rating__label .rating__icon--none {
-        color: red;
-        }
-
-        .rating__input:checked ~ .rating__label .rating__icon--star {
-        color: #ddd;
-        }
-
-        .rating-group:hover .rating__label .rating__icon--star,
-        .rating-group:hover .rating__label--half .rating__icon--star {
-            color: orange;
-        }
-
-        .rating__input:hover ~ .rating__label .rating__icon--star,
-        .rating__input:hover ~ .rating__label--half .rating__icon--star {
-        color: #ddd;
-        }
-
-        .rating-group:hover .rating__input--none:not(:hover) + .rating__label .rating__icon--none {
-        color: #eee;
-        }
-
-        .rating__input--none:hover + .rating__label .rating__icon--none {
-        color: red;
-        }
-    } */
-
     </style>
 @endsection
 @extends('layouts.client.app_client')
@@ -129,14 +67,15 @@
             }
         }
     ?>
-    @if(isset($therapist))
+    @if(isset($spa))
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
-                <h3 class="text-white display-3 mb-4">{{ $therapist->fname.' '.$therapist->lname }}</h3>
+                <h3 class="text-white display-3 mb-4">{{ $spa->name }}</h3>
+                <h4 class="text-white">{{ $spa->description }}</h5>
                 <div class="d-inline-flex align-items-center text-white">
                     <p class="m-0"><a class="text-white" href="">Rate</a></p>
                     <i class="far fa-circle px-3"></i>
-                    <p class="m-0">Therapist</p>
+                    <p class="m-0">Spa</p>
                 </div>
             </div>
         </div>
@@ -147,14 +86,14 @@
                     <div class="col-xl-4">
                         <!-- Profile picture card-->
                         <div class="card mb-4 mb-xl-0">
-                            <div class="card-header">Profile Picture</div>
+                            <div class="card-header">Picture</div>
                             <div class="card-body text-center">
-                                @if(empty($therapist->picture))
+                                @if(empty($spa->picture))
                                     <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
                                 @else
                                     <img
                                         class="img-account-profile rounded-circle mb-2 w-75" 
-                                        src="{{ asset('/fileupload/therapist/profile/').'/'. $therapist->picture }}" 
+                                        src="{{ asset('/fileupload/spa').'/'. $spa->picture }}" 
                                         alt=""
                                         id="picture"
                                         name="picture"
@@ -183,54 +122,27 @@
                                 </li>
                                 @endforeach
                             </ul>
-                            {{-- <div id="half-stars-example">
-                                <div class="rating-group">
-                                    <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0" type="radio">
-                                    <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
-                                    <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio">
-                                    <label aria-label="1 star" class="rating__label" for="rating2-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio">
-                                    <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio">
-                                    <label aria-label="2 stars" class="rating__label" for="rating2-20"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio">
-                                    <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio" checked>
-                                    <label aria-label="3 stars" class="rating__label" for="rating2-30"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio">
-                                    <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio">
-                                    <label aria-label="4 stars" class="rating__label" for="rating2-40"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio">
-                                    <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio">
-                                    <label aria-label="5 stars" class="rating__label" for="rating2-50"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                    <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio">
-                                </div>
-                            </div> --}}
-
                         </div>
                     </div>
                     <div class="col-xl-8">
                         <!-- Account details card-->
                         <div class="card mb-4">
                             <div class="header card-header">
-                                <span>Account Details</span>
+                                <span>SPA Details</span>
                             </div>
                             
                             <div class="card-body">
                                 <div class="row gx-3 mb-3">
                                     <div class="col-md-6">
-                                        <label class="small mb-1" for="inputFirstName">First name</label>
-                                        <p class="text-info"><strong>{{ $therapist->fname }}</strong></p>
+                                        <label class="small mb-1" >Name</label>
+                                        <p class="text-info"><strong>{{ $spa->name }}</strong></p>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="small mb-1" for="inputLastName">Last name</label>
-                                        <p class="text-info"><strong>{{ $therapist->lname }}</strong></p>
+                                        <label class="small mb-1" >Description</label>
+                                        <p class="text-info"><strong>{{ $spa->description }}</strong></p>
                                     </div>
                                 </div>
-                                <div class="row gx-3 mb-3">
+                                {{-- <div class="row gx-3 mb-3">
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="inputOrgName">Mobile Number</label>
                                         <p class="text-info"><strong>{{ $therapist->mobile }}</strong></p>
@@ -243,7 +155,7 @@
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputEmailAddress">Email address</label>
                                     <p class="text-info"><strong>{{ $therapist->email }}</strong></p>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         
@@ -327,9 +239,9 @@
             return;
         }
 
-        const url = "{{ route('client.rate.therapist.save') }}";
+        const url = "{{ route('client.rate.spa.save') }}";
         var formData = new FormData();
-        formData.append('therapist_id', getUrlParameter('therapist_id'));
+        formData.append('spa_id', getUrlParameter('spa_id'));
         formData.append('feedback', feedback);
         formData.append('rate', rating);
 

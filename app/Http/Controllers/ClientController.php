@@ -7,6 +7,7 @@ use App\Models\Spa;
 use App\Models\Services;
 use App\Models\User;
 use App\Models\Bookings;
+use App\Models\Ratings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -88,7 +89,8 @@ class ClientController extends Controller
         $bookings = Bookings::select(
                         'bookings.id',
                         'users.id as therapist_id',
-                        'spa.name as spa',
+                        'spa.id as spa_id',
+                        'spa.name as spa_name',
                         'services.name as services',
                         DB::raw("concat(users.fname,' ',users.lname) as therapist"),
                         'bookings.booking_type',
@@ -96,7 +98,9 @@ class ClientController extends Controller
                         'bookings.start_time',
                         'bookings.amount_paid',
                         'bookings.status',
-                        'bookings.payment_picture'
+                        'bookings.payment_picture',
+                        DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.spa_id = spa.id)) as ratings_spa'),
+                        DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist')
                     )
                     ->where('client_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
@@ -110,14 +114,65 @@ class ClientController extends Controller
     }
 
     public function rateSpa(Request $request) {
+        $spa = Spa::find($request->spa_id);
+        $ratings = Ratings::where('spa_id',$request->spa_id)->avg('rate');
+        $feedbacks = Ratings::
+                    select(
+                        DB::raw("concat(users.fname,' ',users.lname,':') as feedback_by"),
+                        'ratings.feedback'
+                    )
+                    ->where('ratings.spa_id',$request->spa_id)
+                    ->leftJoin('users','users.id','=','ratings.feedback_by')
+                    ->get();
+        return view('client.rate_spa', [
+            'spa' => $spa,
+            'ratings' => round($ratings),
+            'feedbacks' => $feedbacks
+        ]);
+    }
 
+    public function rateSpaSave(Request $request) {
+        $user = Auth::user();
+        $rating = new Ratings();
+        $rating->spa_id = $request->spa_id;
+        $rating->feedback_by = $user->id;
+        $rating->feedback = $request->feedback;
+        $rating->rate = $request->rate;
+        $rating->save();
+
+        session()->flash('rate_spa_save', true);
+        return true;
     }
 
     public function rateTherapist(Request $request) {
         $therapist = User::find($request->therapist_id);
+        $ratings = Ratings::where('therapist_id',$request->therapist_id)->avg('rate');
+        $feedbacks = Ratings::
+                    select(
+                        DB::raw("concat(users.fname,' ',users.lname,':') as feedback_by"),
+                        'ratings.feedback'
+                    )
+                    ->where('therapist_id',$request->therapist_id)
+                    ->leftJoin('users','users.id','=','ratings.feedback_by')
+                    ->get();
         return view('client.rate_therapist', [
-            'therapist' => $therapist
+            'therapist' => $therapist,
+            'ratings' => round($ratings),
+            'feedbacks' => $feedbacks
         ]);
+    }
+
+    public function rateTherapistSave(Request $request) {
+        $user = Auth::user();
+        $rating = new Ratings();
+        $rating->therapist_id = $request->therapist_id;
+        $rating->feedback_by = $user->id;
+        $rating->feedback = $request->feedback;
+        $rating->rate = $request->rate;
+        $rating->save();
+
+        session()->flash('rate_therapist_save', true);
+        return true;
     }
 
 }

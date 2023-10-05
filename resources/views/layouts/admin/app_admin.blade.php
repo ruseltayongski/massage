@@ -34,13 +34,7 @@
         $user = Auth::user(); 
         if (!function_exists('hasContractEnded')) {
             function hasContractEnded($date_end) {
-                $currentDate = date("Y-m-d"); 
-                
-                if ($currentDate <= $date_end) {
-                    return false; 
-                } else {
-                    return true; 
-                }
+                return date("Y-m-d") <= $date_end ? false : true;
             }
         }
     ?>
