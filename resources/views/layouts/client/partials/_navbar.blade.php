@@ -1,7 +1,9 @@
 <?php
     use App\Models\Notifications; 
     use Illuminate\Support\Facades\DB;
-    $notifications = Notifications::
+    $notification = [];
+    if(isset($user->id)) {
+        $notifications = Notifications::
                     select(
                         DB::raw("concat(users.fname,' ',users.lname,' ',LOWER(notifications.message)) as message"),
                         'users.picture as notifier_picture',
@@ -18,7 +20,7 @@
                     ->whereDate('notifications.created_at', now())
                     ->leftJoin('users','users.id','=','notifications.notifier_id')
                     ->get();
-                                
+    }                          
 ?>
 <style>
     /* Style the notification badge nagamit*/
