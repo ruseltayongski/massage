@@ -33,7 +33,7 @@
                             @foreach($therapists as $therapist)
                                 <tr>
                                     <td class="py-1">
-                                        <img src="{{ asset('/fileupload/therapist/profile').'/'.$therapist->picture }}" alt="image"/>
+                                        <img src="{{ asset('/fileupload/therapist/').'/'.$therapist->picture }}" alt="image"/>
                                     </td>
                                     <td>
                                         {{ $therapist->fname.' '.$therapist->lname }}

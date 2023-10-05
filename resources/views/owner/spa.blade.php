@@ -43,6 +43,9 @@
                             </thead>
                             <tbody>
                                 @foreach($spas as $spa)
+                                    @if(empty($spa->name)) 
+                                        <span>dasdas</span>
+                                    @else
                                     <tr>
                                         <td class="py-1">
                                             <img src="{{ asset('/fileupload/spa/').'/'.$spa->picture }}" alt="image"/>
@@ -93,6 +96,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -194,7 +198,7 @@
                                     <img 
                                         name="picture" 
                                         id="picture"
-                                        src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}"
+                                        src="{{ asset('/fileupload/spa/').'/'.$spa->picture }}"
                                         alt="image" 
                                         style="width:100px; height:100px;"
                                     />
@@ -254,7 +258,7 @@
                 </div>
                 <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
                 
-                    <input type="hidden" name="id" value="{{ $spa->id }}">
+                    <input type="hidden" name="id" {{-- value="{{ $spa->id }}" --}}>
                
                 </div>
         </div>

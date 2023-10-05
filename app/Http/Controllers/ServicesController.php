@@ -29,7 +29,7 @@ class ServicesController extends Controller
           if ($servicesImage) {
               try {
                   $serviesFilename = 'picture' . uniqid() . '.' . $servicesImage->getClientOriginalExtension();         
-                  $uploadPath = public_path('/fileupload/services/picture/');
+                  $uploadPath = public_path('/fileupload/services/');
                   $servicesImage->move($uploadPath, $serviesFilename);
                   Image::Make($uploadPath . $serviesFilename)
                   ->resize(255,340)->save(); 
@@ -44,6 +44,7 @@ class ServicesController extends Controller
           $services->name = $request->name;
           $services->description = $request->description;
           $services->price = $request->price;
+          $services->picture = $request->picture;
           $services->save();
   
           session()->flash('services_save', true);
@@ -63,8 +64,8 @@ class ServicesController extends Controller
 
             if($request->hasFile('picture')) {
                 $serviceProfile = $request->file('picture');
-                $serviceFileName = 'therapist' .uniqid() . '.' . $serviceProfile->getClientOriginalExtension();
-                $uploadPath = public_path('/fileupload/therapist/profile/');
+                $serviceFileName = 'picture' .uniqid() . '.' . $serviceProfile->getClientOriginalExtension();
+                $uploadPath = public_path('/fileupload/services/');
                 $serviceProfile->move($uploadPath, $serviceFileName);
                 
                 Image::make($uploadPath . $serviceFileName)

@@ -42,7 +42,7 @@
                             @foreach($services as $service)
                                 <tr>
                                     <td class="py-1">
-                                        <img src="{{ asset('/fileupload/owner/therapist/').'/'.$service->picture }}" alt="image"/>
+                                        <img src="{{ asset('/fileupload/services/').'/'.$service->picture }}" alt="image"/>
                                     </td>
                                     <td>
                                         {{ $service->name}}
@@ -210,7 +210,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                @if(empty($spa->picture))
+                                @if(empty($services->picture))
                                     <img 
                                         name="picture" 
                                         id="picture"
@@ -222,7 +222,7 @@
                                     <img 
                                         name="picture" 
                                         id="picture"
-                                        src="{{ asset('/fileupload/owner/picture/').'/'.$spa->picture }}"
+                                        src="{{ asset('/fileupload/services/').'/'.$services->picture }}"
                                         alt="image" 
                                         style="width:100px; height:100px;"
                                     />
