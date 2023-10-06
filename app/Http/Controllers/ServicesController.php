@@ -32,7 +32,7 @@ class ServicesController extends Controller
                   $uploadPath = public_path('/fileupload/services/');
                   $servicesImage->move($uploadPath, $serviesFilename);
                   Image::Make($uploadPath . $serviesFilename)
-                  ->resize(255,340)->save(); 
+                  ->resize(500,600)->save(); 
               } catch (Exception $ex) {
                   // Handle exception if needed
                   dd($ex->getMessage());
@@ -44,7 +44,7 @@ class ServicesController extends Controller
           $services->name = $request->name;
           $services->description = $request->description;
           $services->price = $request->price;
-          $services->picture = $request->picture;
+          $services->picture = $serviesFilename;
           $services->save();
   
           session()->flash('services_save', true);
@@ -69,7 +69,7 @@ class ServicesController extends Controller
                 $serviceProfile->move($uploadPath, $serviceFileName);
                 
                 Image::make($uploadPath . $serviceFileName)
-                        ->resize(355,355)
+                        ->resize(500,600)
                         ->save();
 
                 if($service->picture != $serviceFileName) {
@@ -94,15 +94,15 @@ class ServicesController extends Controller
     public function assignSpa(Request $request) {
        /*  dd($request->all()); */
        if ($request->has('id') && $request->has('spa_id')) {
-        $services_id = $request->input('id');
-        $spa_id = $request->input('spa_id');
+            $services_id = $request->input('id');
+            $spa_id = $request->input('spa_id');
 
-        $services = Services::find($services_id);
-        $services->spa_id = $spa_id;
+            $services = Services::find($services_id);
+            $services->spa_id = $spa_id;
 
-        $services->save();
-    }
-    return redirect()->back();
+            $services->save();
+        }
+         return redirect()->back();
     }
 }
 

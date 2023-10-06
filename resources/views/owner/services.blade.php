@@ -3,9 +3,8 @@
 <style>
     .button-menu {
         display: flex;
-        justify-content: space-evenly;
-        gap: 2rem;
-
+        gap: 1rem;
+        justify-content: center;
     }
 </style>
 
@@ -246,19 +245,23 @@
     document.addEventListener("DOMContentLoaded", function() {
         $('#updateModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var servicesId = button.data('id');
-        var servicesName = button.data('name');
-        var servicesDesc = button.data('description');
-        var servicesPrice = button.data('price');
+        var spaId = button.data('id');
+        var spaName = button.data('name');
+        var spaDescription = button.data('description');
+        var price = button.data('price');
         var currentPicture = button.data('picture');
-        
+
         var modal = $(this);
-        modal.find('#id').val(servicesId);
-        modal.find('#picture').val(currentPicture);
-        modal.find('#price').val(servicesPrice);
-        modal.find('#name').val(servicesName);
-        modal.find('#description').val(servicesDesc);
-        });
+        modal.find('#id').val(spaId);
+        modal.find('#name').val(spaName);
+        modal.find('#price').val(price);
+        modal.find('#description').val(spaDescription);
+
+        // Set the current picture value to the hidden input field
+        modal.find('#currentPicture').val(currentPicture);
+
+        // Update the image source
+        updateImageSource(currentPicture, modal);
 
         document.getElementById('files').addEventListener('change', handleNewPictureChange, false)
         
@@ -271,6 +274,18 @@
         }
             reader.readAsDataURL(input.files[0]);
         } 
+
+    });
+
+    // Function to update the image source
+    function updateImageSource(currentPicture, modal) {
+        var pictureElement = modal.find('#picture');
+        if (currentPicture) {
+            pictureElement.attr('src', "{{ asset('/fileupload/services/') }}/" + currentPicture);
+        } else {
+            pictureElement.attr('src', "{{ asset('img/check.png') }}");
+        }
+    }
     });
 
 

@@ -29,11 +29,11 @@ class TherapistController extends Controller
       
         if($therapist_profile) {
             $therapistFileName = 'therapist' .uniqid() . '.' . $therapist_profile->getClientOriginalExtension();
-            $uploadPath = public_path('/fileupload/therapist/');
+            $uploadPath = public_path('/fileupload/therapist/profile/');
             $therapist_profile->move($uploadPath, $therapistFileName);
 
             Image::Make($uploadPath . $therapistFileName)
-            ->resize(315,315)->save(); 
+            ->resize(255,366)->save(); 
         }
 
 
@@ -78,11 +78,11 @@ class TherapistController extends Controller
             if($request->hasFile('picture')) {
                 $therapistProfile = $request->file('picture');
                 $therapistFileName = 'therapist' .uniqid() . '.' . $therapistProfile->getClientOriginalExtension();
-                $uploadPath = public_path('/fileupload/therapist/');
+                $uploadPath = public_path('/fileupload/therapist/profile/');
                 $therapistProfile->move($uploadPath, $therapistFileName);
                 
                 Image::make($uploadPath . $therapistFileName)
-                        ->resize(355,355)
+                        ->resize(255,366)
                         ->save();
 
                 if($user->picture != $therapistFileName) {

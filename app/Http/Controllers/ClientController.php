@@ -111,7 +111,7 @@ class ClientController extends Controller
                     )
                     ->where('client_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
-                    ->leftJoin('services','services.id','=','bookings.id')
+                    ->leftJoin('services','services.id','=','bookings.service_id')
                     ->leftJoin('users','users.id','=','bookings.therapist_id')
                     ->paginate(15);
         
