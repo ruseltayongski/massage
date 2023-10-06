@@ -8,6 +8,7 @@ use App\Models\Services;
 use App\Models\User;
 use App\Models\Bookings;
 use App\Models\Ratings;
+use App\Models\Testimonials;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -111,7 +112,7 @@ class ClientController extends Controller
                     )
                     ->where('client_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
-                    ->leftJoin('services','services.id','=','bookings.id')
+                    ->leftJoin('services','services.id','=','bookings.service_id')
                     ->leftJoin('users','users.id','=','bookings.therapist_id')
                     ->paginate(15);
         
@@ -184,6 +185,17 @@ class ClientController extends Controller
 
     public function testimonial() {
         return view('client.testimonial');
+    }
+
+    public function testimonialSave(Request $request) {
+        $user = Auth::user();
+        $testimonial = new Testimonials();
+        $testimonial->user_id = $user->id;
+        $testimonial->description = $request->description;
+        $testimonial->save();
+
+        session()->flash('testimonial_save', true);
+        return redirect()->back();
     }
 
 }

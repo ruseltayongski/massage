@@ -110,7 +110,7 @@ class TherapistController extends Controller
                         'bookings.id',
                         'spa.name as spa',
                         'services.name as services',
-                        DB::raw("concat(users.fname,' ',users.lname) as therapist"),
+                        DB::raw("concat(users.fname,' ',users.lname) as client"),
                         'bookings.booking_type',
                         'bookings.start_date',
                         'bookings.start_time',
@@ -121,7 +121,7 @@ class TherapistController extends Controller
                     ->where('therapist_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
                     ->leftJoin('services','services.id','=','bookings.id')
-                    ->leftJoin('users','users.id','=','bookings.therapist_id')
+                    ->leftJoin('users','users.id','=','bookings.client_id')
                     ->paginate(15);
         
         return view('therapist.booking',[

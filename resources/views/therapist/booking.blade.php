@@ -141,7 +141,10 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Payment Proof
+                                        Payment
+                                    </th>
+                                    <th>
+                                        Client
                                     </th>
                                     <th>
                                         SPA
@@ -150,16 +153,13 @@
                                         Service
                                     </th>
                                     <th>
-                                        Therapist
+                                        Type
                                     </th>
                                     <th>
-                                        Booking Type
+                                        Start
                                     </th>
                                     <th>
-                                        Start Date
-                                    </th>
-                                    <th>
-                                        Amount Paid
+                                        Paid
                                     </th>
                                     <th>
                                         Status
@@ -173,13 +173,13 @@
                                             <img src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" style="width:50px;" alt="image"/>
                                         </td>
                                         <td>
+                                            <strong class='text-info'>{{ $booking->client }}</strong>
+                                        </td>
+                                        <td>
                                             {{ $booking->spa }}
                                         </td>
                                         <td>
                                             {{ $booking->services }}
-                                        </td>
-                                        <td>
-                                            {{ $booking->therapist }}
                                         </td>
                                         <td>
                                             @if($booking->booking_type == 'home_service')
