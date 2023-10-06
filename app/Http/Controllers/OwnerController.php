@@ -241,6 +241,7 @@ class OwnerController extends Controller
             $user = User::find($therapist_id);
             $user->spa_id = $spa_id;
 
+            session()->flash('assign_therapist', true);
             $user->save();
         }
         return redirect()->back();

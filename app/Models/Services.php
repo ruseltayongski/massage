@@ -11,4 +11,8 @@ class Services extends Model
 
     protected $table = 'services';
     protected $guarded = array();
+
+    public function spas() {
+        return $this->belongsToMany(Spa::class);
+    }
 }

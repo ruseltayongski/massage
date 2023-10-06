@@ -100,6 +100,7 @@ class ServicesController extends Controller
             $services = Services::find($services_id);
             $services->spa_id = $spa_id;
 
+            session()->flash('assign_spa', true);   
             $services->save();
         }
          return redirect()->back();

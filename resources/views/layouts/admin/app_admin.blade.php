@@ -91,10 +91,25 @@
         var path_gif = "<?php echo asset('img/loading.gif'); ?>";
         var loading = '<center><img src="'+path_gif+'" alt=""></center>';
 
+
         @if(session('contract_save'))
             <?php //session('contract_save',false); ?>
             Lobibox.notify('success', {
                 msg: 'Successfully secured the contract!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('assign_spa'))
+            <?php //session('contract_save',false); ?>
+            Lobibox.notify('success', {
+                msg: 'Successfully assign SPA!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('assign_therapist'))
+            <?php //session('contract_save',false); ?>
+            Lobibox.notify('success', {
+                msg: 'Successfully assign Therapist!',
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
