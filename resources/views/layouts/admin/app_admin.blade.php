@@ -205,6 +205,11 @@
         //         });
         //     },1000);
         // });
+        $(document).ready(function() {
+            // Remove the 'disabled' property in token
+            $('#logout-form input[name="_token"]').prop('disabled', false);
+            $('#logout-form1 input[name="_token"]').prop('disabled', false);
+        });
     </script>
     @yield('js')
 </body>

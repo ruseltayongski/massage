@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\DB;
 
 class TherapistController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function therapistView() {
         $user = Auth::user();
         $therapists = User::where('roles', 'THERAPIST')->where('id', $user->id)->first();

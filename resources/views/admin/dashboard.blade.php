@@ -1,11 +1,12 @@
 @extends('layouts.admin.app_admin')
 
 @section('content')
+<?php $user = Auth::user(); ?>
 <div class="content-wrapper">
     <div class="row">
         <div class="col-sm-6">
-            <h3 class="mb-0 font-weight-bold">Kenneth Osborne</h3>
-            <p>Your last login: 21h ago from newzealand.</p>
+            <h3 class="mb-0 font-weight-bold">{{ $user->fname.' '.$user->lname }}</h3>
+            {{-- <p>Your last login: 21h ago from newzealand.</p> --}}
         </div>
         <div class="col-sm-6">
             <div class="d-flex align-items-center justify-content-md-end">
@@ -30,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="row  mt-3">
+    {{-- <div class="row mt-3">
         <div class="col-xl-5 d-flex grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -132,8 +133,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
+    </div> --}}
+    <div class="row mt-3">
         <div class="col-xl-3 d-flex grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
