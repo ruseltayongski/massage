@@ -96,10 +96,18 @@
                     <a href="{{ route('client.dashboard') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.dashboard' ? 'active' : '' }}">Spa</a>
                     <a href="{{ route('client.services') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.services' ? 'active' : '' }}">Services</a>
                     <a href="{{ route('client.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.therapist' ? 'active' : '' }}">Therapist</a>
-                    <a href="{{ route('client.booking') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Booking</a>
-                    <a href="{{ route('client.booking.history') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">History</a>
+                    {{-- <a href="{{ route('client.booking') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Booking</a>
+                    <a href="{{ route('client.booking.history') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">History</a> --}}
                     {{-- <a href="{{ route('client.rate.spa') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.spa' ? 'active' : '' }}">Rate Spa</a>
                     <a href="{{ route('client.rate.therapist') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.rate.therapist' ? 'active' : '' }}">Rate Therapist</a> --}}
+                    <div class="nav-item dropdown" style="cursor: pointer;">
+                        <a href="#" class="nav-link dropdown-toggle {{ Route::currentRouteName() == 'client.booking' || Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}" data-toggle="dropdown">Booking</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="{{ route('client.booking') }}" class="dropdown-item {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Create</a>
+                            <a href="{{ route('client.booking.history') }}" class="dropdown-item {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">History</a>
+                        </div>
+                    </div>
+                    <a href="{{ route('client.testimonial') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'client.testimonial' ? 'active' : '' }}">Testimonial</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                             Notifications

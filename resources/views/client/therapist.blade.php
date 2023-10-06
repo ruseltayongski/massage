@@ -1,49 +1,128 @@
 @section('css')
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .rate {
-            float: left;
-            height: 46px;
-            padding: 0 10px;
-        }
-        .rate:not(:checked) > input {
-            position:absolute;
-            top:-9999px;
-        }
-        .rate:not(:checked) > label {
-            float:right;
-            width:1em;
-            overflow:hidden;
-            white-space:nowrap;
-            cursor:pointer;
-            font-size:30px;
-            color:#ccc;
-        }
-        .rate:not(:checked) > label:before {
-            content: '★ ';
-        }
-        .rate > input:checked ~ label {
-            color: #ffc700;    
-        }
-        .rate:not(:checked) > label:hover,
-        .rate:not(:checked) > label:hover ~ label {
-            color: #deb217;  
-        }
-        .rate > input:checked + label:hover,
-        .rate > input:checked + label:hover ~ label,
-        .rate > input:checked ~ label:hover,
-        .rate > input:checked ~ label:hover ~ label,
-        .rate > label:hover ~ input:checked ~ label {
-            color: #c59b08;
-        }
-    </style>
+<style>
+    /* Add custom CSS styles */
+    .team {
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 30px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        cursor:pointer;
+    }
+
+    .team:hover {
+        transform: scale(1.05);
+    }
+
+    .team img {
+        width: 100%;
+        height: auto;
+    }
+
+    .team-text {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+    }
+
+    .team-text h5 {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .team-text p {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .team-social {
+        background-color: #343a40;
+        padding: 10px;
+    }
+
+    .btn-square {
+        width: 100px;
+        border-radius: 0;
+    }
+
+    .tag-rating {
+        position: absolute;
+        top: 0; 
+        right: 0; 
+        background-color:white;
+        padding:5px;
+        /* transform: rotate(30deg); */
+        z-index: 1;
+        /* opacity: 0.8; */
+        width: 100%
+    }
+
+
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate-container {
+        display: grid;
+        place-content: center;
+    }
+
+    .rate-container-for-submit {
+        float: left;
+    }
+
+    .rate {
+        height: 35px;
+        padding: 0 10px;
+        margin-top: -10px; 
+    }
+    .rate:not(:checked) > input {
+        position:absolute;
+        top:-9999px;
+    }
+    .rate:not(:checked) > label {
+        float:right;
+        width:1em;
+        overflow:hidden;
+        white-space:nowrap;
+        cursor:pointer;
+        font-size:30px;
+        color:#ccc;
+    }
+    .rate:not(:checked) > label:before {
+        content: '★ ';
+    }
+
+    .rate > input:checked ~ label {
+        color: #ffc700; 
+    }
+
+    .rate:not(:checked) > label:hover,
+    .rate:not(:checked) > label:hover ~ label {
+        color: #deb217;  
+    }
+    .rate > input:checked + label:hover,
+    .rate > input:checked + label:hover ~ label,
+    .rate > input:checked ~ label:hover,
+    .rate > input:checked ~ label:hover ~ label,
+    .rate > label:hover ~ input:checked ~ label {
+        color: #c59b08;
+    }
+</style>
 @endsection
 @extends('layouts.client.app_client')
 
 @section('content')
+    <?php
+        if (!function_exists('checkRatings')) {
+            function checkRatings($value,$ratings) {
+                return $value == $ratings ? 'checked' : '';
+            }
+        }
+    ?>
     @if(isset($spa_id))
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
@@ -66,17 +145,24 @@
                             <div class="position-relative text-center">
                                 <div class="team-text bg-primary text-white">
                                     <h5 class="text-white text-uppercase">{{ $therapist->fname.' '.$therapist->lname }}</h5>
-                                    <div class="rate">
-                                        <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="text">5 stars</label>
-                                        <input type="radio" id="star4" name="rate" value="4"/><label for="star4" title="text">4 stars</label>
-                                        <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="text">3 stars</label>
-                                        <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="text">2 stars</label>
-                                        <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="text">1 star</label>
-                                    </div>
+                                    <p class="m-0">Therapist</p>
                                 </div>
                                 <div class="team-social bg-dark text-center">
-                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?spa='.$spa_id.'&service='.$service_id.'&therapist='.$therapist->id }}" style="width:100px;">SELECT</i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?spa='.$spa_id.'&service='.$service_id.'&therapist='.$therapist->id.'&price='.$price }}">SELECT</i></a>
                                 </div>
+                            </div>
+                            <div class="tag-rating">
+                                <form id="ratingForm">
+                                    <div class="rate-container">
+                                        <div class="rate">
+                                            <input type="radio" value="5" {{ checkRatings(5,$therapist->ratings_therapist) }}/><label title="text">5 stars</label>
+                                            <input type="radio" value="4" {{ checkRatings(4,$therapist->ratings_therapist) }}/><label title="text">4 stars</label>
+                                            <input type="radio" value="3" {{ checkRatings(3,$therapist->ratings_therapist) }}/><label title="text">3 stars</label>
+                                            <input type="radio" value="2" {{ checkRatings(2,$therapist->ratings_therapist) }}/><label title="text">2 stars</label>
+                                            <input type="radio" value="1" {{ checkRatings(1,$therapist->ratings_therapist) }}/><label title="text">1 star</label>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

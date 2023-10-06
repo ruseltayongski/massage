@@ -19,7 +19,7 @@ class ClientController extends Controller
     }
 
     public function dashboard() {
-        $spas = Spa::get();
+        $spas = Spa::select(DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.spa_id = spa.id)) as ratings_spa'),'spa.*')->get();
         $services = Services::get();
         return view('client.dashboard',[
             'spas' => $spas,
@@ -39,11 +39,18 @@ class ClientController extends Controller
     public function therapist(Request $request) {
         $spa_id = $request->spa;
         $service_id = $request->service;
-        $therapists = User::where('spa_id',$spa_id)->get();
+        $therapists = User::select(
+            DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist')
+            ,'users.*'
+        )
+        ->where('users.spa_id',$spa_id)
+        ->get();
+
         return view('client.therapist',[
             'spa_id' => $spa_id,
             'service_id' => $service_id,
-            'therapists' => $therapists
+            'therapists' => $therapists,
+            'price' => $request->price
         ]);
     }
 
@@ -173,6 +180,10 @@ class ClientController extends Controller
 
         session()->flash('rate_therapist_save', true);
         return true;
+    }
+
+    public function testimonial() {
+        return view('client.testimonial');
     }
 
 }
