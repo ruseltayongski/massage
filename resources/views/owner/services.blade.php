@@ -1,12 +1,14 @@
-@extends('layouts.admin.app_admin')
+@section('css')
+    <style>
+        .button-menu {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+    </style>
+@endsection
 
-<style>
-    .button-menu {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-    }
-</style>
+@extends('layouts.admin.app_admin')
 
 @section('content')
 <div class="content-wrapper">
@@ -155,12 +157,11 @@
                     <input type="hidden" name="id">
                     <select name="spa_id">
                         @foreach($spa as $spas)
-                            @if ($spas->spa_id === null)
-                                <option value="{{ $spas->id }}">
-                                    {{ $spas->name }}
-                                </option>
-                            @endif
-                        @endforeach  
+                            <option value="{{ $spas->id }}">
+                                {{ $spas->name }}
+                            </option>
+                          
+                         @endforeach
                         </select>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
