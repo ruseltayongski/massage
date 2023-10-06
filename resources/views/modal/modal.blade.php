@@ -239,15 +239,12 @@
         yearlyMessageContainer.classList.toggle('visible', yearlyRadio.checked);
         }
 
-        // Append the message containers to their respective containers
         monthlyContainer.appendChild(monthlyMessageContainer);
         yearlyContainer.appendChild(yearlyMessageContainer);
 
-        // Add event listener to update message and visibility on radio button change
         monthlyRadio.addEventListener('change', updateMessage);
         yearlyRadio.addEventListener('change', updateMessage);
 
-        // Set initial message and visibility
         updateMessage();
     });
 
@@ -257,8 +254,8 @@
     var amountPaidInput = document.getElementById('amount_paid');
 
     function updateAmount() {
-        var monthlyPrice = 100; // Replace with your actual monthly price
-        var yearlyPrice = 1000; // Replace with your actual yearly price
+        var monthlyPrice = 100; 
+        var yearlyPrice = 1000;
 
         if (monthlyRadio.checked) {
             amountPaidInput.value = monthlyPrice;
@@ -267,11 +264,9 @@
         }
     }
 
-    // Add event listener to update amount on radio button change
     monthlyRadio.addEventListener('change', updateAmount);
     yearlyRadio.addEventListener('change', updateAmount);
 
-    // Set initial amount based on default selection
     updateAmount();
 });
 </script>

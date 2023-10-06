@@ -274,9 +274,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
-                <div class="modal-body" {{-- style="width: 100px; display:flex; justify-content:center; align-items:center;" --}}>
+                <div class="modal-body">
                 
-                    <input type="hidden" name="id" {{-- value="{{ $spa->id }}" --}}>
+                    <input type="hidden" name="id">
                     <div class="therapist-table-container"></div>
                      <div class="pagination-container"></div>
                 </div>

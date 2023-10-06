@@ -165,7 +165,7 @@ class OwnerController extends Controller
                     $uploadPath = public_path('/fileupload/spa/');
                     $spaImage->move($uploadPath, $spaFileName);
                     Image::Make($uploadPath . $spaFileName)
-                    ->resize(255,340)->save(); 
+                    ->resize(255,366)->save(); 
                 } catch (Exception $ex) {
                     // Handle exception if needed
                     dd($ex->getMessage());
@@ -205,7 +205,7 @@ class OwnerController extends Controller
                     
 
                     Image::make($uploadPath . $spaFileName)
-                          ->resize(255,340)->save();
+                          ->resize(255,366)->save();
                     // Check if the new picture is different from the existing one
                     if ($spa->picture != $spaFileName) {
                         // Delete the old picture
