@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Spa;
-use App\Models\Services;
 use App\Models\User;
-use App\Models\Bookings;
 use App\Models\Ratings;
+use App\Models\Bookings;
+use App\Models\Services;
 use App\Models\Testimonials;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class ClientController extends Controller
 {
@@ -36,6 +38,39 @@ class ClientController extends Controller
         return view('client.profile', [
             "userProfile" => $userProfile
         ]);
+    }
+
+    public function updateProfile(Request $request) {
+        if($request->has('id')) {
+            $userId = $request->input('id');
+            $user = User::find($userId);
+            $user->fname = $request->input('fname');
+            $user->lname = $request->input('lname');
+            $user->address = $request->input('address');
+            $user->mobile = $request->input('mobile');
+            $user->email = $request->input('email');
+            
+            if($request->filled('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+        
+            if($request->hasFile('picture')) {
+                $userProfile = $request->file('picture');
+                $userFileName = 'picture' .uniqid() . '.' . $userProfile->getClientOriginalExtension();
+                $uploadPath = public_path('/fileupload/client/profile/');
+                $userProfile->move($uploadPath, $userFileName);
+                
+                Image::make($uploadPath . $userFileName)
+                        ->resize(255,366)
+                        ->save();
+
+                $user->picture = $userFileName;
+ 
+            }
+            session()->flash('profile_update', true);
+            $user->save(); 
+        }  
+        return redirect()->back();
     }
     public function services(Request $request) {
         $spa_id = $request->spa;

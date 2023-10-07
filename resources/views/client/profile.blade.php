@@ -15,17 +15,17 @@
 </style>
 @endsection
 
-@extends('layouts.admin.app_admin')
+@extends('layouts.client.app_client')
 
 @section('content')
-{{-- <div class="content-wrapper">
+<div class="content-wrapper">
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="container-xl px-3">
                         <hr class="mt-0 mb-4">
-                        <form class="needs-validation" id="form-action" action="{{ route('owner.profile.update') }}" method="POST" enctype="multipart/form-data">
+                        <form class="needs-validation" id="form-action" action="{{ route('client.profile.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -45,7 +45,7 @@
                                             @else
                                             <img
                                                 class="img-account-profile rounded-circle mb-2 w-75" 
-                                                src="{{ asset('/fileupload/owner/profile').'/'. $userProfile->picture }}" 
+                                                src="{{ asset('/fileupload/client/profile').'/'. $userProfile->picture }}" 
                                                 alt=""
                                                 id="picture"
                                                 name="picture"
@@ -119,10 +119,8 @@
             </div>
         </div>
     </div>
-</div> --}}
-dasdas
+</div>
 @endsection
-
 
 @section('js')
 

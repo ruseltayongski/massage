@@ -9,8 +9,10 @@
     @include('layouts.client.partials._navbar')
     
     @yield('content')
-
-    @include('layouts.client.partials._testimonial')
+   
+    @if(request()->route()->getName() !== 'client.profile')
+        @include('layouts.client.partials._testimonial')
+    @endif
     @include('layouts.client.partials._footer')
 
     <!-- Back to Top -->

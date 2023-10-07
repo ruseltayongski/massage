@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-6 pr-lg-5 mb-5">
                 <a href="index.html" class="navbar-brand">
-                    <h1 class="mb-3 text-white"><span class="text-primary">SPA</span> Center</h1>
+                    <h1 class="mb-3 text-white"><span class="text-primary">MASSAGE</span> Sent</h1>
                 </a>
                 <p>Aliquyam sed elitr elitr erat sed diam ipsum eirmod eos lorem nonumy. Tempor sea ipsum diam  sed clita dolore eos dolores magna erat dolore sed stet justo et dolor.</p>
                 <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>

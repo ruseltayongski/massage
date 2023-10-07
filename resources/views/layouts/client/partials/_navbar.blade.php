@@ -85,7 +85,7 @@
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
         <a href="@if(Auth::check()){{ route('client.dashboard') }}@else{{ route('/') }}@endif" class="navbar-brand ml-lg-3">
-            <h1 class="m-0 text-primary"><span class="text-dark">SPA</span> Center</h1>
+            <h1 class="m-0 text-primary"><span class="text-dark">Massage</span> Sent</h1>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -147,7 +147,7 @@
             <div class="nav-item dropdown" style="float:right;">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ $user->fname.' '.$user->lname }}</a>
                 <div class="dropdown-menu rounded-0 m-0">
-                    <a href="{{ route('client.profile.update') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('client.profile') }}" class="dropdown-item">Profile</a>
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
