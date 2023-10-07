@@ -7,7 +7,26 @@
     <li class="nav-item">
       <div class="d-flex sidebar-profile">
         <div class="sidebar-profile-image">
-          <img src="{{ asset('admin/images/faces/face29.png') }}" alt="image">
+          @if($firstRoute === 'owner')
+          @if(empty($user->picture))
+            <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+          @else
+            <img src="{{ asset('/fileupload/owner/profile').'/'.$user->picture }}" alt="image"/>
+          @endif
+        @elseif($firstRoute === 'admin')
+          @if(empty($user->picture))
+            <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+          @else
+            <img src="{{ asset('/fileupload/admin/profile').'/'.$user->picture }}" alt="image"/>
+          @endif
+        @else
+          @if(empty($user->picture))
+            <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+          @else
+            <img src="{{ asset('/fileupload/therapist/profile').'/'.$user->picture }}" alt="image"/>
+          @endif
+        @endif
+        
           <span class="sidebar-status-indicator"></span>
         </div>
         <div class="sidebar-profile-name">

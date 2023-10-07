@@ -29,6 +29,19 @@ class TherapistController extends Controller
     }
 
     public function addTherapist(Request $request) {
+       $validateData = Validator::make($request->all(),[
+            'fname' => ['required', 'string', 'max:255'],
+           /*  'lname' => ['required', 'string', 'max:255'],
+            'mobile' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'], */
+           /*  'password' => ['required', 'string', 'min:8', 'confirmed'], */
+       ])/* ->validate() */;
+
+       if($validateData->fails()) {
+            session()->flash('error_save', true);
+            return redirect()->back();
+       } else {
+        
         $therapist_profile = $request->file('picture');
       
         if($therapist_profile) {
@@ -40,28 +53,22 @@ class TherapistController extends Controller
             ->resize(255,366)->save(); 
         }
 
+            $user = new User();
+            $user->owner_id = Auth::user()->id;
+            $user->fname = $request->fname;
+            $user->lname = $request->lname;
+            $user->address = $request->address;
+            $user->mobile = $request->mobile;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->picture = $therapistFileName;
+            $user->roles = "THERAPIST";
+            $user->save();
 
-        $user = new User();
-        $user->owner_id = Auth::user()->id;
-        $user->fname = $request->fname;
-        $user->lname = $request->lname;
-        $user->address = $request->address;
-        $user->mobile = $request->mobile;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->picture = $therapistFileName;
-        $user->roles = "THERAPIST";
-        $user->save();
-
-        
-        session()->flash('therapist_save', true);
-
-       /*  $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id);
-        return redirect('owner/therapist')->with([
-            "therapists" => $therapists
-        ]); */
-        
-        return redirect()->route('owner/therapist');
+            
+            session()->flash('therapist_save', true);
+            return redirect()->back();
+        }
     }
 
     public function updateTherapist(Request $request) {
@@ -76,7 +83,10 @@ class TherapistController extends Controller
             $user->address = $request->input('address');
             $user->mobile = $request->input('mobile');
             $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
+            
+            if($request->filled('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
          
 
             if($request->hasFile('picture')) {

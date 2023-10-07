@@ -91,11 +91,18 @@
         var path_gif = "<?php echo asset('img/loading.gif'); ?>";
         var loading = '<center><img src="'+path_gif+'" alt=""></center>';
 
-
+   
         @if(session('contract_save'))
             <?php //session('contract_save',false); ?>
             Lobibox.notify('success', {
                 msg: 'Successfully secured the contract!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('profile_update'))
+            <?php //session('contract_save',false); ?>
+            Lobibox.notify('success', {
+                msg: 'Successfully updated the Profile!',
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
@@ -142,6 +149,12 @@
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
             {
                 msg: "Reached limit in creating a SPA"
+            });
+        @endif
+        @if(session('error_save'))
+            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+            {
+                msg: "Email is already exist"
             });
         @endif
         @if(session('spa_save'))

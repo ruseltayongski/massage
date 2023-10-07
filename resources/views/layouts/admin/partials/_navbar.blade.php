@@ -129,9 +129,9 @@
                     <span class="nav-profile-name">{{ Auth::user()->fname.' '.Auth::user()->lname }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('owner.get.profile') }}">
                         <i class="typcn typcn-cog text-primary"></i>
-                        Settings
+                        Profile
                     </a>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();">
                         <i class="typcn typcn-power text-primary"></i>

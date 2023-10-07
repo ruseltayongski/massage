@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Spa;
 use App\Models\User;
 use App\Models\Contracts;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
 
@@ -237,7 +238,6 @@ class OwnerController extends Controller
         if ($request->has('id') && $request->has('therapist_id')) {
             $spa_id = $request->input('id');
             $therapist_id = $request->input('therapist_id');
-
             $user = User::find($therapist_id);
             $user->spa_id = $spa_id;
 
@@ -247,16 +247,51 @@ class OwnerController extends Controller
         return redirect()->back();
     }
   
-   /*  public function specificTherapist(Request $request) {
-        dd($request->all());
-        $spa_id = $request->input('id');
-        $users = User::where('id', $spa_id)->get();
-    
-        // Now $users contains all users with the specified spa_id
-    
-        dd($users);
+    public function ownerProfile() {
+        $user = Auth::user();
+        $userProfile = User::where('roles', 'OWNER')
+                            ->where('id', $user->id)
+                            ->first();
 
-    } */
+        return view('owner.profile', [
+            "userProfile" => $userProfile
+        ]);
+    }
+
+    public function updateProfile(Request $request) {
+        if($request->has('id')) {
+            $userId = $request->input('id');
+            $user = User::find($userId);
+            $user->fname = $request->input('fname');
+            $user->lname = $request->input('lname');
+            $user->address = $request->input('address');
+            $user->mobile = $request->input('mobile');
+            $user->email = $request->input('email');
+            
+            if($request->filled('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+         
+
+            if($request->hasFile('picture')) {
+                $userProfile = $request->file('picture');
+                $userFileName = 'picture' .uniqid() . '.' . $userProfile->getClientOriginalExtension();
+                $uploadPath = public_path('/fileupload/owner/profile/');
+                $userProfile->move($uploadPath, $userFileName);
+                
+                Image::make($uploadPath . $userFileName)
+                        ->resize(255,366)
+                        ->save();
+
+                $user->picture = $userFileName;
+ 
+            }
+            session()->flash('profile_update', true);
+            $user->save(); 
+        }  
+        return redirect()->back();
+
+    }
 
     
     public function clearSpaUpdateFlash() {

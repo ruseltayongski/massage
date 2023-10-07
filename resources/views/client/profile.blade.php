@@ -14,36 +14,42 @@
     }
 </style>
 @endsection
+
 @extends('layouts.admin.app_admin')
 
 @section('content')
-<div class="content-wrapper">
+{{-- <div class="content-wrapper">
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="container-xl px-3">
                         <hr class="mt-0 mb-4">
-                        <form class="needs-validation" id="form-action" action="{{ route('therapist.update') }}" method="POST" enctype="multipart/form-data">
+                        <form class="needs-validation" id="form-action" action="{{ route('owner.profile.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                <input type="hidden" name="id" id="id" value="{{ $therapists->id }}">
+                                <input type="hidden" name="id" id="id" value="{{ $userProfile->id }}">
                                 <div class="col-xl-4">
                                     <!-- Profile picture card-->
                                     <div class="card mb-4 mb-xl-0">
                                         <div class="card-header">Profile Picture</div>
                                         <div class="card-body text-center">
-                                            @if(empty($therapists->picture))
-                                                <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                                            @else
+                                            @if(empty($userProfile->picture))
                                                 <img
                                                     class="img-account-profile rounded-circle mb-2 w-75" 
-                                                    src="{{ asset('/fileupload/therapist/profile/').'/'. $therapists->picture }}" 
-                                                    alt=""
                                                     id="picture"
-                                                    name="picture"
+                                                    src="http://bootdey.com/img/Content/avatar/avatar1.png" 
+                                                    alt=""
                                                  >
+                                            @else
+                                            <img
+                                                class="img-account-profile rounded-circle mb-2 w-75" 
+                                                src="{{ asset('/fileupload/owner/profile').'/'. $userProfile->picture }}" 
+                                                alt=""
+                                                id="picture"
+                                                name="picture"
+                                                >
                                             @endif
                                             <!-- Profile picture help block-->
                                             <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
@@ -68,37 +74,38 @@
                                                 <div class="row gx-3 mb-3">
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="inputFirstName">First name</label>
-                                                        <input class="form-control disabled" id="fname" name="fname" type="text" placeholder="Enter your first name" value="{{ $therapists->fname }}">
+                                                        <input class="form-control disabled" id="fname" name="fname" type="text" placeholder="Enter your first name" value="{{ $userProfile->fname }}">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="inputLastName">Last name</label>
-                                                        <input class="form-control disabled" id="lname" name="lname" type="text" placeholder="Enter your last name" value="{{ $therapists->lname }}">
+                                                        <input class="form-control disabled" id="lname" name="lname" type="text" placeholder="Enter your last name" value="{{ $userProfile->lname }}">
                                                     </div>
                                                 </div>
                                                 <div class="row gx-3 mb-3">
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="inputOrgName">Phone Number</label>
-                                                        <input class="form-control disabled" id="mobile" name="mobile" type="text" placeholder="Enter your phone number"value="{{ $therapists->mobile }}">
+                                                        <input class="form-control disabled" id="mobile" name="mobile" type="text" placeholder="Enter your phone number"value="{{ $userProfile->mobile }}">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="inputLocation">Address</label>
-                                                        <input class="form-control disabled" id="address" name="address" type="text" placeholder="Enter your address" value="{{ $therapists->address }}">
+                                                        <input class="form-control disabled" id="address" name="address" type="text" placeholder="Enter your address" value="{{ $userProfile->address }}">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                                                    <input class="form-control disabled" id="email" name="email" type="email" placeholder="Enter your email address" value="{{ $therapists->email }}">
+                                                    <input class="form-control disabled" id="email" name="email" type="email" placeholder="Enter your email address" value="{{ $userProfile->email }}">
                                                 </div>
                                                 <div class="row gx-3 mb-3">
                                                     <!-- Form Group (phone number)-->
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="inputPhone">Password</label>
-                                                        <input class="form-control disabled" id="password" name="password" type="password" placeholder="Enter your phone password">
+                                                        <input class="form-control disabled" id="password" name="password" type="password" placeholder="Please enter a password">
                                                     </div>
                                                     <!-- Form Group (birthday)-->
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="inputBirthday">Confirm Password</label>
-                                                        <input class="form-control disabled" id="confirm_password" name="confirm_password" placeholder="confirm password" type="password">
+                                                        <input class="form-control disabled" id="confirm_password" name="confirm_password" placeholder="Confirm password" type="password">
+                                                        <div id="msg"></div>
                                                     </div>
                                                 </div>
                                                 <button class="btn btn-primary disable" type="submit">Save changes</button>
@@ -107,16 +114,18 @@
                                 </div>
                             </div>
                         </form>
-                       
                     </div>
                 </div>    
             </div>
         </div>
     </div>
-</div>
+</div> --}}
+dasdas
 @endsection
-<!-- Add this script at the end of your file, before the closing </body> tag -->
+
+
 @section('js')
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Disable form fields initially
@@ -142,20 +151,6 @@
             });
         });
 
-        $('#updateModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var spaId = button.data('id');
-        var spaName = button.data('name');
-        var spaDescription = button.data('description');
-        var currentPicture = button.data('picture');
-        
-        var modal = $(this);
-        modal.find('#id').val(spaId);
-        modal.find('#picture').val(currentPicture);
-        modal.find('#name').val(spaName);
-        modal.find('#description').val(spaDescription);
-        });
-
         document.getElementById('files').addEventListener('change', handleNewPictureChange, false)
         
         function handleNewPictureChange(event) {
@@ -171,6 +166,21 @@
 
     (function() {
     'use strict';
+
+    function updatePasswordMatch() {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirm_password').value;
+        var msgElement = document.getElementById('msg');
+
+        if (password !== confirmPassword) {
+            msgElement.innerHTML = 'Password do not match';
+            msgElement.style.color = 'red';
+        } else {
+            msgElement.innerHTML = 'Password matched';
+            msgElement.style.color = 'green';
+        }
+    }
+
     window.addEventListener('load', function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       var forms = document.getElementsByClassName('needs-validation');
@@ -184,6 +194,9 @@
           }
           form.classList.add('was-validated');
         }, false);
+
+        var confirmPasswordField = form.querySelector('#confirm_password');
+            confirmPasswordField.addEventListener('keyup', updatePasswordMatch);
       });
     }, false);
    })();
@@ -191,4 +204,3 @@
 </script>
 
 @endsection
-

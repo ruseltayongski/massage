@@ -28,6 +28,15 @@ class ClientController extends Controller
         ]);
     }
 
+    public function clientProfile() {
+        $user = Auth::user();
+        $userProfile = User::where('roles', 'CLIENT')
+                            ->where('id', $user->id)
+                            ->first();
+        return view('client.profile', [
+            "userProfile" => $userProfile
+        ]);
+    }
     public function services(Request $request) {
         $spa_id = $request->spa;
         $services = Services::where('spa_id',$spa_id)->get();

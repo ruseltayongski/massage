@@ -59,7 +59,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labeexampleModallledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -96,10 +96,16 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" id="email" name="email" class="form-control" required>
                         <div class="invalid-feedback">
                             Please enter a valid email address
                           </div>
+
+                          {{-- @error('email')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                         @enderror --}}
                     </div>
                 </div>
                  <div class="col">
@@ -123,9 +129,9 @@
                 <label for="password">Confirm Password</label>
                 <input type="password" class="form-control" id="confirm_password" name="password" required>
                 <div id="msg"></div>
-               {{--  <div class="invalid-feedback">
+                <div class="invalid-feedback">
                     Confirm password doesn't match
-                  </div> --}}
+                  </div>
              </div>
               <div class="form-group">
                     <label for="address">Address</label>
@@ -138,7 +144,7 @@
                   <label for="picture">Proile Picture</label>
                   <input type="file" class="form-control-file" id="picture" name="picture" required />
                   <div class="invalid-feedback">
-                    Please enter picture
+                    Please upload picture
                   </div>
               </div>
             </div>
@@ -191,6 +197,22 @@
     }, false);
 })();
 
+
+ /* $(document).ready(function () {
+        // Submit form and prevent modal closing on validation failure
+        $('form.needs-validation').submit(function (event) {
+            if (!this.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            this.classList.add('was-validated');
+        });
+
+        // Reset validation on modal close
+        $('#exampleModal').on('hidden.bs.modal', function () {
+            $('form.needs-validation').removeClass('was-validated');
+        });
+    }); */
    
    /*  (function() {
     'use strict';

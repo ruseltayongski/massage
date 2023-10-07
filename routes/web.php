@@ -23,6 +23,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::get('/client/dashboard', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('client.dashboard');
     Route::get('/client/services', [App\Http\Controllers\ClientController::class, 'services'])->name('client.services');
     Route::get('/client/therapist', [App\Http\Controllers\ClientController::class, 'therapist'])->name('client.therapist');
+    Route::get('/client/profile/update', [App\Http\Controllers\ClientController::class, 'clientProfile'])->name('client.profile.update');
     Route::get('/client/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('client.booking');
     Route::post('/client/booking/save', [App\Http\Controllers\ClientController::class, 'bookingSave'])->name('client.booking.save');
     Route::get('/client/booking/history', [App\Http\Controllers\ClientController::class, 'bookingHistory'])->name('client.booking.history');
@@ -55,11 +56,14 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::get('owner/therapist',[App\Http\Controllers\OwnerController::class, 'therapist'])->name('owner/therapist');
         Route::post('owner/therapist', [App\Http\Controllers\TherapistController::class, 'addTherapist'])->name('owner.therapist.save');
         Route::get('/get-therapists', [App\Http\Controllers\OwnerController::class, 'getTherapists'])->name('owner.get-therapists');
+        Route::get('owner/profile',[App\Http\Controllers\OwnerController::class, 'ownerProfile'])->name('owner.get.profile');
+        Route::put('profile/update',[App\Http\Controllers\OwnerController::class, 'updateProfile'])->name('owner.profile.update');
         Route::post('assign/therapist', [App\Http\Controllers\OwnerController::class, 'assignTherapist'])->name('assigned.therapist.save');
         Route::get('owner/services',[App\Http\Controllers\ServicesController::class, 'servicesView'])->name('owner/services');
         Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('owner/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
         Route::post('assign/services',[App\Http\Controllers\ServicesController::class, 'assignSpa'])->name('owner.assign.save');
+
     });
 });
 

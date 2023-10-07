@@ -1,6 +1,6 @@
 @section('css')
 <style>
-        #view_therapist .modal-body .therapist-table {
+    #view_therapist .modal-body .therapist-table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
@@ -251,7 +251,7 @@
                         @foreach($usersList as $user)
                             @if ($user->spa_id === null)
                                 <option value="{{ $user->id }}">
-                                    {{ $user->fname }}
+                                    {{ $user->fname . ' ' .  $user->lname}}
                                 </option>
                             @endif
                         @endforeach  

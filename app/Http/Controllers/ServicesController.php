@@ -13,13 +13,12 @@ class ServicesController extends Controller
 {
     public function servicesView() {
         $user = Auth::user();
-        $services = Services::where('owner_id', $user->id)->paginate(15);
+        $services = Services::where('owner_id', $user->id)->get();
         $spa = Spa::where('owner_id', $user->id)->get();
         return view('owner.services', [
             "services" => $services,
             "spa" => $spa
         ]);
-
     }
 
     public function addServices(Request $request) {
