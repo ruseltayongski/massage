@@ -53,6 +53,7 @@
     </style>
 </head>
 <body>
+
     <table class="w-full">
         <tr>
             <td class="w-half">
@@ -68,7 +69,7 @@
                     <div><h4>Customer Name: </h4></div>
                     <div>{{ $user->fname .' ' . $user->lname }}</div>
                 </td>
-                
+            
             </tr>
         </table>
     </div>
