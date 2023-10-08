@@ -38,7 +38,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::get('/therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
     Route::get('/therapist/booking',  [App\Http\Controllers\TherapistController::class, 'booking'])->name('therapist.booking');
     Route::put('therapist/update',  [App\Http\Controllers\TherapistController::class, 'updateTherapist'])->name('therapist.update');
-
+    Route::get('generate/pdf', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('generate-pdf');
     //Services
 
     Route::group(['middleware' => 'admin'], function () {
@@ -64,6 +64,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('owner/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
         Route::post('assign/services',[App\Http\Controllers\ServicesController::class, 'assignSpa'])->name('owner.assign.save');
+       
 
     });
 });

@@ -117,11 +117,13 @@ class ClientController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('fileupload/client/payment'), $imageName);
         }
+        $receiptNumber = time() . '_' . $user->id;
     
         // Create a new booking record
         $booking = new Bookings();
         $booking->client_id = $user->id;
         $booking->spa_id = $request->spa_id;
+        $booking->receipt_number = $receiptNumber;
         $booking->service_id = $request->service_id;
         $booking->therapist_id = $request->therapist_id;
         $booking->start_date = date('Y-m-d');

@@ -98,6 +98,9 @@
                                         <th>
                                             Status
                                         </th>
+                                        <th>
+                                            Receipt
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,6 +169,11 @@
                                                 {{ $booking->status }}     
                                             </span>
                                         </td>
+                                        <td>
+                                           <a href="{{ route('generate-pdf', ['id' => $booking->id]) }}">
+                                                Download
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -192,6 +200,12 @@
 @section('js')
     <script>
         @if(session('booking_save'))
+            Lobibox.notify('success', {
+                msg: 'Successfully added booking!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('sucess_download'))
             Lobibox.notify('success', {
                 msg: 'Successfully added booking!',
                 img: "{{ asset('img/check.png') }}"
