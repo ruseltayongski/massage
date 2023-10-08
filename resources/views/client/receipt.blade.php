@@ -78,25 +78,33 @@
         <table class="products">
             <tr>
                 <th>Number</th>
-                <th>Date & Time</th>
-                <th>Amount</th>
+                <th>Service</th>
                 <th>SPA</th>
                 <th>Therapist</th>
-                <th>Type</th>
-                <th>Services</th>
+                <th>Booking</th>
+                <th>Date & Time</th>
+                <th>Amount</th>
+               
+                
+                
+               
             </tr>
             <tr class="items">
                 <td>{{ ucfirst(strtolower($booking->receipt_number)) }}</td>
+                <td>{{ ucfirst(strtolower($booking->services)) }}</td>
+                <td>{{ ucfirst(strtolower($booking->spa_name)) }}</td>
+                <td>{{ ucfirst(strtolower($booking->therapist)) }}</td>
+                <td> @if(ucfirst(strtolower($booking->booking_type == 'home_service')))
+                    Home Service
+                    @else
+                        Onsite
+                    @endif
+                </td>
                 <td>
                     {{ ucfirst(strtolower(date("M j, Y", strtotime($booking->start_date)))) }}
                     <small>({{ date("g:i a",strtotime($booking->start_time)) }})</small>
                 </td>
-             
                 <td>{{ number_format($booking->amount_paid, 2) }}</td>
-                <td>{{ ucfirst(strtolower($booking->spa_name)) }}</td>
-                <td>{{ ucfirst(strtolower($booking->therapist)) }}</td>
-                <td>{{ ucfirst(strtolower($booking->booking_type)) }}</td>
-                <td>{{ ucfirst(strtolower($booking->services)) }}</td>
                 <!-- Add other columns based on your needs -->
             </tr>
         </table>
