@@ -123,7 +123,7 @@
             }
         }
     ?>
-    @if(isset($spa_id))
+    @if(!empty(session('spa_id')) && !empty(session('service_id')))
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Therapist</h3>
@@ -148,7 +148,7 @@
                                     <p class="m-0">Therapist</p>
                                 </div>
                                 <div class="team-social bg-dark text-center">
-                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?spa='.$spa_id.'&service='.$service_id.'&therapist='.$therapist->id.'&price='.$price }}">SELECT</i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?therapist='.$therapist->id.'&price='.$price }}">SELECT</i></a>
                                 </div>
                             </div>
                             <div class="tag-rating">
@@ -176,7 +176,11 @@
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Therapist Not Found</h3>
                 <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
+                    @if(empty(session('spa_id')))
+                        <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
+                    @elseif(empty(session('service_id')))
+                        <p class="m-0"><a class="text-blue" href="{{ route('client.services') }}">Please click here to select a service first</a></p>
+                    @endif    
                 </div>
             </div>
         </div>

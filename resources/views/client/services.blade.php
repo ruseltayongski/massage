@@ -14,7 +14,7 @@
 @extends('layouts.client.app_client')
 
 @section('content')
-    @if(request()->input('spa'))
+    @if(!empty(session('spa_id')))
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Services</h3>
@@ -41,7 +41,7 @@
                         <h4 class="text-white font-weight-medium px-3">{{ $service->name }}</h4>
                         <p class="text-white px-3 mb-3">{{ $service->description }}</p>
                         <div class="w-100 bg-white text-center p-4" >
-                            <a class="btn btn-primary" href="{{ route('client.therapist').'?spa='.$spa_id.'&service='.$service->id.'&price='.$service->price }}">Select Service</a>
+                            <a class="btn btn-primary" href="{{ route('client.therapist').'?&service='.$service->id.'&price='.$service->price }}">Select Service</a>
                         </div>
                     </div>
                     <div class="tag-price">

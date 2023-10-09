@@ -1,7 +1,8 @@
 @extends('layouts.client.app_client')
 
 @section('content')
-    @if(isset($spa_id))
+    @if(!empty(session('spa_id')) && !empty(session('service_id')) && !empty(session('therapist_id')))
+
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Booking</h3>
@@ -142,7 +143,13 @@
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Spa Not Found</h3>
                 <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
+                    @if(empty(session('spa_id')))
+                        <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
+                    @elseif(empty(session('service_id')))
+                        <p class="m-0"><a class="text-blue" href="{{ route('client.services') }}">Please click here to select a service first</a></p>
+                    @elseif(empty(session('therapist_id')))   
+                        <p class="m-0"><a class="text-blue" href="{{ route('client.services') }}">Please click here to select a therapist first</a></p> 
+                    @endif    
                 </div>
             </div>
         </div>
@@ -150,13 +157,6 @@
 @endsection
 @section('js')
 <script>
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-        var results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-
-    $("#amount_paid").val(getUrlParameter('price'));
+    $("#amount_paid").val("{{ session('price') }}");
 </script>
 @endsection

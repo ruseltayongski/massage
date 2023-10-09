@@ -74,39 +74,51 @@ class ClientController extends Controller
     }
     public function services(Request $request) {
         $spa_id = $request->spa;
-        $services = Services::where('spa_id',$spa_id)->get();
+
+        if(isset($spa_id)) {
+            session(['spa_id' => $spa_id]);
+        }
+
+        $services = Services::where('spa_id',session('spa_id'))->get();
+        
         return view('client.services',[
-            'spa_id' => $spa_id,
             'services' => $services
         ]);
     }
 
     public function therapist(Request $request) {
-        $spa_id = $request->spa;
         $service_id = $request->service;
+        $price = $request->price;
+        
+        if(isset($service_id)) {
+            session([
+                'service_id' => $service_id,
+                'price' => $price
+            ]);
+        }
+
         $therapists = User::select(
-            DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist')
-            ,'users.*'
+            DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist'),
+            'users.*'
         )
-        ->where('users.spa_id',$spa_id)
+        ->where('users.spa_id', session('spa_id') )
         ->get();
 
         return view('client.therapist',[
-            'spa_id' => $spa_id,
-            'service_id' => $service_id,
             'therapists' => $therapists,
             'price' => $request->price
         ]);
     }
 
     public function booking(Request $request) {
-        $spa_id = $request->spa;
-        $service_id = $request->service;
         $therapist_id = $request->therapist;
+        if(isset($therapist_id)) {
+            session(['therapist_id' => $therapist_id]);
+        }
         return view('client.booking',[
-            'spa_id' => $spa_id,
-            'service_id' => $service_id,
-            'therapist_id' => $therapist_id
+            'spa_id' => session('spa_id'),
+            'service_id' => session('service_id'),
+            'therapist_id' => session('therapist_id')
         ]);
     }
 
