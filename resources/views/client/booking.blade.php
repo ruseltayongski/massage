@@ -7,16 +7,14 @@
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Booking</h3>
                 <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-white" href="">Select</a></p>
-                    <i class="far fa-circle px-3"></i>
-                    <p class="m-0">Booking</p>
+                    <p class="m-0"><a class="text-blue" href="{{ route('client.therapist') }}">Click here to go back to the therapist page</a></p>
                 </div>
             </div>
         </div>
 
         <!-- Appointment Start -->
-        <div class="container-fluid py-5">
-            <div class="container py-5">
+        <div class="container-fluid">
+            <div class="container">
                 <div class="row mx-0 justify-content-center text-center">
                     <div class="col-lg-6">
                         <h6 class="d-inline-block bg-light text-primary text-uppercase py-1 px-2">Booking</h6>
