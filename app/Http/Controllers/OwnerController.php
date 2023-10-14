@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Spa;
 use App\Models\User;
+use PDF;
 use App\Models\Contracts;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -102,11 +103,12 @@ class OwnerController extends Controller
         $contract->amount_paid = $request->amount_paid;
         $contract->payment_proof = $amountFileName;
         $contract->owner_signature = $signatureFileName;
-        $contract->status = 'Active';
+        $contract->status = 'Pending';
         $contract->active_date = date('Y-m-d H:i:s');
         $contract->save();
 
         $user = User::find($user->id);
+        $user->status = 'Pending';
         $user->contract_type = $request->contract_type;
         $user->contract_end = $end_date;
         $user->save();
@@ -292,6 +294,24 @@ class OwnerController extends Controller
         return redirect()->back();
 
     }
+
+    public function generatePDF(Request $request) {
+       /*  dd($request->all()); */
+        $user = Auth::user();
+         if($request->has('id')) {
+             $bookingId = $request->input('id');
+ 
+             $contracts = Contracts::find($bookingId)->first();
+
+             $data = [
+                 'contracts' => $contracts,
+                 'user' => $user,
+             ]; 
+         /*     dd(response()->json($data)); */    
+             $pdf = PDF::loadView('owner.receipt', $data);
+             return $pdf->download('receipt.pdf');
+         }   
+     }
 
     
     public function clearSpaUpdateFlash() {

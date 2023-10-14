@@ -65,12 +65,12 @@
       </a>
     </li>
     @else
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
-        <i class="typcn typcn-device-desktop menu-icon"></i>
-        <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
-      </a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
+          <i class="typcn typcn-device-desktop menu-icon"></i>
+          <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
+        </a>
+      </li>
     @endif
     @if($user->roles == 'ADMIN')
     <li class="nav-item">
@@ -87,24 +87,24 @@
         <span class="menu-title">Manage Contract</span>
       </a>
     </li>
-    <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">
-      <a class="nav-link" href="{{ route($firstRoute.'/spa') }}">
-        <i class="typcn typcn-tags menu-icon"></i>
-        <span class="menu-title">Manage Spa</span>
-      </a>
-    </li>
-    <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">
-      <a class="nav-link" href="{{ route($firstRoute.'/therapist') }}">
-        <i class="typcn typcn-user-add-outline menu-icon"></i>
-        <span class="menu-title">Manage Therapist</span>
-      </a>
-    </li>
-    <li class="nav-item {{ hasContractEnded($user->contract_end) ? 'menu-disabled' : '' }}">
-      <a class="nav-link" href="{{ route($firstRoute.'/services') }}">
-        <i class="typcn typcn-user-add-outline menu-icon"></i>
-        <span class="menu-title">Services</span>
-      </a>
-    </li>
+      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+        <a class="nav-link" href="{{ route($firstRoute.'/spa') }}">
+          <i class="typcn typcn-tags menu-icon"></i>
+          <span class="menu-title">Manage Spa</span>
+        </a>
+      </li>
+      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+        <a class="nav-link" href="{{ route($firstRoute.'/therapist') }}">
+          <i class="typcn typcn-user-add-outline menu-icon"></i>
+          <span class="menu-title">Manage Therapist</span>
+        </a>
+      </li>
+      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+        <a class="nav-link" href="{{ route($firstRoute.'/services') }}">
+          <i class="typcn typcn-user-add-outline menu-icon"></i>
+          <span class="menu-title">Services</span>
+        </a>
+      </li>
     @endif
     <li class="nav-item">
       <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

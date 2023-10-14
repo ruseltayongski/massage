@@ -1,3 +1,12 @@
+@section('css')
+    <style>
+         .booking_status {
+            cursor: pointer !important;
+            color: white;
+        }
+    </style>
+@endsection
+
 @extends('layouts.admin.app_admin')
 
 @section('content')
@@ -23,6 +32,7 @@
                                 <th>Amount Paid</th>
                                 <th>Payment Proof</th>
                                 <th>Status</th>
+                                <th>Receipt</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,15 +61,20 @@
                                             $color = "";
                                             if($contract->status == 'Pending') {
                                                 $color = "warning";
-                                            } else if($contract->status == 'Active') {
-                                                $color = "info";
+                                            } else if($contract->status == 'Approved') {
+                                                $color = "success";
                                             } else if($contract->status == 'Rejected') {
                                                 $color = "danger";
                                             }
                                         ?>
-                                        <span class="badge badge-{{ $color }} p-2">
+                                        <span class="badge badge-{{ $color }} p-2 booking_status">
                                             {{ $contract->status }}     
                                         </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('generate-pdf', ['id' => $contract->id]) }}">
+                                            Download
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -73,4 +88,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+    <script>
+        $(document).ready(function {
+
+        });
+    </script>
 @endsection

@@ -5,6 +5,20 @@
             gap: 1rem;
             justify-content: center;
         }
+        .button-menu {
+        display: flex;
+        justify-content: space-evenly;
+        }
+
+        .full-width-select {
+            width: 100%;
+            border: 1px solid red;
+            padding: 0.5rem;
+        }
+
+        .option-wrapper {
+            padding: 1rem !important;
+        }
     </style>
 @endsection
 
@@ -155,7 +169,7 @@
                 <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id">
-                    <select name="spa_id">
+                    <select name="spa_id" class="full-width-select">
                     {{--     @if($services->spa_id === null) --}}
                             @foreach($spa as $spas)
                                 <option value="{{ $spas->id }}">

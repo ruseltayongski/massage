@@ -20,6 +20,18 @@
         display: flex;
         justify-content: space-evenly;
     }
+
+    .full-width-select {
+        width: 100%;
+        border: 1px solid red;
+        padding: 0.5rem;
+    }
+
+    .option-wrapper {
+        padding: 1rem !important;
+    }
+
+  
 </style>
 @endsection
 @extends('layouts.admin.app_admin')
@@ -247,12 +259,14 @@
                 <form action="{{ route('assigned.therapist.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id">
-                    <select name="therapist_id">
+                    <select name="therapist_id" class="full-width-select">
                         @foreach($usersList as $user)
                             @if ($user->spa_id === null)
-                                <option value="{{ $user->id }}">
-                                    {{ $user->fname . ' ' .  $user->lname}}
-                                </option>
+                                <div class="option-wrapper">
+                                    <option value="{{ $user->id }}">
+                                        {{ $user->fname . ' ' .  $user->lname}}
+                                    </option>
+                                </div>
                             @endif
                         @endforeach  
                         </select>

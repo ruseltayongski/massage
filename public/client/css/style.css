@@ -3636,7 +3636,7 @@ input[type="button"].btn-block {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
+  color: black;
   vertical-align: middle;
   background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
   border: 1px solid #ced4da;
@@ -6178,8 +6178,10 @@ button.bg-dark:focus {
 }
 
 .bg-transparent {
-  background-color: transparent !important;
+  background-color: white !important;
+ /*  color: white; */
 }
+
 
 .border {
   border: 1px solid #dee2e6 !important;

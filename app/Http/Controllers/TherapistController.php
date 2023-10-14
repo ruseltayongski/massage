@@ -156,7 +156,7 @@ class TherapistController extends Controller
         $notification->booking_id = $booking->id;
         $notification->booked_by = $booking->client_id;
         $notification->notifier_id = $user->id;                       
-        $notification->message = $booking->status.' you booking';
+        $notification->message = $booking->status.' your booking';
         $notification->save();
 
         session()->flash('booking_update_status', true);

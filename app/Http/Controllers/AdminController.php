@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Contracts;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -18,9 +21,39 @@ class AdminController extends Controller
     }
 
     public function owner() {
-        $users = User::where('roles','OWNER')->paginate(15);
+        $ownerContracts = User::select(
+                            'users.id',
+                            'contracts.payment_proof as payment_proof',
+                            DB::raw("concat(users.fname,' ',users.lname) as username"),
+                            'users.mobile',
+                            'users.picture',
+                            'users.status',
+                            'users.contract_type'
+                        )
+                        ->withCount('spas')
+                        ->withCount('therapist')
+                        ->where('roles', 'OWNER')
+                        ->leftJoin('contracts', 'contracts.owner_id', '=', 'users.id')
+                        ->paginate(15);
         return view('admin.owner',[
-            'users' => $users
+            'ownerContracts' => $ownerContracts,
         ]);
+    }
+
+    public function updateOwnerStatus(Request $request) {
+       
+        $user = Auth::user();
+        $user = User::find($request->user_id);
+        $user->status = $request->contract_status;
+        $user->save();
+
+        $contracts = Contracts::where('owner_id', $user->id)->first();
+
+        if($contracts) {
+            $contracts->status = $request->contract_status;
+            $contracts->save();
+        }
+        session()->flash('owner_status', true);
+        return redirect()->back();
     }
 }

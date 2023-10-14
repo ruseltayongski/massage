@@ -48,7 +48,7 @@ class PDFController extends Controller
                 
             $pdf = PDF::loadView('client.receipt', $data);
         
-            return $pdf->stream('receipt.pdf');
+            return $pdf->download('receipt.pdf');
         }   
     }
 }

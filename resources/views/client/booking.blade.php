@@ -1,3 +1,13 @@
+@section('css')
+    <style>
+        .make-booking {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center;
+        }
+    </style>
+@endsection
+
 @extends('layouts.client.app_client')
 
 @section('content')
@@ -54,7 +64,8 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="file" class="form-control bg-transparent p-4" name="payment_picture" placeholder="Upload payment" required="required" />
+                                            <input type="text" class="form-control bg-transparent p-4" id="payment_filename" name="payment_filename" placeholder="Upload Payment Proof" />
+                                            <input style="color:transparent" type="file" name="payment_picture" id="payment_picture" placeholder="Upload payment" required="required" />
                                         </div>
                                     </div>
                                 </div>
@@ -68,10 +79,15 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <button class="btn btn-primary btn-block" type="submit" style="height: 47px;">Make Booking</button>
+                                    <div class="col-sm-6 d-flex">
+                                        <div class="form-group make-booking">
+                                            <span style="color:aliceblue">For Gcash payment, kindly send to this number: 09457163995</span>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="make-booking">
+                                        <button class="btn btn-primary btn-block" type="submit" style="height: 47px;">Make Booking</button>
+                                    </div>
                             </form>
                         </div>
                     </div>
@@ -156,5 +172,12 @@
 @section('js')
 <script>
     $("#amount_paid").val("{{ session('price') }}");
+
+    $(document).ready(function () {
+        $('#payment_picture').change(function () {
+            var fileName = $(this).val().split('\\').pop();
+            $('#payment_filename').val(fileName);
+        });
+    });
 </script>
 @endsection

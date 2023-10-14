@@ -39,7 +39,7 @@
         }
     ?>
     <div id="app">
-        @if($user->roles == 'OWNER')
+        @if($user->roles == 'OWNER') 
             @if(hasContractEnded($user->contract_end))
                 <div class="row" id="proBanner">
                     <div class="col-12">
@@ -99,10 +99,18 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+    
         @if(session('profile_update'))
             <?php //session('contract_save',false); ?>
             Lobibox.notify('success', {
                 msg: 'Successfully updated the Profile!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('owner_status'))
+            <?php //session('contract_save',false); ?>
+            Lobibox.notify('success', {
+                msg: 'Successfully updated the Status!',
                 img: "{{ asset('img/check.png') }}"
             });
         @endif

@@ -171,7 +171,7 @@
                                         </td>
                                         <td>
                                            <a href="{{ route('generate-pdf', ['id' => $booking->id]) }}">
-                                                View
+                                                Download
                                             </a>
                                         </td>
                                     </tr>

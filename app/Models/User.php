@@ -55,4 +55,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function spas()
+    {
+        return $this->hasMany(Spa::class, 'owner_id');
+    }
+
+    public function therapist() 
+    {
+        return $this->hasMany(User::class, 'owner_id')->where('roles', 'THERAPIST');
+    }
 }

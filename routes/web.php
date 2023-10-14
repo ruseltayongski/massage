@@ -44,6 +44,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('admin/dashboard',[App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin/dashboard');
         Route::get('admin/owner',[App\Http\Controllers\AdminController::class, 'owner'])->name('admin/owner');
+        Route::post('update/contract', [App\Http\Controllers\AdminController::class, 'updateOwnerStatus'])->name('update.contract.status');
     });
 
     Route::group(['middleware' => 'owner'], function () {
@@ -64,7 +65,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('owner/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
         Route::post('assign/services',[App\Http\Controllers\ServicesController::class, 'assignSpa'])->name('owner.assign.save');
-       
+        Route::get('/pdf', [App\Http\Controllers\OwnerController::class, 'generatePDF'])->name('generate-pdf');
 
     });
 });

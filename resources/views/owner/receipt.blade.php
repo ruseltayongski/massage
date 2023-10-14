@@ -78,36 +78,33 @@
         <table class="products">
             <tr>
                 <th>Number</th>
-                <th>Service</th>
-                <th>SPA</th>
-                <th>Therapist</th>
-                <th>Booking</th>
-                <th>Date & Time</th>
+                <th>Contract Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
                 <th>Amount</th>
             </tr>
             <tr class="items">
-                <td>{{ ucfirst(strtolower($booking->receipt_number)) }}</td>
-                <td>{{ ucfirst(strtolower($booking->services)) }}</td>
-                <td>{{ ucfirst(strtolower($booking->spa_name)) }}</td>
-                <td>{{ ucfirst(strtolower($booking->therapist)) }}</td>
-                <td> @if(ucfirst(strtolower($booking->booking_type == 'home_service')))
+                <td>{{ time() . mt_rand(100000, 999999) }}</td>
+                <td> @if(ucfirst(strtolower($contracts->contract_type == 'home_service')))
                     Home Service
                     @else
                         Onsite
                     @endif
                 </td>
                 <td>
-                    {{ ucfirst(strtolower(date("M j, Y", strtotime($booking->start_date)))) }}
-                    <small>({{ date("g:i a",strtotime($booking->start_time)) }})</small>
+                    {{ (date("M j, Y", strtotime($contracts->start_date))) }}
+                    
                 </td>
-                <td>{{ number_format($booking->amount_paid, 2) }}</td>
-                <!-- Add other columns based on your needs -->
+                <td>
+                    {{ (date("M j, Y", strtotime($contracts->end_date))) }}
+                </td>
+                <td>{{ number_format($contracts->amount_paid, 2) }}</td>
             </tr>
         </table>
     </div>
  
     <div class="total">
-       <span>Total: </span>{{ $booking->amount_paid }}
+       <span>Total: </span>{{ $contracts->amount_paid }}
     </div>
  
     <div class="footer margin-top">

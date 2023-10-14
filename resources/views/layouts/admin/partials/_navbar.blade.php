@@ -30,7 +30,7 @@
                 Help
                 </a>
             </li> --}}
-            <li class="nav-item dropdown d-flex">
+           {{--  <li class="nav-item dropdown d-flex">
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                 <i class="typcn typcn-message-typing"></i>
                 <span class="count bg-success">2</span>
@@ -74,7 +74,7 @@
                     </div>
                 </a>
                 </div>
-            </li>
+            </li> --}}
             <li class="nav-item dropdown  d-flex">
                 <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="typcn typcn-bell mr-0"></i>
