@@ -122,60 +122,60 @@
             transition: 0.3s;
         }
 
-            #myImg:hover {opacity: 0.7;}
+        #myImg:hover {opacity: 0.7;}
 
-            .modal-picture {
-                display: none;
-                position: fixed; 
-                z-index: 999999999;
-                padding-top: 100px; 
-                left: 0;
-                top: 0;
+        .modal-picture {
+            display: none;
+            position: fixed; 
+            z-index: 999999999;
+            padding-top: 100px; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9); 
+        }
+
+        .modal-contents {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .modal-contents {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        #close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #close:hover,
+        #close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 700px){
+            .modal-contents {
                 width: 100%;
-                height: 100%; 
-                overflow: auto; 
-                background-color: rgb(0,0,0);
-                background-color: rgba(0,0,0,0.9); 
             }
-
-            .modal-contents {
-                margin: auto;
-                display: block;
-                width: 80%;
-                max-width: 700px;
-            }
-
-            .modal-contents {
-                animation-name: zoom;
-                animation-duration: 0.6s;
-            }
-            @keyframes zoom {
-                from {transform:scale(0)}
-                to {transform:scale(1)}
-            }
-
-            #close {
-                position: absolute;
-                top: 15px;
-                right: 35px;
-                color: #f1f1f1;
-                font-size: 40px;
-                font-weight: bold;
-                transition: 0.3s;
-            }
-
-            #close:hover,
-            #close:focus {
-                color: #bbb;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            @media only screen and (max-width: 700px){
-                .modal-contents {
-                    width: 100%;
-                }
-            }
+        }
     </style>
 @endsection
 
@@ -337,7 +337,6 @@
                 <span id="close">&times;</span>
                 <img class="modal-contents" id="img01">
               </div>
-              
             <div class="pl-5 pr-5">
                 {!! $ownerContracts->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
@@ -365,24 +364,27 @@
             });    
         });
 
-        var modal = document.getElementById("myModal");
-        var modalImg = document.getElementById("img01");
-        // Select all elements with the class "myImg"
-        var images = document.getElementsByClassName("myImg");
+        var modal = $("#myModal");
+            var modalImg = $("#img01");
+            // Select all elements with the class "myImg"
+            var images = $(".myImg");
 
-        // Loop through each image and attach the click event
-        for (var i = 0; i < images.length; i++) {
-            images[i].onclick = function() {
-                modal.style.display = "block";
-                modalImg.src = this.src;
-                captionText.innerHTML = this.alt;
-            };
-        }
+            // Loop through each image and attach the click event
+            images.click(function() {
+                modal.css("display", "block");
+                modalImg.attr("src", $(this).attr("src"));
+            });
 
-        var span = document.getElementById("close");
-        span.onclick = function() {
-            modal.style.display = "none";
-        };
+            var span = $("#close");
+            span.click(function() {
+                modal.css("display", "none");
+
+            $(document).keydown(function(event) {
+                if(event.key === "Escape" && modal.css("display") === "block") {
+                    modal.css("display", "none");
+                }
+            });
+        });
     });
 
     function updateBookingStatus(user_id, status) {

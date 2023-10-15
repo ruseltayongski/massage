@@ -4,6 +4,67 @@
             cursor: pointer !important;
             color: white;
         }
+
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #myImg:hover {opacity: 0.7;}
+
+        .modal-picture {
+            display: none;
+            position: fixed; 
+            z-index: 999999999;
+            padding-top: 100px; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9); 
+        }
+
+        .modal-contents {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .modal-contents {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        #close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #close:hover,
+        #close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 700px){
+            .modal-contents {
+                width: 100%;
+            }
+        }
     </style>
 @endsection
 
@@ -54,7 +115,12 @@
                                         ₱&nbsp;{{ number_format($contract->amount_paid, 2, '.', ',') }}
                                     </td>
                                     <td class="py-1">
-                                        <img src="{{ asset('/fileupload/owner/payment/').'/'.$contract->payment_proof }}" alt="image"/>
+                                        <img 
+                                            id="myImg"
+                                            class="myImg"
+                                            src="{{ asset('/fileupload/owner/payment/').'/'.$contract->payment_proof }}" 
+                                            alt="image"
+                                         />
                                     </td>
                                     <td>
                                         <?php
@@ -82,6 +148,10 @@
                     </table>
                 </div>
             </div>
+            <div id="myModal" class="modal-picture">
+                <span id="close">&times;</span>
+                <img class="modal-contents" id="img01">
+            </div>
             <div class="pl-5 pr-5">
                 {!! $contracts->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
@@ -92,8 +162,26 @@
 
 @section('js')
     <script>
-        $(document).ready(function {
+        $(document).ready(function() {
+            var modal = $("#myModal");
+            var modalImg = $("#img01");
+            var images = $(".myImg");
 
+            images.click(function() {
+                modal.css("display", "block");
+                modalImg.attr("src", $(this).attr("src"));
+            });
+
+            var span = $("#close");
+            span.click(function() {
+                modal.css("display", "none");
+            });
+
+            $(document).keydown(function(event) {
+                if(event.key === "Escape" && modal.css("display") === "block") {
+                    modal.css("display", "none");
+                }
+            })
         });
     </script>
 @endsection

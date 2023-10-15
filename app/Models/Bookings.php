@@ -11,4 +11,9 @@ class Bookings extends Model
 
     protected $table = 'bookings';
     protected $guarded = array();
+
+    public function ownerWithSpecificTherapist() 
+    {
+        return $this->belongsTo(User::class, 'therapist_id', 'id',);
+    }
 }

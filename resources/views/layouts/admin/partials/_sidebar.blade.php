@@ -38,7 +38,7 @@
           </p>
         </div>
       </div>
-      <div class="nav-search">
+      {{-- <div class="nav-search">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Type to search..." aria-label="search" aria-describedby="search">
           <div class="input-group-append">
@@ -47,7 +47,7 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> --}}
       <p class="sidebar-menu-title">Dash menu</p>
     </li>
    
@@ -101,8 +101,14 @@
       </li>
       <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
         <a class="nav-link" href="{{ route($firstRoute.'/services') }}">
-          <i class="typcn typcn-user-add-outline menu-icon"></i>
+          <i class="typcn typcn-briefcase menu-icon"></i>
           <span class="menu-title">Services</span>
+        </a>
+      </li>
+      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+        <a class="nav-link" href="{{ route($firstRoute.'/transactions') }}">
+          <i class="typcn typcn-briefcase menu-icon"></i>
+          <span class="menu-title">Transactions</span>
         </a>
       </li>
     @endif

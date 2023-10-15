@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Exception;
 use App\Models\Spa;
 use App\Models\User;
-use PDF;
+use App\Models\Bookings;
 use App\Models\Contracts;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
@@ -21,7 +23,10 @@ class OwnerController extends Controller
     }
 
     public function dashboard() {
-        return view('owner.dashboard');
+        $user = Auth::user();
+        return view('owner.dashboard', [
+            "user" => $user
+        ]);
     }
 
     public function spa(Request $request) {
@@ -313,6 +318,38 @@ class OwnerController extends Controller
          }   
      }
 
+
+     public function transactionsView() {
+        $user = Auth::user();
+    
+        $transactions = Bookings::select(
+                        'bookings.id',
+                        'spa.name as spa_name',
+                        'services.name as services_name',
+                        DB::raw("concat(therapist.fname, ' ', therapist.lname) as therapist_name"),
+                        DB::raw("concat(client.fname, ' ', client.lname) as client_name"),
+                        'bookings.status',
+                        'bookings.approved_date',
+                        'bookings.start_date'
+                        )               
+                        ->whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+                            // Add a condition to ensure only the authenticated user's bookings are retrieved
+                            $query->where('users.owner_id', $user->id);
+                        })
+                       ->leftJoin('spa', 'spa.id', '=', 'bookings.spa_id')
+                       ->leftJoin('services', 'services.id', '=', 'bookings.service_id')
+                       ->leftJoin('users as therapist', 'therapist.id', '=', 'bookings.therapist_id')
+                       ->leftJoin('users as client', 'client.id', '=', 'bookings.client_id')
+                     
+                       ->get();
+    
+   /*      dd($transactions); */
+        return view('owner.transactions', [
+            "transactions" => $transactions
+        ]);
+    }
+    
+    
     
     public function clearSpaUpdateFlash() {
         session()->forget('spa_save');

@@ -67,7 +67,7 @@
             <tr>
                 <td class="w-half">
                     <div><h4>Customer Name: </h4></div>
-                    <div>{{ $user->fname .' ' . $user->lname }}</div>
+                    <div>{{ ucfirst($user->fname) .' ' . ucfirst($user->lname) }}</div>
                 </td>
             
             </tr>
@@ -77,7 +77,7 @@
     <div class="margin-top">
         <table class="products">
             <tr>
-                <th>Number</th>
+                <th>Receipt Number</th>
                 <th>Contract Type</th>
                 <th>Start Date</th>
                 <th>End Date</th>
@@ -85,11 +85,8 @@
             </tr>
             <tr class="items">
                 <td>{{ time() . mt_rand(100000, 999999) }}</td>
-                <td> @if(ucfirst(strtolower($contracts->contract_type == 'home_service')))
-                    Home Service
-                    @else
-                        Onsite
-                    @endif
+                <td> 
+                    {{ ucfirst($contracts->type) }}
                 </td>
                 <td>
                     {{ (date("M j, Y", strtotime($contracts->start_date))) }}
