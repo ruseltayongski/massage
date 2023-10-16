@@ -1,53 +1,54 @@
 @section('css')
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-    }
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
 
-    .rate-container {
-        display: grid;
-        place-content: center;
-        float: left;
-    }
+        .rate-container {
+            display: grid;
+            place-content: center;
+            float: left;
+        }
 
-    .rate {
-        height: 20px;
-       
-    }
-    .rate:not(:checked) > input {
-        position:absolute;
-        top:-9999px;
-    }
-    .rate:not(:checked) > label {
-        float:right;
-        width:1em;
-        overflow:hidden;
-        white-space:nowrap;
-        cursor:pointer;
-        font-size:20px;
-        color:#ccc;
-    }
-    .rate:not(:checked) > label:before {
-        content: '★ ';
-    }
+        .rate {
+            height: 20px;
+        
+        }
+        .rate:not(:checked) > input {
+            position:absolute;
+            top:-9999px;
+        }
+        .rate:not(:checked) > label {
+            float:right;
+            width:1em;
+            overflow:hidden;
+            white-space:nowrap;
+            cursor:pointer;
+            font-size:20px;
+            color:#ccc;
+        }
+        .rate:not(:checked) > label:before {
+            content: '★ ';
+        }
 
-    .rate > input:checked ~ label {
-        color: #ffc700; 
-    }
+        .rate > input:checked ~ label {
+            color: #ffc700; 
+        }
 
-    .rate:not(:checked) > label:hover,
-    .rate:not(:checked) > label:hover ~ label {
-        color: #deb217;  
-    }
-    .rate > input:checked + label:hover,
-    .rate > input:checked + label:hover ~ label,
-    .rate > input:checked ~ label:hover,
-    .rate > input:checked ~ label:hover ~ label,
-    .rate > label:hover ~ input:checked ~ label {
-        color: #c59b08;
-    }
-</style>
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+            color: #deb217;  
+        }
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+            color: #c59b08;
+        }
+    </style>
+    <link href="{{ asset('admin/css/bootstrap-toogle.css?v=').date('His') }}" rel="stylesheet">
 @endsection
 @extends('layouts.client.app_client')
 
@@ -169,9 +170,14 @@
                                                     $color = "danger";
                                                 }
                                             ?>
-                                            <span class="badge badge-{{ $color }} p-2 booking-status" style="color:white;">
-                                                {{ $booking->status }}     
-                                            </span>
+                                            @if($booking->status == 'Pending')
+                                                <input type="hidden" name="booking_status" id="booking_status" value="Pending">
+                                                <input type="checkbox" id="booking_status_toggle" data-toggle="toggle" data-on="Cancelled" data-off="Pending" data-onstyle="info" data-offstyle="primary" data-width="100">
+                                            @else
+                                                <span class="badge badge-{{ $color }} p-2 booking-status" style="color:white;">
+                                                    {{ $booking->status }}     
+                                                </span>
+                                            @endif
                                         </td>
                                         <td>
                                            <a href="{{ route('generate-pdf', ['id' => $booking->id]) }}">
@@ -202,6 +208,7 @@
     @endif
 @endsection
 @section('js')
+    <script src="{{ asset('admin/js/bootstrap-toogle.js') }}"></script>
     <script>
         @if(session('booking_save'))
             Lobibox.notify('success', {
