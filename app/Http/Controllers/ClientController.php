@@ -147,7 +147,7 @@ class ClientController extends Controller
         $booking->save();
 
         session()->flash('booking_save', true);
-        return redirect()->route('client/booking/history');;
+        return redirect()->route('client.booking.history');;
     }
 
     public function bookingEdit(Request $request) {
