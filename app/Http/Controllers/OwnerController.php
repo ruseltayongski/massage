@@ -35,6 +35,9 @@ class OwnerController extends Controller
         $query = Spa::where('owner_id', $user->id);
         $usersList = User::where('roles', 'THERAPIST')->where('owner_id', $user->id)->get();
       
+        if ($request->has('reset_button')) {
+            return redirect()->route('owner/spa');
+        }
   
         if ($request->has('search')) {
             $search = $request->input('search');
@@ -42,7 +45,7 @@ class OwnerController extends Controller
                   ->orWhere('description', 'like', "%$search%");
         }
         $spas = $query->paginate(15);
-     /*    dd($specificTherapist, \DB::getQueryLog()); */
+    
         return view('owner.spa', [
             "spas" => $spas,
             "usersList" => $usersList
@@ -66,9 +69,24 @@ class OwnerController extends Controller
     }
     
 
-    public function therapist() {
+    public function therapist(Request $request) {
         $user = Auth::user();
-        $therapists = User::where('roles','THERAPIST')->where('owner_id',$user->id)->paginate(15);
+        $query = User::where('roles','THERAPIST')->where('owner_id',$user->id);
+
+        if($request->has('reset_button')) {
+            return redirect()->route('owner/therapist');
+        }
+
+        if($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('fname', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+        }
+
+       
+        
+        $therapists = $query->paginate(15);
+
         return view('owner.therapist',[
             "therapists" => $therapists
         ]);

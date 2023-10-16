@@ -1,3 +1,12 @@
+@section('css')
+    <style>
+        .booking_status {
+            cursor: pointer !important;
+            color: white;
+        }
+    </style>
+@endsection
+
 @extends('layouts.admin.app_admin')
 
 @section('content')
@@ -28,7 +37,7 @@
                         <tbody>
                          
                             @foreach($transactions as $transaction)
-                                @if($transaction->status == "Approved")
+                               
                                 <tr>
                                     <td class="py-1">
                                         {{ $transaction->client_name }}
@@ -54,14 +63,22 @@
                                         $color = "";
                                             if($transaction->status == 'Approved') {
                                                 $color = "success";
+                                            } else if ($transaction->status == 'Pending') {
+                                                $color = "warning";
                                             }
                                         ?>
+                                        <?php if($transaction->status == 'Approved'):?>
                                         <span class="badge badge-{{ $color }} p-2 booking_status">
                                             Completed  
                                         </span>
+                                        <?php else: ?>
+                                        <span class="badge badge-{{ $color }} p-2 booking_status">
+                                            Ongoing  
+                                        </span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-                                @endif
+                              
                             @endforeach
                         
                         </tbody>

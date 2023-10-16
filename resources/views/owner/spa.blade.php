@@ -31,6 +31,11 @@
         padding: 1rem !important;
     }
 
+    .button-holder {
+        display: flex;
+        gap: 0.5rem;
+    }
+
   
 </style>
 @endsection
@@ -53,84 +58,87 @@
                     Add
                     </button>
                 </div>
-            <form action="{{ route('owner/spa') }}" method="GET">
-                    <div class="input-group">
-                        <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
-                    </div>
+                <form action="{{ route('owner/spa') }}" method="GET">
+                        <div class="input-group">
+                            <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <div class="button-holder">
+                                <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
+                                <button type="submit" name="reset_button" class="btn btn-outline-secondary">Reset</button>
+                            </div>
+                        </div>
                 </form>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Spa</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Therapist</th>
+                                <th>Created at</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($spas as $spa)
+                                @if(empty($spa->name)) 
+                                    <span>dasdas</span>
+                                @else
                                 <tr>
-                                    <th>Spa</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Therapist</th>
-                                    <th>Created at</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($spas as $spa)
-                                    @if(empty($spa->name)) 
-                                        <span>dasdas</span>
-                                    @else
-                                    <tr>
-                                        <td class="py-1">
-                                            <img src="{{ asset('/fileupload/spa/').'/'.$spa->picture }}" alt="image"/>
-                                        </td>
-                                        <td>
-                                            {{ $spa->name }}
-                                        </td>
-                                        <td>
-                                           {{ $spa->description }}
-                                        </td>
-                                        <td>
+                                    <td class="py-1">
+                                        <img src="{{ asset('/fileupload/spa/').'/'.$spa->picture }}" alt="image"/>
+                                    </td>
+                                    <td>
+                                        {{ $spa->name }}
+                                    </td>
+                                    <td>
+                                        {{ $spa->description }}
+                                    </td>
+                                    <td>
+                                        <button
+                                            type="button" 
+                                            class="btn btn-info btn-sm"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#view_therapist"
+                                            data-id="{{ $spa->id }}"
+                                            >
+                                            View
+                                        </button>
+                                    </td>
+                                    <td>
+                                        {{ date("M j, Y",strtotime($spa->created_at)) }}<br>
+                                        <small>({{ date("g:i a",strtotime($spa->created_at)) }})</small>
+                                    </td>
+                                    <td>
+                                        <div class="button-menu">
+                                            <button type="button" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#updateModal"
+                                                data-id="{{ $spa->id }}"
+                                                data-name="{{ $spa->name }}"
+                                                data-description="{{ $spa->description }}"
+                                                data-picture="{{ $spa->picture }}"
+                                                class="btn btn-info btn-sm"
+                                            >
+                                                Update
+                                            </button>
                                             <button
                                                 type="button" 
                                                 class="btn btn-info btn-sm"
                                                 data-bs-toggle="modal" 
-                                                data-bs-target="#view_therapist"
+                                                data-bs-target="#add_therapist"
                                                 data-id="{{ $spa->id }}"
-                                             >
-                                             View
-                                           </button>
-                                        </td>
-                                        <td>
-                                            {{ date("M j, Y",strtotime($spa->created_at)) }}<br>
-                                            <small>({{ date("g:i a",strtotime($spa->created_at)) }})</small>
-                                        </td>
-                                        <td>
-                                            <div class="button-menu">
-                                                <button type="button" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#updateModal"
-                                                    data-id="{{ $spa->id }}"
-                                                    data-name="{{ $spa->name }}"
-                                                    data-description="{{ $spa->description }}"
-                                                    data-picture="{{ $spa->picture }}"
-                                                    class="btn btn-info btn-sm"
                                                 >
-                                                    Update
-                                                </button>
-                                                <button
-                                                    type="button" 
-                                                    class="btn btn-info btn-sm"
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#add_therapist"
-                                                    data-id="{{ $spa->id }}"
-                                                 >
-                                                    Assign Therapist
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                                Assign Therapist
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 </div>
                 <div class="pl-5 pr-5">
                     {!! $spas->appends(request()->query())->links('pagination::bootstrap-5') !!}
@@ -259,18 +267,25 @@
                 <form action="{{ route('assigned.therapist.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id">
-                    <select name="therapist_id" class="full-width-select">
-                        @foreach($usersList as $user)
-                            @if ($user->spa_id === null)
-                                <div class="option-wrapper">
-                                    <option value="{{ $user->id }}">
-                                        {{ $user->fname . ' ' .  $user->lname}}
-                                    </option>
-                                </div>
-                            @endif
-                        @endforeach  
-                        </select>
-                        <div class="modal-footer">
+                    <select 
+                        name="therapist_id" 
+                        class="full-width-select" 
+                        aria-placeholder="Please Select Therapist"
+                     >
+    
+                  <option disabled selected value="">Select Therapist</option>
+
+                    @foreach($usersList as $user)
+                        @if ($user->spa_id === null)
+                            <div class="option-wrapper">
+                                <option value="{{ $user->id }}">
+                                    {{ $user->fname . ' ' .  $user->lname}}
+                                </option>
+                            </div> 
+                        @endif
+                    @endforeach  
+                    </select>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>

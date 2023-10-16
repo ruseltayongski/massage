@@ -19,6 +19,10 @@
         .option-wrapper {
             padding: 1rem !important;
         }
+        .button-holder {
+            display: flex;
+            gap: 0.5rem;
+         }
     </style>
 @endsection
 
@@ -38,10 +42,15 @@
                     >Add
                     </button>
                 </div>
-                <div class="input-group">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    <button type="button" class="btn btn-outline-primary">search</button>
-                </div>
+                <form action="{{ route('owner/services') }}" method="GET">
+                    <div class="input-group">
+                        <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <div class="button-holder">
+                            <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
+                            <button type="submit" name="reset_button" class="btn btn-outline-secondary">Reset</button>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
