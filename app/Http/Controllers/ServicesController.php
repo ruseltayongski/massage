@@ -11,10 +11,23 @@ use Intervention\Image\Facades\Image;
 
 class ServicesController extends Controller
 {
-    public function servicesView() {
+    public function servicesView(Request $request) {
         $user = Auth::user();
-        $services = Services::where('owner_id', $user->id)->get();
+        $query = Services::where('owner_id', $user->id);
         $spa = Spa::where('owner_id', $user->id)->get();
+
+        if($request->has('reset_button')) {
+            return redirect()->route('owner/services');
+        }
+
+        if($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%$search%")
+                  ->orWhere('description', 'like', "%$search%");
+        }
+
+        $services = $query->paginate(15);
+
         return view('owner.services', [
             "services" => $services,
             "spa" => $spa
