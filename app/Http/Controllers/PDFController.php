@@ -37,7 +37,7 @@ class PDFController extends Controller
                 ->leftJoin('users','users.id','=','bookings.therapist_id')
                 ->first();
             $data = [
-                'title' => 'Welcome to ItSolutionStuff.com',
+                'title' => '',
                 'date' => date('m/d/Y'),
                 'booking' => $booking,
                 'user' => $user

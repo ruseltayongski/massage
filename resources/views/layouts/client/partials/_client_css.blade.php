@@ -7,7 +7,7 @@
 <title>{{ config('app.name', 'Laravel') }}</title>
 
 <!-- Favicon -->
-<link href="{{ asset('client/img/favicon.ico') }}" rel="icon">
+<link href="{{ asset('favicon.ico') }}" rel="icon">
 
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.gstatic.com">

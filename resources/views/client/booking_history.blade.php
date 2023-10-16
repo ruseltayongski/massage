@@ -107,10 +107,14 @@
                                     @foreach($bookings as $booking)
                                     <tr>
                                         <td class="py-1">
-                                            <img src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" style="width:50px;" alt="image"/>
+                                            <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
+                                                <img src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" style="width:50px;" alt="image"/>
+                                            </a>
                                         </td>
                                         <td>
-                                            {{ $booking->services }}
+                                            <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
+                                                {{ $booking->services }}
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="{{ route('client.rate.spa').'?spa_id='.$booking->spa_id }}">{{ $booking->spa_name }}</a><br>
@@ -220,6 +224,12 @@
         @if(session('rate_spa_save'))
             Lobibox.notify('success', {
                 msg: 'Successfully rate the Spa!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+        @if(session('booking_edit_save'))
+            Lobibox.notify('success', {
+                msg: 'Successfully edited booking!',
                 img: "{{ asset('img/check.png') }}"
             });
         @endif

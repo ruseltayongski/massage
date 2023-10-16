@@ -138,7 +138,7 @@ class ClientController extends Controller
         $booking->receipt_number = $receiptNumber;
         $booking->service_id = $request->service_id;
         $booking->therapist_id = $request->therapist_id;
-        $booking->start_date = date('Y-m-d');
+        $booking->start_date = date('Y-m-d', strtotime($request->start_date));
         $booking->start_time = date('H:i:s',strtotime($request->start_time));
         $booking->amount_paid = $request->amount_paid;
         $booking->payment_picture = $imageName;
@@ -147,7 +147,43 @@ class ClientController extends Controller
         $booking->save();
 
         session()->flash('booking_save', true);
-        return redirect(route('client.booking.history'));
+        return redirect()->route('client/booking/history');;
+    }
+
+    public function bookingEdit(Request $request) {
+        $booking = Bookings::find($request->id);
+        return view('client.booking_update',[
+            'booking' => $booking
+        ]);
+    }
+
+    public function bookingEditSave(Request $request) {
+        $user = Auth::user();
+        $user->id;
+        if ($request->hasFile('payment_picture')) {
+            $image = $request->file('payment_picture');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('fileupload/client/payment'), $imageName);
+        }
+        $receiptNumber = time() . '_' . $user->id;
+    
+        // Create a new booking record
+        $booking = Bookings::find($request->id);
+        $booking->client_id = $user->id;
+        $booking->spa_id = $request->spa_id;
+        $booking->receipt_number = $receiptNumber;
+        $booking->service_id = $request->service_id;
+        $booking->therapist_id = $request->therapist_id;
+        $booking->start_date = date('Y-m-d', strtotime($request->start_date));
+        $booking->start_time = date('H:i:s',strtotime($request->start_time));
+        $booking->amount_paid = $request->amount_paid;
+        $booking->payment_picture = $request->hasFile('payment_picture') ? $imageName : $request->existing_image_path;
+        $booking->booking_type = $request->booking_type;
+        $booking->status = 'Pending';
+        $booking->save();
+
+        session()->flash('booking_edit_save', true);
+        return redirect()->route('client.booking.history');;
     }
 
     public function bookingHistory(Request $request) {

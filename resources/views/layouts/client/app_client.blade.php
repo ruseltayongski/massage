@@ -4,6 +4,7 @@
     @include('layouts.client.partials._client_css')
 </head>
 <body>
+    <input type="hidden" id="asset" value="{{ asset('/') }}">
     <?php $user = Auth::user(); ?>
     @include('layouts.client.partials._topbar')
     @include('layouts.client.partials._navbar')

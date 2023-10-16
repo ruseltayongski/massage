@@ -27,6 +27,8 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::put('/client/update', [App\Http\Controllers\ClientController::class, 'updateProfile'])->name('client.profile.update');
     Route::get('/client/booking', [App\Http\Controllers\ClientController::class, 'booking'])->name('client.booking');
     Route::post('/client/booking/save', [App\Http\Controllers\ClientController::class, 'bookingSave'])->name('client.booking.save');
+    Route::get('/client/booking/edit', [App\Http\Controllers\ClientController::class, 'bookingEdit'])->name('client.booking.edit');
+    Route::post('/client/booking/edit/save', [App\Http\Controllers\ClientController::class, 'bookingEditSave'])->name('client.booking.edit.save');
     Route::get('/client/booking/history', [App\Http\Controllers\ClientController::class, 'bookingHistory'])->name('client.booking.history');
     Route::get('/client/rate/spa',  [App\Http\Controllers\ClientController::class, 'rateSpa'])->name('client.rate.spa');
     Route::post('/client/rate/spa/save',  [App\Http\Controllers\ClientController::class, 'rateSpaSave'])->name('client.rate.spa.save');
@@ -65,7 +67,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('owner/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
         Route::post('assign/services',[App\Http\Controllers\ServicesController::class, 'assignSpa'])->name('owner.assign.save');
-        Route::get('/pdf', [App\Http\Controllers\OwnerController::class, 'generatePDF'])->name('generate-pdf');
+        //Route::get('/pdf', [App\Http\Controllers\OwnerController::class, 'generatePDF'])->name('generate-pdf');
         Route::get('owner/transactions', [App\Http\Controllers\OwnerController::class, 'transactionsView'])->name('owner/transactions');
 
     });

@@ -30,6 +30,7 @@
     @yield('css')
 </head>
 <body>
+    <input type="hidden" id="asset" value="{{ asset('/') }}">
     <?php 
         $user = Auth::user(); 
         if (!function_exists('hasContractEnded')) {
