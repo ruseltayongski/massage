@@ -174,7 +174,7 @@
                                                 {{-- <input type="hidden" name="booking_status" id="booking_status" value="Pending"> --}}
                                                 <input 
                                                     type="checkbox"  
-                                                    data-id="{{ $booking->id }}" 
+                                                    data-id="{{ $booking->id }}"
                                                     data-toggle="toggle" 
                                                     data-on="Cancelled" 
                                                     data-off="Pending" 
@@ -182,7 +182,6 @@
                                                     data-offstyle="primary" 
                                                     data-width="100"
                                                     data-pending="true"
-                                                    onchange="confirmToggle(this)"
                                                 >
                                             @else
                                                 <span class="badge badge-{{ $color }} p-2 booking-status" style="color:white;">
@@ -219,7 +218,7 @@
     @endif
 @endsection
 @section('js')
-    <script src="{{ asset('admin/js/bootstrap-toogle.js') }}"></script>
+    <script src="{{ asset('admin/js/bootstrap-toogle.js?v=').date('His') }}"></script>
     <script>
         @if(session('booking_save'))
             Lobibox.notify('success', {
@@ -271,37 +270,21 @@
         //     });
         // });
 
-        // function statusOnChange(data) {
-        //     //console.log(data.data('id'));
-        //     Lobibox.confirm({
-        //         msg: `Are you sure you want to ${status} this booking?`,
-        //         callback: function ($this, type, ev) {
+        function confirmToggle(data) {
+            const booking_id = data.data('id');
+            if(data.checked) {
+                status = "pending";
+            }
+            else {
+                status = "cancelled";
+            }
+            console.log(status)
+            // Lobibox.confirm({
+            //     msg: `Are you sure you want to ${status} this booking?`,
+            //     callback: function ($this, type, ev) {
 
-        //         }
-        //     });  
-        // }
-
-        function confirmToggle(checkbox) {
-    var confirmed = confirm("Are you sure you want to change the status?");
-    if (confirmed) {
-        if (checkbox.checked) {
-            checkbox.setAttribute("data-on", "Cancelled");
-            checkbox.setAttribute("data-off", "Pending");
-            checkbox.setAttribute("data-onstyle", "info");
-            checkbox.setAttribute("data-offstyle", "primary");
-        } else {
-            // If not checked, retain the original values
-            checkbox.setAttribute("data-on", "Cancelled");
-            checkbox.setAttribute("data-off", "Pending");
-            checkbox.setAttribute("data-onstyle", "info");
-            checkbox.setAttribute("data-offstyle", "primary");
+            //     }
+            // });  
         }
-    } else {
-        // If not confirmed, revert the checkbox to its original state
-        checkbox.checked = !checkbox.checked;
-    }
-}
-
-
     </script>
 @endsection
