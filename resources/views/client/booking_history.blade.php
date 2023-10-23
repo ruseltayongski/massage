@@ -171,8 +171,19 @@
                                                 }
                                             ?>
                                             @if($booking->status == 'Pending')
-                                                <input type="hidden" name="booking_status" id="booking_status" value="Pending">
-                                                <input type="checkbox" id="booking_status_toggle" data-toggle="toggle" data-on="Cancelled" data-off="Pending" data-onstyle="info" data-offstyle="primary" data-width="100">
+                                                {{-- <input type="hidden" name="booking_status" id="booking_status" value="Pending"> --}}
+                                                <input 
+                                                    type="checkbox"  
+                                                    data-id="{{ $booking->id }}" 
+                                                    data-toggle="toggle" 
+                                                    data-on="Cancelled" 
+                                                    data-off="Pending" 
+                                                    data-onstyle="info"
+                                                    data-offstyle="primary" 
+                                                    data-width="100"
+                                                    data-pending="true"
+                                                    onchange="confirmToggle(this)"
+                                                >
                                             @else
                                                 <span class="badge badge-{{ $color }} p-2 booking-status" style="color:white;">
                                                     {{ $booking->status }}     
@@ -240,5 +251,57 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+
+        // $(document).ready(function() {
+        //     $('#booking_status_toggle').change(function() {
+        //         console.log(this)
+        //         let status = "";
+        //         if(this.checked) {
+        //             status = "Approved";
+        //         }
+        //         else {
+        //             status = "Reject";
+        //         }
+        //         Lobibox.confirm({
+        //             msg: `Are you sure you want to ${status} this booking?`,
+        //             callback: function ($this, type, ev) {
+        //                 //Your code goes here
+        //             }
+        //         });    
+        //     });
+        // });
+
+        // function statusOnChange(data) {
+        //     //console.log(data.data('id'));
+        //     Lobibox.confirm({
+        //         msg: `Are you sure you want to ${status} this booking?`,
+        //         callback: function ($this, type, ev) {
+
+        //         }
+        //     });  
+        // }
+
+        function confirmToggle(checkbox) {
+    var confirmed = confirm("Are you sure you want to change the status?");
+    if (confirmed) {
+        if (checkbox.checked) {
+            checkbox.setAttribute("data-on", "Cancelled");
+            checkbox.setAttribute("data-off", "Pending");
+            checkbox.setAttribute("data-onstyle", "info");
+            checkbox.setAttribute("data-offstyle", "primary");
+        } else {
+            // If not checked, retain the original values
+            checkbox.setAttribute("data-on", "Cancelled");
+            checkbox.setAttribute("data-off", "Pending");
+            checkbox.setAttribute("data-onstyle", "info");
+            checkbox.setAttribute("data-offstyle", "primary");
+        }
+    } else {
+        // If not confirmed, revert the checkbox to its original state
+        checkbox.checked = !checkbox.checked;
+    }
+}
+
+
     </script>
 @endsection
