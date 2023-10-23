@@ -170,7 +170,7 @@
                                                     $color = "danger";
                                                 }
                                             ?>
-                                            @if($booking->status == 'Pending')
+                                            @if($booking->status == 'Pending' || $booking->status == 'Cancel')
                                                 {{-- <input type="hidden" name="booking_status" id="booking_status" value="Pending"> --}}
                                                 <input 
                                                     type="checkbox"  
@@ -182,7 +182,10 @@
                                                     data-offstyle="primary" 
                                                     data-width="100"
                                                     data-pending="true"
-                                                >
+                                                    onchange="confirmToggle(this)"
+                                                    @if($booking->status == 'Cancel') checked @endif
+                                                ><br>
+                                                <small style="font-size: 6pt"><i>(Toggle to change status)</i></small>
                                             @else
                                                 <span class="badge badge-{{ $color }} p-2 booking-status" style="color:white;">
                                                     {{ $booking->status }}     
@@ -251,40 +254,35 @@
             });
         @endif
 
-        // $(document).ready(function() {
-        //     $('#booking_status_toggle').change(function() {
-        //         console.log(this)
-        //         let status = "";
-        //         if(this.checked) {
-        //             status = "Approved";
-        //         }
-        //         else {
-        //             status = "Reject";
-        //         }
-        //         Lobibox.confirm({
-        //             msg: `Are you sure you want to ${status} this booking?`,
-        //             callback: function ($this, type, ev) {
-        //                 //Your code goes here
-        //             }
-        //         });    
-        //     });
-        // });
-
         function confirmToggle(data) {
-            const booking_id = data.data('id');
-            if(data.checked) {
-                status = "pending";
-            }
-            else {
-                status = "cancelled";
-            }
-            console.log(status)
-            // Lobibox.confirm({
-            //     msg: `Are you sure you want to ${status} this booking?`,
-            //     callback: function ($this, type, ev) {
-
-            //     }
-            // });  
+            const url = "{{ route('client.update.booking.status') }}";
+            const isChecked = data.checked;
+            const booking_status = isChecked ? 'Cancel' : 'Pending';
+            const booking_id = $(data).data('id');
+            const formData = new FormData();
+            formData.append('booking_id', booking_id);
+            formData.append('booking_status', booking_status);
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                success: function (result) {
+                    if(result) {
+                        Lobibox.notify('success', {
+                            msg: 'Successfully updated the booking status',
+                            img: $("#asset").val()+"/img/check.png"
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
         }
     </script>
 @endsection

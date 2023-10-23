@@ -16,9 +16,17 @@
                             ELSE CONCAT(TIMESTAMPDIFF(YEAR, notifications.created_at, NOW()), ' years ago')
                         END AS time_ago")
                     )
-                    ->where('notifications.booked_by',$user->id)->limit('5')
+                    ->where('notifications.booked_by',$user->id)
+                    ->where('notifications.notifier_id','!=',$user->id)
+                    ->where(function($query) {
+                        $query->where('bookings.status','=','Approved')
+                                ->orWhere('bookings.status','=','Rejected');
+                    })
                     ->whereDate('notifications.created_at', now())
+                    ->leftJoin('bookings','bookings.id','=','notifications.booking_id')
                     ->leftJoin('users','users.id','=','notifications.notifier_id')
+                    ->orderBy('notifications.id','desc')
+                    ->limit('5')
                     ->get();
     }
 ?>

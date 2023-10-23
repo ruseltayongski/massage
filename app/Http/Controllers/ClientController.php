@@ -8,6 +8,7 @@ use App\Models\Ratings;
 use App\Models\Bookings;
 use App\Models\Services;
 use App\Models\Testimonials;
+use App\Models\Notifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -145,6 +146,13 @@ class ClientController extends Controller
         $booking->booking_type = $request->booking_type;
         $booking->status = 'Pending';
         $booking->save();
+
+        $notification = new Notifications();
+        $notification->booking_id = $booking->id;
+        $notification->booked_by = $booking->client_id;
+        $notification->notifier_id = $user->id;                       
+        $notification->message = "A new booking is pending";
+        $notification->save();
 
         session()->flash('booking_save', true);
         return redirect()->route('client.booking.history');;
@@ -290,6 +298,26 @@ class ClientController extends Controller
 
         session()->flash('testimonial_save', true);
         return redirect()->back();
+    }
+
+    public function updateBookingStatus(Request $request) {
+        //return $request->all();
+        $user = Auth::user();
+        $booking = Bookings::find($request->booking_id);
+        $booking->status = $request->booking_status;
+        if($request->booking_status == 'Approved') {
+            $booking->approved_date = date('Y-m-d H:i:s');
+        }
+        $booking->save();
+
+        $notification = new Notifications();
+        $notification->booking_id = $booking->id;
+        $notification->booked_by = $booking->client_id;
+        $notification->notifier_id = $user->id;                       
+        $notification->message = $booking->status.' your booking';
+        $notification->save();
+
+        return true;
     }
 
 }

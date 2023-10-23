@@ -204,9 +204,16 @@
                                                     $color = "success";
                                                 } else if($booking->status == 'Rejected') {
                                                     $color = "danger";
+                                                } else if($booking->status == 'Cancel') {
+                                                    $color = "info";
                                                 }
                                             ?>
-                                            <span class="badge badge-{{ $color }} p-2 booking_status" onclick="updateBookingStatus('{{ $booking->id }}','{{ strtolower($booking->status) }}')">
+                                            <span class="badge badge-{{ $color }} p-2 booking_status" 
+                                                @if($booking->status != 'Cancel') 
+                                                    onclick="updateBookingStatus('{{ $booking->id }}','{{ strtolower($booking->status) }}')" 
+                                                @else  
+                                                    onclick="unableToUpdate()" 
+                                                @endif>
                                                 {{ $booking->status }}     
                                             </span>
                                         </td>
@@ -285,23 +292,23 @@
 @section('js')
 <script src="{{ asset('admin/js/bootstrap-toogle.js') }}"></script>
 <script>
-    $(document).ready(function() {
-        $('#booking_status_toggle').change(function() {
-            let status = "";
-            if(this.checked) {
-                status = "Approved";
-            }
-            else {
-                status = "Reject";
-            }
-            Lobibox.confirm({
-                msg: `Are you sure you want to ${status} this booking?`,
-                callback: function ($this, type, ev) {
-                    //Your code goes here
-                }
-            });    
-        });
-    });
+    // $(document).ready(function() {
+    //     $('#booking_status_toggle').change(function() {
+    //         let status = "";
+    //         if(this.checked) {
+    //             status = "Approved";
+    //         }
+    //         else {
+    //             status = "Reject";
+    //         }
+    //         Lobibox.confirm({
+    //             msg: `Are you sure you want to ${status} this booking?`,
+    //             callback: function ($this, type, ev) {
+    //                 //Your code goes here
+    //             }
+    //         });    
+    //     });
+    // });
 
     function updateBookingStatus(booking_id, status) {
         event.preventDefault();
@@ -314,6 +321,13 @@
 
     function closeModal() {
         $('#booking_status_modal').modal('toggle');
+    }
+
+    function unableToUpdate() {
+        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+        {
+            msg: "You cannot update the booking status if it has been cancelled."
+        });
     }
 </script>
 @endsection
