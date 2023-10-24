@@ -5,6 +5,31 @@
             justify-content: center !important;
             align-items: center;
         }
+        h1 {
+        text-align: center;
+        margin: 20px 0;
+        color: #ffffff;
+        }
+
+        form {
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-check {
+            margin-top: 10px;
+        }
+
+        .policy {
+            color: #ffffff;
+        }
     </style>
 @endsection
 
@@ -34,7 +59,7 @@
                 <div class="row justify-content-center bg-appointment mx-0">
                     <div class="col-lg-8 py-5">
                         <div class="p-5 my-5" style="background: rgba(33, 30, 28, 0.7);">
-                            <h1 class="text-white text-center mb-4">Make Booking</h1>
+                           {{--  <h1 class="text-white text-center mb-4">Make Booking</h1> --}}
                             <form action="{{ route('client.booking.save') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="spa_id" value="{{ $spa_id }}">
@@ -85,9 +110,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="make-booking">
-                                        <button class="btn btn-primary btn-block" type="submit" style="height: 47px;">Make Booking</button>
-                                    </div>
+                                <h1 class="text-center">Terms of Booking</h1>                 
+                                <div class="form-group">
+                                    <textarea class="w-100" cols="30" rows="10" readonly>
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam ex fugit officiis officia doloribus alias eligendi cumque fuga, iure quasi assumenda distinctio, quae animi, molestiae vel. Quis itaque quaerat delectus.
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam ex fugit officiis officia doloribus alias eligendi cumque fuga, iure quasi assumenda distinctio, quae animi, molestiae vel. Quis itaque quaerat delectus.
+                                    </textarea>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="trigger_booking" name="trigger_booking">
+                                    <label class="form-check-label policy" for="trigger_booking">I have read and accept the terms of contract</label>
+                                </div>  
+                                <div class="make-booking enable_booking">
+                                    <button class="btn btn-primary btn-block" type="submit" style="height: 47px;" disabled>Make Booking</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -177,6 +213,17 @@
         $('#payment_picture').change(function () {
             var fileName = $(this).val().split('\\').pop();
             $('#payment_filename').val(fileName);
+        });
+
+        $('#trigger_booking').change(function() {
+            var isChecked = $('input[name="trigger_booking"]:checked').val();
+
+            if(isChecked) {
+                console.log("rodfil");
+                $('.enable_booking button').prop('disabled', false);
+            } else {
+                $('.enable_booking button').prop('disabled', true);
+            }
         });
     });
 </script>

@@ -116,6 +116,11 @@
             color: white;
             background-color: #079ad9;
         }
+        .radio-tile-group .input-container .radio-button:checked + .radio-tile .radio-tile-label-complete {
+            color: white;
+            background-color: #079ad9;
+        }
+
     </style>
 @endsection
 @extends('layouts.admin.app_admin')
@@ -202,6 +207,10 @@
                                                     $color = "warning";
                                                 } else if($booking->status == 'Approved') {
                                                     $color = "success";
+                                                }
+                                                else if($booking->status == 'Completed') {
+                                                    $color = "success";
+                                                    
                                                 } else if($booking->status == 'Rejected') {
                                                     $color = "danger";
                                                 } else if($booking->status == 'Cancel') {
