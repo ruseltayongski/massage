@@ -17,12 +17,13 @@
                         END AS time_ago")
                     )
                     ->where('bookings.therapist_id',$user->id)
-                    ->where('bookings.status','!=','Approved')
-                    ->where('bookings.status','!=','Rejected')
+                    ->where('notifications.message','not like','%pproved%')
+                    ->where('notifications.message','not like','%rejected%')
+                    ->where('notifications.notifier_id','!=',$user->id)
                     ->whereDate('notifications.created_at', now())
                     ->leftJoin('bookings','bookings.id','=','notifications.booking_id')
                     ->leftJoin('users','users.id','=','notifications.notifier_id')
-                    ->orderBy('bookings.id','desc')
+                    ->orderBy('notifications.id','desc')
                     ->limit('5')
                     ->get();
     }

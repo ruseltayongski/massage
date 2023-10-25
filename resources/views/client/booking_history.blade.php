@@ -164,7 +164,7 @@
                                                 $color = "";
                                                 if($booking->status == 'Pending') {
                                                     $color = "warning";
-                                                } else if($booking->status == 'Approved') {
+                                                } else if($booking->status == 'Approved' || $booking->status == 'Completed') {
                                                     $color = "success";
                                                 } else if($booking->status == 'Rejected') {
                                                     $color = "danger";

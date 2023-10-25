@@ -19,8 +19,10 @@
                     ->where('notifications.booked_by',$user->id)
                     ->where('notifications.notifier_id','!=',$user->id)
                     ->where(function($query) {
-                        $query->where('bookings.status','=','Approved')
-                                ->orWhere('bookings.status','=','Rejected');
+                        $query->where('notifications.message','like','%approved%');
+                        $query->orWhere('notifications.message','like','%rejected%');
+                        $query->orWhere('notifications.message','like','%completed%');
+                        $query->orWhere('notifications.message','like','%pending%');
                     })
                     ->whereDate('notifications.created_at', now())
                     ->leftJoin('bookings','bookings.id','=','notifications.booking_id')
