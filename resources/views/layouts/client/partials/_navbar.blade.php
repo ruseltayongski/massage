@@ -16,6 +16,7 @@
                             ELSE CONCAT(TIMESTAMPDIFF(YEAR, notifications.created_at, NOW()), ' years ago')
                         END AS time_ago")
                     )
+                    ->whereNotNull('notifications.booking_id')
                     ->where('notifications.booked_by',$user->id)
                     ->where('notifications.notifier_id','!=',$user->id)
                     ->where(function($query) {

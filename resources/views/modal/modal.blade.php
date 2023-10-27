@@ -224,19 +224,19 @@
 
         function updateMessage() {
             var monthlyMessage = '';
-        var yearlyMessage = '';
+            var yearlyMessage = '';
 
-        if (monthlyRadio.checked) {
-            monthlyMessage = '-> Only 5 SPA available for monthly contracts.';
-        } else if (yearlyRadio.checked) {
-            yearlyMessage = '-> Special discount for yearly contracts and can create upto 20 SPA!';
-        }
+            if (monthlyRadio.checked) {
+                monthlyMessage = '-> Only 5 SPA available for monthly contracts.';
+            } else if (yearlyRadio.checked) {
+                yearlyMessage = '-> Special discount for yearly contracts and can create upto 20 SPA!';
+            }
 
-        monthlyMessageContainer.textContent = monthlyMessage;
-        monthlyMessageContainer.classList.toggle('visible', monthlyRadio.checked);
+            monthlyMessageContainer.textContent = monthlyMessage;
+            monthlyMessageContainer.classList.toggle('visible', monthlyRadio.checked);
 
-        yearlyMessageContainer.textContent = yearlyMessage;
-        yearlyMessageContainer.classList.toggle('visible', yearlyRadio.checked);
+            yearlyMessageContainer.textContent = yearlyMessage;
+            yearlyMessageContainer.classList.toggle('visible', yearlyRadio.checked);
         }
 
         monthlyContainer.appendChild(monthlyMessageContainer);

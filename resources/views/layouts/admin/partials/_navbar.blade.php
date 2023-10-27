@@ -3,7 +3,8 @@
     use Illuminate\Support\Facades\DB;
     $notification = [];
     if(isset($user->id)) {
-        $notifications = Notifications::
+        if($user->roles == 'ADMIN') {
+            $notifications = Notifications::
                     select(
                         DB::raw("concat(users.fname,' ',users.lname,' ',LOWER(notifications.message)) as message"),
                         'users.picture as notifier_picture',
@@ -16,6 +17,58 @@
                             ELSE CONCAT(TIMESTAMPDIFF(YEAR, notifications.created_at, NOW()), ' years ago')
                         END AS time_ago")
                     )
+                    ->where('notifications.notifier_id','!=',$user->id)
+                    ->whereNull('notifications.booking_id')
+                    ->whereDate('notifications.created_at', now())
+                    ->where('notifications.message','not like','%pending%')
+                    ->where('notifications.message','not like','%pproved%')
+                    ->where('notifications.message','not like','%rejected%')
+                    ->leftJoin('bookings','bookings.id','=','notifications.booking_id')
+                    ->leftJoin('users','users.id','=','notifications.notifier_id')
+                    ->orderBy('notifications.id','desc')
+                    ->limit('5')
+                    ->get();
+        } 
+        else if($user->roles == 'OWNER') {
+            $notifications = Notifications::
+                    select(
+                        DB::raw("concat(users.fname,' ',users.lname,' ',LOWER(notifications.message)) as message"),
+                        'users.picture as notifier_picture',
+                        DB::raw("CASE
+                            WHEN TIMESTAMPDIFF(SECOND, notifications.created_at, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(SECOND, notifications.created_at, NOW()), ' seconds ago')
+                            WHEN TIMESTAMPDIFF(MINUTE, notifications.created_at, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(MINUTE, notifications.created_at, NOW()), ' minutes ago')
+                            WHEN TIMESTAMPDIFF(HOUR, notifications.created_at, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, notifications.created_at, NOW()), ' hours ago')
+                            WHEN TIMESTAMPDIFF(DAY, notifications.created_at, NOW()) < 7 THEN CONCAT(TIMESTAMPDIFF(DAY, notifications.created_at, NOW()), ' days ago')
+                            WHEN TIMESTAMPDIFF(MONTH, notifications.created_at, NOW()) < 12 THEN CONCAT(TIMESTAMPDIFF(MONTH, notifications.created_at, NOW()), ' months ago')
+                            ELSE CONCAT(TIMESTAMPDIFF(YEAR, notifications.created_at, NOW()), ' years ago')
+                        END AS time_ago")
+                    )
+                    ->where('notifications.contract_owner',$user->id)
+                    ->whereNull('notifications.booking_id')
+                    ->where('notifications.message','like','%contract%')
+                    ->where('notifications.message','not like','%signed%')
+                    ->whereDate('notifications.created_at', now())
+                    ->leftJoin('bookings','bookings.id','=','notifications.booking_id')
+                    ->leftJoin('users','users.id','=','notifications.notifier_id')
+                    ->orderBy('notifications.id','desc')
+                    ->limit('5')
+                    ->get();
+        }
+        else {
+            $notifications = Notifications::
+                    select(
+                        DB::raw("concat(users.fname,' ',users.lname,' ',LOWER(notifications.message)) as message"),
+                        'users.picture as notifier_picture',
+                        DB::raw("CASE
+                            WHEN TIMESTAMPDIFF(SECOND, notifications.created_at, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(SECOND, notifications.created_at, NOW()), ' seconds ago')
+                            WHEN TIMESTAMPDIFF(MINUTE, notifications.created_at, NOW()) < 60 THEN CONCAT(TIMESTAMPDIFF(MINUTE, notifications.created_at, NOW()), ' minutes ago')
+                            WHEN TIMESTAMPDIFF(HOUR, notifications.created_at, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, notifications.created_at, NOW()), ' hours ago')
+                            WHEN TIMESTAMPDIFF(DAY, notifications.created_at, NOW()) < 7 THEN CONCAT(TIMESTAMPDIFF(DAY, notifications.created_at, NOW()), ' days ago')
+                            WHEN TIMESTAMPDIFF(MONTH, notifications.created_at, NOW()) < 12 THEN CONCAT(TIMESTAMPDIFF(MONTH, notifications.created_at, NOW()), ' months ago')
+                            ELSE CONCAT(TIMESTAMPDIFF(YEAR, notifications.created_at, NOW()), ' years ago')
+                        END AS time_ago")
+                    )
+                    ->whereNotNull('notifications.booking_id')
                     ->where('bookings.therapist_id',$user->id)
                     ->where('notifications.message','not like','%pproved%')
                     ->where('notifications.message','not like','%rejected%')
@@ -26,6 +79,7 @@
                     ->orderBy('notifications.id','desc')
                     ->limit('5')
                     ->get();
+        }
     }
 ?>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -71,7 +125,13 @@
                         @foreach($notifications as $notification)
                             <a class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
-                                    <img src="{{ asset('fileupload/client/profile').'/'.$notification->notifier_picture }}" alt="image" class="profile-pic">
+                                    @if($user->roles == 'ADMIN')
+                                        <img src="{{ asset('fileupload/owner/profile').'/'.$notification->notifier_picture }}" alt="image" class="profile-pic">
+                                    @elseif($user->roles == 'OWNER')
+                                        <img src="{{ asset('fileupload/admin/profile').'/'.$notification->notifier_picture }}" alt="image" class="profile-pic">
+                                    @else
+                                        <img src="{{ asset('fileupload/client/profile').'/'.$notification->notifier_picture }}" alt="image" class="profile-pic">
+                                    @endif
                                 </div>
                                 <div class="preview-item-content flex-grow">
                                     <h6 class="preview-subject ellipsis font-weight-normal">{{ $notification->time_ago }}

@@ -8,6 +8,7 @@ use App\Models\Spa;
 use App\Models\User;
 use App\Models\Bookings;
 use App\Models\Contracts;
+use App\Models\Notifications;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -136,8 +137,14 @@ class OwnerController extends Controller
         $user->contract_end = $end_date;
         $user->save();
 
-        session()->flash('contract_save', true);
         
+        $notification = new Notifications();
+        $notification->contract_owner = $user->id;
+        $notification->notifier_id = $user->id;                       
+        $notification->message = ' was signed a contract';
+        $notification->save();
+
+        session()->flash('contract_save', true);
         return true;
         #return response()->json(['message' => 'Signature uploaded and made transparent.']);
     }
