@@ -17,6 +17,28 @@
         opacity: 1;
         color: red;
     }
+    .make-booking {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center;
+    }
+    h1 {
+        text-align: center;
+        margin: 20px 0;
+        color: black;
+    }
+
+    textarea {
+        width: 100%;
+        height: 150px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .policy {
+        color: black;
+    }
 </style>
 {{-- <div class="modal fade mt-3" id="sign_contract" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -103,7 +125,7 @@
                     
                 </div>
             
-                <div class="form-group">
+                <div class="form-group amount-paid">
                     <label for="amount_paid">Amount Paid</label>
                     <input type="number" step="0.01" class="form-control" id="amount_paid" name="amount_paid" required>
                 </div>
@@ -117,10 +139,21 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-primary mt-5" id="clearSignature">Clear Signature</button>
                 </div>
+                <h1 class="text-center">Terms of Booking</h1>                 
+                <div class="form-group">
+                    <textarea class="w-100" cols="30" rows="10" readonly>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam ex fugit officiis officia doloribus alias eligendi cumque fuga, iure quasi assumenda distinctio, quae animi, molestiae vel. Quis itaque quaerat delectus.
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam ex fugit officiis officia doloribus alias eligendi cumque fuga, iure quasi assumenda distinctio, quae animi, molestiae vel. Quis itaque quaerat delectus.
+                    </textarea>
+                </div>
+                <div class="">
+                    <input type="checkbox" class="{{-- form-check-input --}}" id="trigger_booking" name="trigger_booking">
+                    <label class="form-check-label policy" for="trigger_booking">I have read and accept the terms of contract</label>
+                </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer enable_contract">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create Contract</button>
+                <button type="submit" class="btn btn-primary" disabled>Create Contract</button>
             </div>
         </form>
     </div>
@@ -221,6 +254,7 @@
         monthlyMessageContainer.id = 'monthlyMessageContainer';
         var yearlyMessageContainer = document.createElement('div');
         yearlyMessageContainer.id = 'yearlyMessageContainer';
+       
 
         function updateMessage() {
             var monthlyMessage = '';
@@ -248,22 +282,56 @@
         updateMessage();
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+    var triggerBooking = document.getElementById('trigger_booking');
+
+    if (triggerBooking) {
+            triggerBooking.addEventListener('change', function() {
+                var isChecked = document.querySelector('input[name="trigger_booking"]:checked');
+
+                if (isChecked) {
+                    console.log("rodfil");
+                    var buttons = document.querySelectorAll('.enable_contract button');
+                    buttons.forEach(function(button) {
+                        button.disabled = false;
+                    });
+                } else {
+                    var buttons = document.querySelectorAll('.enable_contract button');
+                    buttons.forEach(function(button) {
+                        button.disabled = true;
+                    });
+                }
+            });
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
     var monthlyRadio = document.querySelector('input[name="contract_type"][value="monthly"]');
     var yearlyRadio = document.querySelector('input[name="contract_type"][value="yearly"]');
     var amountPaidInput = document.getElementById('amount_paid');
+    var amountPaidContainer = document.querySelector('.amount-paid'); 
+    var gcashContainer = yearlyRadio.closest('.amount-paid');
+    var gcashMessageContainer = document.createElement('div');
+    gcashMessageContainer.id = 'gcashMessageContainer';
 
     function updateAmount() {
-        var monthlyPrice = 100; 
-        var yearlyPrice = 1000;
+        var monthlyPrice = 1000; 
+        var yearlyPrice = 2500;
+        var gcashMessage = "";
 
         if (monthlyRadio.checked) {
             amountPaidInput.value = monthlyPrice;
+            gcashMessage = "For Gcash Payment, kindly send to this number 09457163995.";
         } else if (yearlyRadio.checked) {
             amountPaidInput.value = yearlyPrice;
+            gcashMessage = "For Gcash Payment, kindly send to this number 09457163995.";
         }
+
+        gcashMessageContainer.textContent = gcashMessage;
+        gcashMessageContainer.style.marginTop = '10px';
     }
 
+    amountPaidContainer.appendChild(gcashMessageContainer);
     monthlyRadio.addEventListener('change', updateAmount);
     yearlyRadio.addEventListener('change', updateAmount);
 

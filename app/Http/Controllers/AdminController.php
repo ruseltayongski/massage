@@ -31,8 +31,7 @@ class AdminController extends Controller
                             'users.status',
                             'users.contract_type'
                         )
-                        ->withCount('spas')
-                        ->withCount('therapist')
+                        ->withCount('spas', 'therapist')
                         ->where('roles', 'OWNER')
                         ->leftJoin('contracts', 'contracts.owner_id', '=', 'users.id')
                         ->paginate(15);

@@ -7,18 +7,18 @@
     <li class="nav-item">
       <div class="d-flex sidebar-profile">
         <div class="sidebar-profile-image">
-          @if($firstRoute === 'owner')
-          @if(empty($user->picture))
-            <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-          @else
-            <img src="{{ asset('/fileupload/owner/profile').'/'.$user->picture }}" alt="image"/>
-          @endif
-        @elseif($firstRoute === 'admin')
-          @if(empty($user->picture))
-            <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-          @else
-            <img src="{{ asset('/fileupload/admin/profile').'/'.$user->picture }}" alt="image"/>
-          @endif
+         @if($firstRoute === 'owner')
+            @if(empty($user->picture))
+              <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+            @else
+              <img src="{{ asset('/fileupload/owner/profile').'/'.$user->picture }}" alt="image"/>
+            @endif
+          @elseif($firstRoute === 'admin')
+            @if(empty($user->picture))
+              <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+            @else
+              <img src="{{ asset('/fileupload/admin/profile').'/'.$user->picture }}" alt="image"/>
+        @endif
         @else
           @if(empty($user->picture))
             <img class="img-account-profile rounded-circle mb-2 w-75" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
@@ -64,22 +64,23 @@
         <span class="menu-title">Manage Booking</span>
       </a>
     </li>
-    @else
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
-          <i class="typcn typcn-device-desktop menu-icon"></i>
-          <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
-        </a>
-      </li>
-    @endif
-    @if($user->roles == 'ADMIN')
+    @elseif($user->roles == 'ADMIN')
     <li class="nav-item">
       <a class="nav-link" href="{{ route($firstRoute.'/owner') }}">
         <i class="typcn typcn-user-add-outline menu-icon"></i>
         <span class="menu-title">Spa Owner</span>
       </a>
     </li>
+    @else
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
+          <i class="typcn typcn-device-desktop menu-icon"></i>
+          <span class="menu-title">Dashboard {{-- <span class="badge badge-primary ml-3">New</span> --}}</span>
+        </a>
+      </li>
     @endif
+  
+   
     @if($user->roles == 'OWNER')
     <li class="nav-item">
       <a class="nav-link" href="{{ route($firstRoute.'.contract') }}">

@@ -66,6 +66,9 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'owner_id')->where('roles', 'THERAPIST');
     }
 
-    
+    public function services() 
+    {
+        return $this->hasMany(Services::class, 'owner_id');
+    }
 
 }

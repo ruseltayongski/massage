@@ -25,8 +25,25 @@ class OwnerController extends Controller
 
     public function dashboard() {
         $user = Auth::user();
+        $completedCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+            $query->where('users.owner_id', $user->id);
+        })->where('status', 'completed')->count();
+        $cancelCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+            $query->where('users.owner_id', $user->id);
+        })->where('status', 'cancel')->count();
+
+     
+        $list = User::where('roles', 'OWNER')
+                     ->where('id', $user->id)
+                     ->withCount('spas', 'services', 'therapist')
+                     ->get();
+
+       /*  dd($list->toJson()); */
         return view('owner.dashboard', [
-            "user" => $user
+            "user" => $user,
+            "list" => $list,
+            "completedCount" => $completedCount,
+            "cancelCount" => $cancelCount
         ]);
     }
 
