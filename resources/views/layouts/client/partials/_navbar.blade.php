@@ -156,7 +156,8 @@
         </div>
         @if(Auth::check())
             <div class="nav-item dropdown ml-auto">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" style="font-size: 9pt;">{{ $user->fname.' '.$user->lname }}</a>
+                {{-- <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" style="font-size: 9pt;">{{ $user->fname.' '.$user->lname }}</a> --}}
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >{{ $user->fname.' '.$user->lname }}</a>
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="{{ route('client.profile') }}" class="dropdown-item">Profile</a>
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

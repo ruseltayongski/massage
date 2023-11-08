@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Session;
 
 class ClientController extends Controller
 {
@@ -69,9 +70,13 @@ class ClientController extends Controller
                 $user->picture = $userFileName;
  
             }
-            session()->flash('profile_update', true);
             $user->save(); 
-        }  
+            session()->flash('profile_update', true);
+            if($user->is_deleted) {
+                Session::flush();
+                Auth::logout();
+            }  
+        }
         return redirect()->back();
     }
     public function services(Request $request) {
