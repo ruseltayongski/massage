@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 
 class LoginController extends Controller
 {
@@ -21,6 +23,26 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    // protected function credentials(Request $request)
+    // {
+    //     $credentials = $request->only($this->username(), 'password');
+    //     $credentials['is_deleted'] = 0; // Check if the user is not deleted
+
+    //     return $credentials;
+    // }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->is_deleted == 1) {
+            auth()->logout(); // Log the user out
+            throw ValidationException::withMessages([
+                $this->username() => 'Your account has been deactivated.',
+            ]);
+        }
+
+        return redirect()->intended($this->redirectPath());
+    }
 
     /**
      * Where to redirect users after login.

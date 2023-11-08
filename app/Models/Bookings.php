@@ -14,6 +14,12 @@ class Bookings extends Model
 
     public function ownerWithSpecificTherapist() 
     {
-        return $this->belongsTo(User::class, 'therapist_id', 'id',);
+        return $this->belongsTo(User::class, 'therapist_id', 'id');
     }
+
+
+   /*  public function bookings() 
+    {
+        return $this->belongsTo(User::class, 'therapist_id', 'id');
+    } */
 }

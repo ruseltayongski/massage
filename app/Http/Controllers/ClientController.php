@@ -50,6 +50,7 @@ class ClientController extends Controller
             $user->address = $request->input('address');
             $user->mobile = $request->input('mobile');
             $user->email = $request->input('email');
+            $user->is_deleted = $request->input('is_deleted');
             
             if($request->filled('password')) {
                 $user->password = Hash::make($request->input('password'));

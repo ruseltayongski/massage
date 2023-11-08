@@ -1,4 +1,5 @@
 @section('css')
+    <link href="{{ asset('admin/css/bootstrap-toogle.css?v=').date('His') }}" rel="stylesheet">
     <style>
         .button-holder {
             display: flex;
@@ -41,6 +42,7 @@
                                 <th>Email</th>
                                 <th>Address</th>
                                 <th>Mobile</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,6 +62,22 @@
                                     </td>
                                     <td>
                                         {{ $therapist->mobile }}
+                                    </td>
+                                    <td>
+                                        <input 
+                                            type="checkbox"  
+                                            data-id="{{ $therapist->id }}"
+                                            data-toggle="toggle" 
+                                            data-on="Deactivate" 
+                                            data-off="Active" 
+                                            data-onstyle="primary"
+                                            data-offstyle="info"
+                                            data-width="100"
+                                            data-pending="true"
+                                            onchange="confirmToggle(this)"
+                                            @if($therapist->is_deleted) checked @endif
+                                        ><br>
+                                        <small style="font-size: 6pt"><i>(Toggle to change status)</i></small>
                                     </td>
                                 </tr>
                             @endforeach
@@ -173,89 +191,121 @@
 
 @endsection
 @section('js')
+<script src="{{ asset('admin/js/bootstrap-toogle.js') }}"></script>
 <script>
-(function() {
-    'use strict';
+    (function() {
+        'use strict';
 
-    function updatePasswordMatch() {
-        var password = document.getElementById('password').value;
-        var confirmPassword = document.getElementById('confirm_password').value;
-        var msgElement = document.getElementById('msg');
+        function updatePasswordMatch() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            var msgElement = document.getElementById('msg');
 
-        if (password !== confirmPassword) {
-            msgElement.innerHTML = 'Password do not match';
-            msgElement.style.color = 'red';
-        } else {
-            msgElement.innerHTML = 'Password matched';
-            msgElement.style.color = 'green';
+            if (password !== confirmPassword) {
+                msgElement.innerHTML = 'Password do not match';
+                msgElement.style.color = 'red';
+            } else {
+                msgElement.innerHTML = 'Password matched';
+                msgElement.style.color = 'green';
+            }
         }
-    }
 
-    window.addEventListener('load', function() {
-        var forms = document.getElementsByClassName('needs-validation');
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
 
-        // Loop over forms and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
+            // Loop over forms and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+
+                // Add keyup event listener to confirm_password field
+                var confirmPasswordField = form.querySelector('#confirm_password');
+                confirmPasswordField.addEventListener('keyup', updatePasswordMatch);
+            });
+        }, false);
+    })();
+
+
+    /* $(document).ready(function () {
+            // Submit form and prevent modal closing on validation failure
+            $('form.needs-validation').submit(function (event) {
+                if (!this.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
-                form.classList.add('was-validated');
-            }, false);
+                this.classList.add('was-validated');
+            });
 
-            // Add keyup event listener to confirm_password field
-            var confirmPasswordField = form.querySelector('#confirm_password');
-            confirmPasswordField.addEventListener('keyup', updatePasswordMatch);
-        });
-    }, false);
-})();
-
-
- /* $(document).ready(function () {
-        // Submit form and prevent modal closing on validation failure
-        $('form.needs-validation').submit(function (event) {
-            if (!this.checkValidity()) {
+            // Reset validation on modal close
+            $('#exampleModal').on('hidden.bs.modal', function () {
+                $('form.needs-validation').removeClass('was-validated');
+            });
+        }); */
+    
+    /*  (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        console.log("forms", forms);
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
                 event.preventDefault();
                 event.stopPropagation();
             }
-            this.classList.add('was-validated');
+            form.classList.add('was-validated');
+            }, false);
         });
+        }, false);
+    })(); */
 
-        // Reset validation on modal close
-        $('#exampleModal').on('hidden.bs.modal', function () {
-            $('form.needs-validation').removeClass('was-validated');
+    /*  $(document).ready(function(){
+            $("#ConfirmPassword").keyup(function(){
+                if ($("#Password").val() != $("#ConfirmPassword").val()) {
+                    $("#msg").html("Password do not match").css("color","red");
+                }else{
+                    $("#msg").html("Password matched").css("color","green");
+                }
         });
     }); */
-   
-   /*  (function() {
-    'use strict';
-    window.addEventListener('load', function() {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
-      console.log("forms", forms);
-      // Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-          if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      });
-    }, false);
-  })(); */
 
-/*  $(document).ready(function(){
-        $("#ConfirmPassword").keyup(function(){
-             if ($("#Password").val() != $("#ConfirmPassword").val()) {
-                 $("#msg").html("Password do not match").css("color","red");
-             }else{
-                 $("#msg").html("Password matched").css("color","green");
+    function confirmToggle(data) {
+        const url = "{{ route('user.update.status') }}";
+        const isChecked = data.checked;
+        const is_deleted = isChecked ? 1 : 0;
+        const id = $(data).data('id');
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('is_deleted', is_deleted);
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function (result) {
+                if(result) {
+                    Lobibox.notify('success', {
+                        msg: 'Successfully updated user',
+                        img: $("#asset").val()+"/img/check.png"
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
-      });
-}); */
+        });
+    }
 </script>
 @endsection
 

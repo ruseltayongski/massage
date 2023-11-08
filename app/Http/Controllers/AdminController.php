@@ -29,10 +29,10 @@ class AdminController extends Controller
                             'users.mobile',
                             'users.picture',
                             'users.status',
-                            'users.contract_type'
+                            'users.contract_type',
+                            'users.is_deleted'
                         )
-                        ->withCount('spas')
-                        ->withCount('therapist')
+                        ->withCount('spas', 'therapist')
                         ->where('roles', 'OWNER')
                         ->leftJoin('contracts', 'contracts.owner_id', '=', 'users.id')
                         ->paginate(15);

@@ -1,4 +1,5 @@
 @section('css')
+    <link href="{{ asset('admin/css/bootstrap-toogle.css?v=').date('His') }}" rel="stylesheet">
     <style>
         .booking_status {
             cursor: pointer !important;
@@ -199,6 +200,7 @@
                             <th>Contract</th>
                             <th>Payment Proof</th>
                             <th>Status</th>
+                            <th>Account</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -228,12 +230,11 @@
                                 <td>
                                     {{ ucfirst($user->contract_type) }}
                                 </td>
-                              
-                                    @if(empty($user->payment_proof))
+                                @if(empty($user->payment_proof))
                                     <td>
-                                       <span>None</span>
+                                        <span>None</span>
                                     </td>
-                                    @else
+                                @else
                                     <td class="py-1">
                                         <img 
                                             id="myImg"
@@ -243,8 +244,7 @@
                                             alt="image"
                                         />
                                     </td>
-                                    @endif
-                                
+                                @endif
                                 <td>
                                     <?php
                                         $color = "";
@@ -269,6 +269,22 @@
                                             {{ $user->status }}     
                                         </span>
                                     <?php endif; ?>
+                                </td>
+                                <td>
+                                    <input 
+                                        type="checkbox"  
+                                        data-id="{{ $user->id }}"
+                                        data-toggle="toggle" 
+                                        data-on="Deactivate" 
+                                        data-off="Active" 
+                                        data-onstyle="primary"
+                                        data-offstyle="info"
+                                        data-width="100"
+                                        data-pending="true"
+                                        onchange="confirmToggle(this)"
+                                        @if($user->is_deleted) checked @endif
+                                    ><br>
+                                    <small style="font-size: 6pt"><i>(Toggle to change status)</i></small>
                                 </td>
                             </tr>
                         @endforeach
@@ -401,5 +417,35 @@
     }
 
    
+    function confirmToggle(data) {
+        const url = "{{ route('user.update.status') }}";
+        const isChecked = data.checked;
+        const is_deleted = isChecked ? 1 : 0;
+        const id = $(data).data('id');
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('is_deleted', is_deleted);
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function (result) {
+                if(result) {
+                    Lobibox.notify('success', {
+                        msg: 'Successfully updated user',
+                        img: $("#asset").val()+"/img/check.png"
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
 </script>
 @endsection

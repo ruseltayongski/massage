@@ -13,6 +13,7 @@
         cursor: not-allowed;
     }
 </style>
+<link href="{{ asset('admin/css/bootstrap-toogle.css?v=').date('His') }}" rel="stylesheet">
 @endsection
 
 @extends('layouts.client.app_client')
@@ -71,44 +72,58 @@
                                         
                                       
                                         <div class="card-body">
-                                                <div class="row gx-3 mb-3">
-                                                    <div class="col-md-6">
-                                                        <label class="small mb-1" for="inputFirstName">First name</label>
-                                                        <input class="form-control disabled" id="fname" name="fname" type="text" placeholder="Enter your first name" value="{{ $userProfile->fname }}">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="small mb-1" for="inputLastName">Last name</label>
-                                                        <input class="form-control disabled" id="lname" name="lname" type="text" placeholder="Enter your last name" value="{{ $userProfile->lname }}">
-                                                    </div>
+                                            <div class="row gx-3 mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputFirstName">First name</label>
+                                                    <input class="form-control disabled" id="fname" name="fname" type="text" placeholder="Enter your first name" value="{{ $userProfile->fname }}">
                                                 </div>
-                                                <div class="row gx-3 mb-3">
-                                                    <div class="col-md-6">
-                                                        <label class="small mb-1" for="inputOrgName">Phone Number</label>
-                                                        <input class="form-control disabled" id="mobile" name="mobile" type="text" placeholder="Enter your phone number"value="{{ $userProfile->mobile }}">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="small mb-1" for="inputLocation">Address</label>
-                                                        <input class="form-control disabled" id="address" name="address" type="text" placeholder="Enter your address" value="{{ $userProfile->address }}">
-                                                    </div>
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputLastName">Last name</label>
+                                                    <input class="form-control disabled" id="lname" name="lname" type="text" placeholder="Enter your last name" value="{{ $userProfile->lname }}">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                                                    <input class="form-control disabled" id="email" name="email" type="email" placeholder="Enter your email address" value="{{ $userProfile->email }}">
+                                            </div>
+                                            <div class="row gx-3 mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputOrgName">Phone Number</label>
+                                                    <input class="form-control disabled" id="mobile" name="mobile" type="text" placeholder="Enter your phone number"value="{{ $userProfile->mobile }}">
                                                 </div>
-                                                <div class="row gx-3 mb-3">
-                                                    <!-- Form Group (phone number)-->
-                                                    <div class="col-md-6">
-                                                        <label class="small mb-1" for="inputPhone">Password</label>
-                                                        <input class="form-control disabled" id="password" name="password" type="password" placeholder="Please enter a password">
-                                                    </div>
-                                                    <!-- Form Group (birthday)-->
-                                                    <div class="col-md-6">
-                                                        <label class="small mb-1" for="inputBirthday">Confirm Password</label>
-                                                        <input class="form-control disabled" id="confirm_password" name="confirm_password" placeholder="Confirm password" type="password">
-                                                        <div id="msg"></div>
-                                                    </div>
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputLocation">Address</label>
+                                                    <input class="form-control disabled" id="address" name="address" type="text" placeholder="Enter your address" value="{{ $userProfile->address }}">
                                                 </div>
-                                                <button class="btn btn-primary disable" type="submit">Save changes</button>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                                                <input class="form-control disabled" id="email" name="email" type="email" placeholder="Enter your email address" value="{{ $userProfile->email }}">
+                                            </div>
+                                            <div class="row gx-3 mb-3">
+                                                <!-- Form Group (phone number)-->
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputPhone">Password</label>
+                                                    <input class="form-control disabled" id="password" name="password" type="password" placeholder="Please enter a password">
+                                                </div>
+                                                <!-- Form Group (birthday)-->
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputBirthday">Confirm Password</label>
+                                                    <input class="form-control disabled" id="confirm_password" name="confirm_password" placeholder="Confirm password" type="password">
+                                                    <div id="msg"></div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="is_deleted" value="{{ Auth::user()->is_deleted }}" id="is_deleted">
+                                            <input 
+                                                type="checkbox"  
+                                                data-id="{{ Auth::user()->id }}"
+                                                data-toggle="toggle" 
+                                                data-on="Deactivate" 
+                                                data-off="Active" 
+                                                data-onstyle="primary"
+                                                data-offstyle="info"
+                                                data-width="100"
+                                                data-pending="true"
+                                                onchange="confirmToggle(this)"
+                                                @if(Auth::user()->is_deleted) checked @endif
+                                            >&nbsp;&nbsp;
+                                            <button class="btn btn-primary disable" type="submit">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +138,7 @@
 @endsection
 
 @section('js')
-
+<script src="{{ asset('admin/js/bootstrap-toogle.js?v=').date('His') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Disable form fields initially
@@ -198,6 +213,12 @@
       });
     }, false);
    })();
+
+   function confirmToggle(data) {
+        const url = "{{ route('client.update.booking.status') }}";
+        const isChecked = data.checked;
+        isChecked ? $("#is_deleted").val(1) : $("#is_deleted").val(0);
+    }
 
 </script>
 
