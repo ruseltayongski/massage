@@ -342,26 +342,7 @@ class OwnerController extends Controller
 
     }
 
-    public function generatePDF(Request $request) {
-       /*  dd($request->all()); */
-        $user = Auth::user();
-         if($request->has('id')) {
-             $bookingId = $request->input('id');
- 
-             $contracts = Contracts::find($bookingId)->first();
-
-             $data = [
-                 'contracts' => $contracts,
-                 'user' => $user,
-             ]; 
-         /*     dd(response()->json($data)); */    
-             $pdf = PDF::loadView('owner.receipt', $data);
-             return $pdf->download('receipt.pdf');
-         }   
-     }
-
-
-     public function transactionsView() {
+    public function transactionsView() {
         $user = Auth::user();
     
         $transactions = Bookings::select(

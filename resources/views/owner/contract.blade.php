@@ -138,7 +138,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('generate-pdf', ['id' => $contract->id]) }}">
+                                        <a href="{{ route('owner-generate-pdf', ['id' => $contract->id]) }}">
                                             Download
                                         </a>
                                     </td>

@@ -193,7 +193,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                           <a href="{{ route('generate-pdf', ['id' => $booking->id]) }}">
+                                           <a href="{{ route('client-generate-pdf', ['id' => $booking->id]) }}">
                                                 Download
                                             </a>
                                         </td>

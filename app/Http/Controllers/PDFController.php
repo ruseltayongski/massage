@@ -6,13 +6,14 @@ use PDF;
 
 use App\Models\User;
 use App\Models\Bookings;
+use App\Models\Contracts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class PDFController extends Controller
 {
-    public function generatePDF(Request $request) {
+    public function clientGeneratePDF(Request $request) {
        /*  dd($request->all()); */
        $user = Auth::user();
         if($request->has('id')) {
@@ -48,6 +49,23 @@ class PDFController extends Controller
                 
             $pdf = PDF::loadView('client.receipt', $data);
         
+            return $pdf->download('receipt.pdf');
+        }   
+    }
+
+    public function ownerGeneratePDF(Request $request) {
+        $user = Auth::user();
+        if($request->has('id')) {
+            $bookingId = $request->input('id');
+
+            $contracts = Contracts::find($bookingId)->first();
+
+            $data = [
+                'contracts' => $contracts,
+                'user' => $user,
+            ]; 
+        /*     dd(response()->json($data)); */    
+            $pdf = PDF::loadView('owner.receipt', $data);
             return $pdf->download('receipt.pdf');
         }   
     }

@@ -41,7 +41,8 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::get('/therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
     Route::get('/therapist/booking',  [App\Http\Controllers\TherapistController::class, 'booking'])->name('therapist.booking');
     Route::put('therapist/update',  [App\Http\Controllers\TherapistController::class, 'updateTherapist'])->name('therapist.update');
-    Route::get('generate/pdf', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('generate-pdf');
+    Route::get('client/generate/pdf', [App\Http\Controllers\PDFController::class, 'clientGeneratePDF'])->name('client-generate-pdf');
+    Route::get('owner/generate/pdf', [App\Http\Controllers\PDFController::class, 'ownerGeneratePDF'])->name('owner-generate-pdf');
     Route::post('user/update/status', [App\Http\Controllers\UserController::class, 'userUpdateStatus'])->name('user.update.status');
     //Services
 
@@ -69,7 +70,6 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('owner/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
         Route::post('assign/services',[App\Http\Controllers\ServicesController::class, 'assignSpa'])->name('owner.assign.save');
-        Route::get('/generate/pdf', [App\Http\Controllers\OwnerController::class, 'generatePDF'])->name('generate-pdf');
         Route::get('owner/transactions', [App\Http\Controllers\OwnerController::class, 'transactionsView'])->name('owner/transactions');
     });
 });
