@@ -65,12 +65,18 @@
       </a>
     </li>
     @elseif($user->roles == 'ADMIN')
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route($firstRoute.'/owner') }}">
-        <i class="typcn typcn-user-add-outline menu-icon"></i>
-        <span class="menu-title">Spa Owner</span>
-      </a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
+          <i class="typcn typcn-device-desktop menu-icon"></i>
+          <span class="menu-title">Dashboard {{-- <span class="badge badge-primary ml-3">New</span> --}}</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route($firstRoute.'/owner') }}">
+          <i class="typcn typcn-user-add-outline menu-icon"></i>
+          <span class="menu-title">Spa Owner</span>
+        </a>
+      </li>
     @else
       <li class="nav-item">
         <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
