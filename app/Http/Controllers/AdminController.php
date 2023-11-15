@@ -45,7 +45,7 @@ class AdminController extends Controller
         $date_start_future = date('Y-m-d', strtotime(Carbon::now()));
         $date_end_future = date('Y-m-d', strtotime(Carbon::now()->addDays(22)));
         
-        $linechart = DB::table(DB::raw("(SELECT date(bookings.start_date) as date, sum(bookings.amount_paid) as value
+        $linechart = DB::table(DB::raw("(SELECT date(bookings.start_date) as date, count(distinct bookings.id) as value
                 FROM massage.bookings
                 WHERE bookings.start_date BETWEEN '$date_start_future' AND '$date_end_future'
                 GROUP BY date(bookings.start_date)

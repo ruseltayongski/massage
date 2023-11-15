@@ -364,8 +364,22 @@
                                             </div>
                                         </td>
                                         <td>
-                                            Amount Paid
-                                            <div class="font-weight-bold mt-1">₱&nbsp;{{ number_format($row->amount_paid, 2, '.', ',') }}</div>
+                                            Status<br>
+                                            <?php
+                                                $color = "";
+                                                if($row->status == 'Pending') {
+                                                    $color = "warning";
+                                                } else if($row->status == 'Approved' || $row->status == 'Completed') {
+                                                    $color = "success";
+                                                } else if($row->status == 'Rejected') {
+                                                    $color = "danger";
+                                                } else if($row->status == 'Cancel') {
+                                                    $color = "info";
+                                                }
+                                            ?>
+                                            <span class="badge badge-{{ $color }} p-2 booking_status text-white">
+                                                {{ $row->status }}     
+                                            </span>
                                         </td>
                                         <td>
                                             Spa
@@ -558,20 +572,20 @@
                 }
             },
             axisY: {
-                title: "Closing Price (in PESOS)",
-                valueFormatString: "₱##0.00",
+                //title: "Closing Price (in PESOS)",
+                valueFormatString: "##0",
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true,
                     labelFormatter: function(e) {
-                        return "$" + CanvasJS.formatNumber(e.value, "##0.00");
+                        return "" + CanvasJS.formatNumber(e.value, "##0");
                     }
                 }
             },
             data: [{
                 type: "area",
                 xValueFormatString: "DD MMM",
-                yValueFormatString: "₱##0.00",
+                yValueFormatString: "##0",
                 dataPoints: datapoints_bookings
             }]
         });

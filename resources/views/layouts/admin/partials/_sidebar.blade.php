@@ -94,25 +94,25 @@
         <span class="menu-title">Manage Contract</span>
       </a>
     </li>
-      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+      <li class="nav-item {{ hasContractEnded($user->contract_end) && $user->status === 'Approved' ? 'menu-disabled' : '' }}">
         <a class="nav-link" href="{{ route($firstRoute.'/spa') }}">
           <i class="typcn typcn-tags menu-icon"></i>
           <span class="menu-title">Manage Spa</span>
         </a>
       </li>
-      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+      <li class="nav-item {{ hasContractEnded($user->contract_end) && $user->status === 'Approved' ? 'menu-disabled' : '' }}">
         <a class="nav-link" href="{{ route($firstRoute.'/therapist') }}">
           <i class="typcn typcn-user-add-outline menu-icon"></i>
           <span class="menu-title">Manage Therapist</span>
         </a>
       </li>
-      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+      <li class="nav-item {{ hasContractEnded($user->contract_end) && $user->status === 'Approved' ? 'menu-disabled' : '' }}">
         <a class="nav-link" href="{{ route($firstRoute.'/services') }}">
           <i class="typcn typcn-briefcase menu-icon"></i>
           <span class="menu-title">Services</span>
         </a>
       </li>
-      <li class="nav-item {{ hasContractEnded($user->contract_end && $user->status === 'Approved') ? 'menu-disabled' : '' }}">
+      <li class="nav-item {{ hasContractEnded($user->contract_end) && $user->status === 'Approved' ? 'menu-disabled' : '' }}">
         <a class="nav-link" href="{{ route($firstRoute.'/transactions') }}">
           <i class="typcn typcn-briefcase menu-icon"></i>
           <span class="menu-title">Transactions</span>
