@@ -142,8 +142,8 @@
                 <h1 class="text-center">Terms of Booking</h1>                 
                 <div class="form-group">
                     <textarea class="w-100" cols="30" rows="10" readonly>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam ex fugit officiis officia doloribus alias eligendi cumque fuga, iure quasi assumenda distinctio, quae animi, molestiae vel. Quis itaque quaerat delectus.
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam ex fugit officiis officia doloribus alias eligendi cumque fuga, iure quasi assumenda distinctio, quae animi, molestiae vel. Quis itaque quaerat delectus.
+                        By agreeing to our Terms, you’re agreeing to everything in all inputted details. If you don’t accept any of these Terms, please do not use our Platform.
+                        All this information is important because it (along with your booking confirmation and any pre-contractual information provided before you book) sets out the legal terms on which Service Providers offer their Travel Experiences through our Platform.
                     </textarea>
                 </div>
                 <div class="">
