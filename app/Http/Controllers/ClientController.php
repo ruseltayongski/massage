@@ -320,7 +320,7 @@ class ClientController extends Controller
         $notification->booking_id = $booking->id;
         $notification->booked_by = $booking->client_id;
         $notification->notifier_id = $user->id;                       
-        $notification->message = $booking->status.' your booking';
+        $notification->message = $booking->status.' the booking';
         $notification->save();
 
         return true;
