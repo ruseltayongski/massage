@@ -91,7 +91,7 @@ class OwnerController extends Controller
         
 
         return view('owner.dashboard',[
-            "bookings" => $result,
+            "bookings" => isset($result) ? $result : [],
             "booking_history" => $booking_history,
             "linechart" => $linechart
         ]);

@@ -202,7 +202,7 @@ class ClientController extends Controller
 
     public function bookingHistory(Request $request) {
         $user = Auth::user();
-        $bookings = Bookings::select(
+        $query = Bookings::select(
                         'bookings.id',
                         'users.id as therapist_id',
                         'spa.id as spa_id',
@@ -221,8 +221,17 @@ class ClientController extends Controller
                     ->where('client_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
                     ->leftJoin('services','services.id','=','bookings.service_id')
-                    ->leftJoin('users','users.id','=','bookings.therapist_id')
-                    ->paginate(15);
+                    ->leftJoin('users','users.id','=','bookings.therapist_id');
+
+                    if ($request->has('datetimes')) {
+                        $dateRange = explode(' - ', $request->input('datetimes'));
+                        $startDate = date('Y-m-d', strtotime($dateRange[0]));
+                        $endDate = date('Y-m-d', strtotime($dateRange[1]));
+                
+                        // Adjust the query to filter by the date range
+                        $query->whereBetween('bookings.start_date', [$startDate, $endDate]);
+                    }
+                    $bookings = $query->paginate(15);
         
         return view('client.booking_history',[
             'bookings' => $bookings

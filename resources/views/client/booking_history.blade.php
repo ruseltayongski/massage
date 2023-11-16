@@ -71,6 +71,8 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <form action="{{ route('client.booking.history') }}">
+                            <input class="mb-3" type="text" name="datetimes" />
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -91,7 +93,7 @@
                                             Booking
                                         </th>
                                         <th>
-                                            Start Date
+                                            Booking Date
                                         </th>
                                         <th>
                                             Amount Paid
@@ -201,7 +203,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                          </div>
+                        </form>
+                        
                     </div>
                 </div>
             </div>
@@ -213,9 +217,9 @@
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Bookings Not Found</h3>
-                {{-- <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
-                </div> --}}
+                <div class="d-inline-flex align-items-center text-white">
+                    <p class="m-0"><a class="text-blue" href="{{ route('client.booking.history') }}">Go Back</a></p>
+                </div>
             </div>
         </div>
     @endif
@@ -284,5 +288,16 @@
                 }
             });
         }
+        
+        $(document).ready(function () {
+            var dateRangePicker = $("input[name='datetimes']");
+
+            dateRangePicker.daterangepicker();
+
+            dateRangePicker.on('apply.daterangepicker', function(ev, picker) {
+                $(this).closest('form').submit();
+            });
+        });
+
     </script>
 @endsection

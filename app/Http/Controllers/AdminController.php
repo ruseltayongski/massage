@@ -22,7 +22,7 @@ class AdminController extends Controller
         $bookings = Bookings::groupBy('status')
         ->select('status', DB::raw('count(*) as count'))
         ->get();
-
+        
         foreach($bookings as $booking) {
             $result[$booking->status] = $booking->count;
         }
@@ -79,7 +79,7 @@ class AdminController extends Controller
         
 
         return view('admin.dashboard',[
-            "bookings" => $result,
+            "bookings" => isset($result) ? $result : [],
             "booking_history" => $booking_history,
             "linechart" => $linechart
         ]);

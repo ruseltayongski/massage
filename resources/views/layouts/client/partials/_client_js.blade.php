@@ -20,4 +20,5 @@
 <script src="{{ asset('client/js/main.js?v=').date('His') }}"></script>
 <!-- LOBIBOX -->
 <script src="{{ asset('plugin/lobibox/dist/js/lobibox.min.js?v='.date('his')) }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
 @yield('js')
