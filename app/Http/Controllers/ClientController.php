@@ -109,6 +109,7 @@ class ClientController extends Controller
             'users.*'
         )
         ->where('users.spa_id', session('spa_id') )
+        ->where('users.is_deleted', 0)
         ->get();
 
         return view('client.therapist',[
@@ -223,6 +224,10 @@ class ClientController extends Controller
                     ->leftJoin('services','services.id','=','bookings.service_id')
                     ->leftJoin('users','users.id','=','bookings.therapist_id');
 
+                    if($request->has('status')) {
+                        $status = $request->status;
+                        $query->where('bookings.status', $status);
+                    }
                     if ($request->has('datetimes')) {
                         $dateRange = explode(' - ', $request->input('datetimes'));
                         $startDate = date('Y-m-d', strtotime($dateRange[0]));

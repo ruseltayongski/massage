@@ -63,6 +63,7 @@ class TherapistController extends Controller
             $user->password = Hash::make($request->password);
             $user->picture = $therapistFileName;
             $user->roles = "THERAPIST";
+            $user->is_deleted = 0;
             $user->save();
 
             
