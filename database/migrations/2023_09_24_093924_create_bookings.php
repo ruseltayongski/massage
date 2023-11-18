@@ -18,6 +18,9 @@ return new class extends Migration
             $table->bigInteger('service_id');
             $table->bigInteger('therapist_id');
             $table->string('booking_type')->nullable();// home or onsite
+            $table->string('client_location')->nullable();
+            $table->bigInteger('client_no')->nullable();
+            $table->string('landmark')->nullable();
             $table->date('start_date')->nullable();
             $table->time('start_time')->nullable();
             $table->string('status')->nullable();

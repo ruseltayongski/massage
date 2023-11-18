@@ -26,18 +26,18 @@ class UserSeeder extends Seeder
         ->withRoles('admin')
         ->create();
 
-        User::factory()
+       /*  User::factory()
          ->count(1)
          ->state([
              'roles' => 'OWNER',
              'email' => 'owner@gmail.com',
          ])
          ->withRoles('owner')
-         ->create();
+         ->create(); */
 
         $this->call(SpaSeeder::class);
 
-        User::factory()
+      /*   User::factory()
             ->count(1)
             ->state([
                 'roles' => 'THERAPIST'
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
                     'owner_id' => $owner->id,
                     'spa_id' => $spa->id
                 ]);
-            });
+            }); */
 
         User::factory()
             ->count(1)

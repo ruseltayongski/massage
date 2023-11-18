@@ -108,7 +108,8 @@ class ClientController extends Controller
             DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist'),
             'users.*'
         )
-        ->where('users.spa_id', session('spa_id') )
+        ->where('users.spa_id', session('spa_id'))
+        ->where('roles', 'THERAPIST')
         ->where('users.is_deleted', 0)
         ->get();
 
@@ -144,6 +145,9 @@ class ClientController extends Controller
         $booking->client_id = $user->id;
         $booking->spa_id = $request->spa_id;
         $booking->receipt_number = $receiptNumber;
+        $booking->client_location = $request->client_location;
+        $booking->client_no = $request->client_no;
+        $booking->landmark = $request->landmark;
         $booking->service_id = $request->service_id;
         $booking->therapist_id = $request->therapist_id;
         $booking->start_date = date('Y-m-d', strtotime($request->start_date));

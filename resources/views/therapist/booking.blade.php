@@ -169,6 +169,15 @@
                                         Service
                                     </th>
                                     <th>
+                                        Phone Number
+                                    </th>
+                                    <th>
+                                        Location
+                                    </th>
+                                    <th>
+                                        Landmark
+                                    </th>
+                                    <th>
                                         Type
                                     </th>
                                     <th>
@@ -197,11 +206,32 @@
                                         <td>
                                             {{ $booking->services }}
                                         </td>
+                                        @if($booking->booking_type == 'home_service')
+                                            <td>
+                                                {{ $booking->client_no }}
+                                            </td>
+                                            <td>
+                                                {{ $booking->client_location }}
+                                            </td>
+                                            <td>
+                                                {{ $booking->landmark }}
+                                            </td>
+                                        @else
+                                            <td>
+                                                N/A
+                                            </td>
+                                            <td>
+                                                N/A
+                                            </td>
+                                            <td>
+                                                N/A
+                                            </td>
+                                        @endif
                                         <td>
                                             @if($booking->booking_type == 'home_service')
                                                 Home Service
                                             @else
-                                                {{ $booking->booking_type }}
+                                                Onsite
                                             @endif
                                         </td>
                                         <td>

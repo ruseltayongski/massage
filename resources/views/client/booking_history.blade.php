@@ -50,7 +50,6 @@
 
         .filtering-holder {
             display: flex;
-            justify-content: space-evenly;
         }
         .view-all span{
             color: #fff !important;
@@ -106,7 +105,8 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <input class="mb-3" type="text" name="datetimes" />
+                                    <label for="" class="pr-2">Date Range:</label>
+                                    <input class="mb-3 p-2" type="text" name="datetimes" placeholder="Select Date">
                                 </div>
                             </form>                            
                             <div class="right-filtering">
