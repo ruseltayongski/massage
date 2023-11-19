@@ -367,19 +367,27 @@
                                             Status<br>
                                             <?php
                                                 $color = "";
+                                                $message = "";
                                                 if($row->status == 'Pending') {
                                                     $color = "warning";
-                                                } else if($row->status == 'Approved' || $row->status == 'Completed') {
+                                                    $message = "Pending";
+                                                } else if($row->status == 'Approved') {
                                                     $color = "success";
-                                                } else if($row->status == 'Rejected') {
+                                                    $message = "Ongoing";
+                                                } else if($row->status == 'Completed') {
+                                                    $color = "success";
+                                                    $message = "Completed";
+                                                }else if($row->status == 'Rejected') {
                                                     $color = "danger";
+                                                    $message = "Rejected";
                                                 } else if($row->status == 'Cancel') {
-                                                    $color = "info";
+                                                    $color = "danger";
+                                                    $message = "Cancelled";
                                                 }
-                                            ?>
-                                            <span class="badge badge-{{ $color }} p-2 booking_status text-white">
-                                                {{ $row->status }}     
-                                            </span>
+                                             ?>
+                                        <span class="badge badge-{{ $color }} p-2 booking_status text-white">
+                                            {{ $message }}
+                                        </span>
                                         </td>
                                         <td>
                                             Spa
@@ -542,7 +550,7 @@
                     dataPoints: [
                         { label: "Pending", y: "{{ $bookings['Pending'] ?? 0 }}" },
                         { label: "Cancel", y: "{{ $bookings['Cancel'] ?? 0 }}" },
-                        { label: "Approved", y: "{{ $bookings['Approved'] ?? 0 }}" },
+                        { label: "Ongoing", y: "{{ $bookings['Approved'] ?? 0 }}" },
                         { label: "Rejected", y: "{{ $bookings['Rejected'] ?? 0 }}" },
                         { label: "Completed", y: "{{ $bookings['Completed'] ?? 0 }}" }
                     ]

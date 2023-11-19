@@ -61,21 +61,28 @@
                                     <td>
                                         <?php
                                         $color = "";
-                                            if($transaction->status == 'Approved') {
-                                                $color = "success";
-                                            } else if ($transaction->status == 'Pending') {
-                                                $color = "warning";
-                                            }
+                                        $message = "";
+
+                                            if($transaction->status == 'Pending') {
+                                                    $color = "warning";
+                                                    $message = "Pending";
+                                                } else if($transaction->status == 'Approved') {
+                                                    $color = "success";
+                                                    $message = "Ongoing";
+                                                } else if($transaction->status == 'Completed') {
+                                                    $color = "success";
+                                                    $message = "Completed";
+                                                } else if($transaction->status == 'Rejected') {
+                                                    $color = "danger";
+                                                    $message = "Rejected";
+                                                } else if($transaction->status == 'Cancel') {
+                                                    $color = "info";
+                                                    $message = "Cancelled";
+                                                }
                                         ?>
-                                        <?php if($transaction->status == 'Approved'):?>
-                                        <span class="badge badge-{{ $color }} p-2 booking_status">
-                                            Completed  
+                                        <span class="badge badge-{{ $color }} p-2 booking_status text-white">
+                                                {{ $message }}
                                         </span>
-                                        <?php else: ?>
-                                        <span class="badge badge-{{ $color }} p-2 booking_status">
-                                            Ongoing  
-                                        </span>
-                                        <?php endif; ?>
                                     </td>
                                 </tr>
                               

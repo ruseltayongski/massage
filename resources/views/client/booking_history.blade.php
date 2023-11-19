@@ -81,7 +81,7 @@
                         <div class="filtering-holder">
                             <form action="{{ route('client.booking.history') }}">
                                 <div class="left-filtering">
-                                    <ul class="nav nav-pills mb-3">
+                                    <ul class="nav nav-pills mb-3 pr-3">
                                         <li class="nav-item">
                                             <a 
                                                 class="nav-link {{ request('status') == 'Pending' ? 'active' : '' }}" 
@@ -102,6 +102,13 @@
                                                 class="nav-link {{ request('status') == 'Approved' ? 'active' : '' }}" 
                                                 href="{{ route('client.booking.history', ['status' => 'Approved']) }}">
                                                 Approved
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a 
+                                                class="nav-link {{ request('status') == 'Completed' ? 'active' : '' }}" 
+                                                href="{{ route('client.booking.history', ['status' => 'Completed']) }}">
+                                                Completed
                                             </a>
                                         </li>
                                     </ul>
