@@ -380,7 +380,7 @@
     }
 
     function unableToUpdate(status) {
-        let msg;
+        var msg;
         if (status === 'Cancel') {
             msg = "You cannot update the booking status if it has been cancelled.";
         } else if (status === 'Completed') {

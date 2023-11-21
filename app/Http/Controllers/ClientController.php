@@ -305,7 +305,7 @@ class ClientController extends Controller
         $rating = new Ratings();
         $rating->therapist_id = $request->therapist_id;
         $rating->feedback_by = $user->id;
-        $rating->feedback = $request->feedback;
+        $rating->therapist_feedback = $request->therapist_feedback;
         $rating->rate = $request->rate;
         $rating->save();
 

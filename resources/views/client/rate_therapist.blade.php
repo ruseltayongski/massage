@@ -179,7 +179,7 @@
                                 @foreach($feedbacks as $feedback)
                                 <li class="list-group-item">
                                     <strong>{{ $feedback->feedback_by }}</strong>
-                                    <small class="card-text">{{ $feedback->feedback }}</small>
+                                    <small class="card-text">{{ $feedback->therapist_feedback }}</small>
                                 </li>
                                 @endforeach
                             </ul>
@@ -254,7 +254,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="feedback">Your Feedback</label>
-                                    <textarea class="form-control" id="feedback" name="feedback" rows="4" required></textarea>
+                                    <textarea class="form-control" id="therapist_feedback" name="therapist_feedback" rows="4" required></textarea>
                                 </div>
                                 <strong>How would you rate your overall experience?</strong>
                                 <form id="ratingFormSubmit">
@@ -317,7 +317,7 @@
     }
 
     function submitFeedback() {
-        const feedback = $("#feedback").val();
+        const feedback = $("#therapist_feedback").val();
         if(!feedback) {
             alert("Feedback is required!");
             return;
@@ -330,7 +330,7 @@
         const url = "{{ route('client.rate.therapist.save') }}";
         var formData = new FormData();
         formData.append('therapist_id', getUrlParameter('therapist_id'));
-        formData.append('feedback', feedback);
+        formData.append('therapist_feedback', feedback);
         formData.append('rate', rating);
 
         $.ajax({

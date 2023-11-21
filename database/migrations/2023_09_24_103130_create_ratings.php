@@ -16,7 +16,8 @@ return new class extends Migration
             $table->bigInteger('spa_id')->nullable();
             $table->bigInteger('therapist_id')->nullable();
             $table->bigInteger('feedback_by')->nullable();
-            $table->text('feedback');
+            $table->text('feedback')->nullable();
+            $table->text('therapist_feedback')->nullable();
             $table->bigInteger('rate');
             $table->boolean("is_deleted")->nullable();
             $table->rememberToken();
