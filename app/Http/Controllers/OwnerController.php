@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
-
+use Carbon\Carbon;
 
 class OwnerController extends Controller
 {
@@ -24,6 +24,80 @@ class OwnerController extends Controller
     }
 
     public function dashboard() {
+        $user = Auth::user();
+        $bookings = Bookings::groupBy('bookings.status')
+        ->select('bookings.status', DB::raw('count(bookings.id) as count'))
+        ->join('users','users.id','=','bookings.therapist_id')
+        ->where('users.owner_id','=',$user->id)
+        ->get();
+
+        foreach($bookings as $booking) {
+            $result[$booking->status] = $booking->count;
+        }
+
+        $booking_history = Bookings::select(
+            DB::raw("concat(users.fname,' ',users.lname) as client_name"),
+            'users.picture as client_picture',
+            'bookings.amount_paid',
+            'spa.name as spa_name',
+            'services.name as services',
+            'bookings.start_date',
+            'bookings.status'
+        )
+        ->leftJoin('spa','spa.id','=','bookings.spa_id')
+        ->leftJoin('services','services.id','=','bookings.service_id')
+        ->leftJoin('users','users.id','=','bookings.client_id')
+        ->join('users as therapist','therapist.id','=','bookings.therapist_id')
+        ->where('therapist.owner_id','=',$user->id)
+        ->orderBy('bookings.updated_at','desc')
+        ->paginate(4);
+
+        $date_start_future = date('Y-m-d', strtotime(Carbon::now()));
+        $date_end_future = date('Y-m-d', strtotime(Carbon::now()->addDays(22)));
+        
+        $linechart = DB::table(DB::raw("(SELECT date(bookings.start_date) as date, count(distinct bookings.id) as value
+                FROM massage.bookings
+                JOIN users on users.id = bookings.therapist_id
+                WHERE bookings.start_date BETWEEN '$date_start_future' AND '$date_end_future'
+                AND users.owner_id = '$user->id'
+                GROUP BY date(bookings.start_date)
+
+                UNION
+
+                SELECT date, 0 as value 
+                FROM (
+                    SELECT ADDDATE('1970-01-01', t4*10000 + t3*1000 + t2*100 + t1*10 + t0) as date 
+                    FROM (
+                        SELECT 0 t0 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
+                    ) t0,
+                    (
+                        SELECT 0 t1 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
+                    ) t1,
+                    (
+                        SELECT 0 t2 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
+                    ) t2,
+                    (
+                        SELECT 0 t3 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
+                    ) t3,
+                    (
+                        SELECT 0 t4 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
+                    ) t4
+                ) v 
+                WHERE date BETWEEN '$date_start_future' AND '$date_end_future'
+                GROUP BY date) t"))
+                ->groupBy('date')
+                ->select('date', DB::raw('SUM(value) as value'))
+                ->get();
+        
+
+        return view('owner.dashboard',[
+            "bookings" => isset($result) ? $result : [],
+            "booking_history" => $booking_history,
+            "linechart" => $linechart
+        ]);
+    }
+
+    public function dashboard1() {
         $user = Auth::user();
         $completedCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
             $query->where('users.owner_id', $user->id);
@@ -48,7 +122,6 @@ class OwnerController extends Controller
     }
 
     public function spa(Request $request) {
-       /*  dd($request->all()); */
         $user = Auth::user();
         $query = Spa::where('owner_id', $user->id);
         $usersList = User::where('roles', 'THERAPIST')->where('owner_id', $user->id)->get();
@@ -166,27 +239,20 @@ class OwnerController extends Controller
         #return response()->json(['message' => 'Signature uploaded and made transparent.']);
     }
 
-    function calculateEndDate($startDate,$contract_type) {
+    function calculateEndDate($startDate, $contract_type) {
         $startDateObj = date_create_from_format('m/d/Y', $startDate);
     
         if ($startDateObj === false) {
             return "Invalid start date format. Please use 'mm/dd/yyyy' format.";
         }
-    
+
         $endDateObj = clone $startDateObj;
-        if($contract_type == 'monthly') {
-            $endDateObj->modify('+1 month');
-        } else if($contract_type == 'yearly') {
-            $endDateObj->modify('+13 month');
-        }
-    
-        $nextMonth = date_format($endDateObj, 'm');
-        $nextYear = date_format($endDateObj, 'Y');
-    
-        if ($nextMonth == '02' && $nextYear % 4 == 0 && ($nextYear % 100 != 0 || $nextYear % 400 == 0)) {
-            $endDateObj->setDate($nextYear, 2, 29);
-        } else {
-            $endDateObj->setDate($nextYear, $nextMonth, 1);
+        if ($contract_type == 'weekly') {
+            $endDateObj->modify('next ' . date_format($startDateObj, 'l'));
+        } else if ($contract_type == 'monthly') {
+            $endDateObj->setDate(date_format($startDateObj, 'Y'), date_format($startDateObj, 'm') + 1, date_format($startDateObj, 'd'));
+        } else if ($contract_type == 'yearly') {
+            $endDateObj->setDate(date_format($startDateObj, 'Y') + 1, date_format($startDateObj, 'm'), date_format($startDateObj, 'd'));
         }
     
         return date_format($endDateObj, 'm/d/Y');
@@ -194,10 +260,13 @@ class OwnerController extends Controller
 
 
     public function addSpa(Request $request) {
-       /*  dd($request->all()); */
         $user = Auth::user();
         $countSpa = Spa::where('owner_id',$user->id)->count();
-        if($user->contract_type == 'monthly' && $countSpa >= 5) {
+        if($user->contract_type == 'weekly' && $countSpa >= 1) {
+            session()->flash('insuficient_spa', true);
+            return redirect()->back();
+        }
+        else if($user->contract_type == 'monthly' && $countSpa >= 5) {
             session()->flash('insuficient_spa', true);
             return redirect()->back();
         }

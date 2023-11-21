@@ -35,13 +35,38 @@
         $user = Auth::user(); 
         if (!function_exists('hasContractEnded')) {
             function hasContractEnded($date_end) {
-                return date("Y-m-d") <= $date_end ? false : true;
+                $dateEnd = new DateTime($date_end);
+                $dateEnd->modify('+1 day');
+                $today = new DateTime();
+
+                $differenceInDays = $dateEnd->diff($today)->days;
+                return $differenceInDays <= 0;
+            }
+        }
+        if (!function_exists('contractEnded2DaysBefore')) {
+            function contractEnded2DaysBefore($date_end) {
+                $dateEnd = new DateTime($date_end);
+                $dateEnd->modify('+1 day');
+                $today = new DateTime();
+
+                $differenceInDays = $dateEnd->diff($today)->days;
+                return $differenceInDays > 0 && $differenceInDays <= 2;
             }
         }
     ?>
     <div id="app">
         @if($user->roles == 'OWNER') 
-            @if(hasContractEnded($user->contract_end))
+            @if(contractEnded2DaysBefore($user->contract_end))    
+                <div class="row" id="proBanner">
+                    <div class="col-12">
+                        <span class="d-flex align-items-center purchase-popup">
+                            <p>This is a friendly reminder that your contract is ending soon</p>
+                            <a href="#sign_contract" class="btn download-button purchase-button ml-auto" data-backdrop="static" data-toggle="modal">Renew a contract</a>
+                            <i class="typcn typcn-delete-outline" id="bannerClose"></i>
+                        </span>
+                    </div>
+                </div>
+            @elseif(hasContractEnded($user->contract_end))
                 <div class="row" id="proBanner">
                     <div class="col-12">
                         <span class="d-flex align-items-center purchase-popup">
@@ -50,7 +75,7 @@
                             <i class="typcn typcn-delete-outline" id="bannerClose"></i>
                         </span>
                     </div>
-                </div>
+                </div>    
             @endif
         @endif
         <div class="container-scroller">

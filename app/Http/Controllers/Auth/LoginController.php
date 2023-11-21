@@ -41,7 +41,17 @@ class LoginController extends Controller
             ]);
         }
 
-        return redirect()->intended($this->redirectPath());
+        if (auth()->user()->roles == 'ADMIN') {
+            $route = RouteServiceProvider::ADMIN;
+        } elseif (auth()->user()->roles == 'OWNER') {
+            $route = RouteServiceProvider::OWNER;
+        } elseif (auth()->user()->roles == 'THERAPIST') {
+            $route = RouteServiceProvider::THERAPIST;
+        } elseif (auth()->user()->roles == 'CLIENT') {
+            $route = RouteServiceProvider::CLIENT;
+        }
+        return redirect($route);
+        //return redirect()->intended($this->redirectPath());
     }
 
     /**

@@ -63,7 +63,7 @@
                             <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <div class="button-holder">
                                 <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
-                                <button type="submit" name="reset_button" class="btn btn-outline-secondary">Reset</button>
+                                <button type="submit" name="reset_button" class="btn btn-outline-secondary">View All</button>
                             </div>
                         </div>
                 </form>

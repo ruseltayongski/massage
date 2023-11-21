@@ -169,6 +169,15 @@
                                         Service
                                     </th>
                                     <th>
+                                        Phone Number
+                                    </th>
+                                    <th>
+                                        Location
+                                    </th>
+                                    <th>
+                                        Landmark
+                                    </th>
+                                    <th>
                                         Type
                                     </th>
                                     <th>
@@ -197,11 +206,32 @@
                                         <td>
                                             {{ $booking->services }}
                                         </td>
+                                        @if($booking->booking_type == 'home_service')
+                                            <td>
+                                                {{ $booking->client_no }}
+                                            </td>
+                                            <td>
+                                                {{ $booking->client_location }}
+                                            </td>
+                                            <td>
+                                                {{ $booking->landmark }}
+                                            </td>
+                                        @else
+                                            <td>
+                                                N/A
+                                            </td>
+                                            <td>
+                                                N/A
+                                            </td>
+                                            <td>
+                                                N/A
+                                            </td>
+                                        @endif
                                         <td>
                                             @if($booking->booking_type == 'home_service')
                                                 Home Service
                                             @else
-                                                {{ $booking->booking_type }}
+                                                Onsite
                                             @endif
                                         </td>
                                         <td>
@@ -225,10 +255,10 @@
                                                 }
                                             ?>
                                             <span class="badge badge-{{ $color }} p-2 booking_status" 
-                                                @if($booking->status != 'Cancel') 
+                                                @if($booking->status != 'Cancel' && $booking->status != 'Completed') 
                                                     onclick="updateBookingStatus('{{ $booking->id }}','{{ strtolower($booking->status) }}')" 
                                                 @else  
-                                                    onclick="unableToUpdate()" 
+                                                    onclick="unableToUpdate('{{ $booking->status }}')" 
                                                 @endif>
                                                 {{ $booking->status }}     
                                             </span>
@@ -349,11 +379,18 @@
         $('#booking_status_modal').modal('toggle');
     }
 
-    function unableToUpdate() {
-        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-        {
-            msg: "You cannot update the booking status if it has been cancelled."
+    function unableToUpdate(status) {
+        let msg;
+        if (status === 'Cancel') {
+            msg = "You cannot update the booking status if it has been cancelled.";
+        } else if (status === 'Completed') {
+            msg = "You cannot update the booking status if it has been already completed.";
+        }
+
+        Lobibox.alert('error', {
+            msg: msg
         });
     }
+
 </script>
 @endsection

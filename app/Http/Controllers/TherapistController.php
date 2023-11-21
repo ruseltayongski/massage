@@ -63,6 +63,7 @@ class TherapistController extends Controller
             $user->password = Hash::make($request->password);
             $user->picture = $therapistFileName;
             $user->roles = "THERAPIST";
+            $user->is_deleted = 0;
             $user->save();
 
             
@@ -130,7 +131,10 @@ class TherapistController extends Controller
                         'bookings.start_time',
                         'bookings.amount_paid',
                         'bookings.status',
-                        'bookings.payment_picture'
+                        'bookings.payment_picture',
+                        'bookings.client_no',
+                        'bookings.client_location',
+                        'bookings.landmark'
                     )
                     ->where('therapist_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')

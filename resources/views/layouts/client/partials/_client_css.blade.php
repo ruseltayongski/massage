@@ -15,6 +15,7 @@
 
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
 
 <!-- Libraries Stylesheet -->
 <link href="{{ asset('client/lib/animate/animate.min.css') }}" rel="stylesheet">

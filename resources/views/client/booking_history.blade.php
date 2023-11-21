@@ -47,6 +47,14 @@
         .rate > label:hover ~ input:checked ~ label {
             color: #c59b08;
         }
+
+        .filtering-holder {
+            display: flex;
+        }
+        .view-all span{
+            color: #fff !important;
+            cursor: pointer;
+        }
     </style>
     <link href="{{ asset('admin/css/bootstrap-toogle.css?v=').date('His') }}" rel="stylesheet">
 @endsection
@@ -66,11 +74,56 @@
                 <h3 class="text-white display-3 mb-4">Booking History</h3>
             </div>
         </div>
-        
         <section>
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <div class="filtering-holder">
+                            <form action="{{ route('client.booking.history') }}">
+                                <div class="left-filtering">
+                                    <ul class="nav nav-pills mb-3 pr-3">
+                                        <li class="nav-item">
+                                            <a 
+                                                class="nav-link {{ request('status') == 'Pending' ? 'active' : '' }}" 
+                                                aria-current="page" 
+                                                href="{{ route('client.booking.history', ['status' => 'Pending']) }}">
+                                                Pending
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a 
+                                            class="nav-link {{ request('status') == 'Cancel' ? 'active' : '' }}" 
+                                            href="{{ route('client.booking.history', ['status' => 'Cancel']) }}">
+                                            Cancelled
+                                        </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a 
+                                                class="nav-link {{ request('status') == 'Approved' ? 'active' : '' }}" 
+                                                href="{{ route('client.booking.history', ['status' => 'Approved']) }}">
+                                                Approved
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a 
+                                                class="nav-link {{ request('status') == 'Completed' ? 'active' : '' }}" 
+                                                href="{{ route('client.booking.history', ['status' => 'Completed']) }}">
+                                                Completed
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <label for="" class="pr-2">Date Range:</label>
+                                    <input class="mb-3 p-2" type="text" name="datetimes" placeholder="Select Date">
+                                </div>
+                            </form>                            
+                            <div class="right-filtering">
+                                <button class="btn btn-primary">
+                                    <a href="{{ route('client.booking.history') }}" class="view-all">
+                                        <span>View All</span>
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -91,7 +144,7 @@
                                             Booking
                                         </th>
                                         <th>
-                                            Start Date
+                                            Booking Date
                                         </th>
                                         <th>
                                             Amount Paid
@@ -108,14 +161,30 @@
                                     @foreach($bookings as $booking)
                                     <tr>
                                         <td class="py-1">
-                                            <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
-                                                <img src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" style="width:50px;" alt="image"/>
-                                            </a>
+                                            @if($booking->status != 'Approved')
+                                                <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
+                                                    <img 
+                                                        src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" 
+                                                        style="width:50px;" 
+                                                        alt="image"
+                                                    />
+                                                </a>
+                                            @else
+                                                <img 
+                                                    src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" 
+                                                    style="width:50px;" 
+                                                    alt="image"
+                                                />
+                                            @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
-                                                {{ $booking->services }}
-                                            </a>
+                                            @if($booking->status != 'Approved')
+                                                <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
+                                                    {{ $booking->services }}
+                                                </a>
+                                            @else
+                                              {{ $booking->services }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('client.rate.spa').'?spa_id='.$booking->spa_id }}">{{ $booking->spa_name }}</a><br>
@@ -153,8 +222,15 @@
                                             @endif  
                                         </td>
                                         <td>
-                                            {{ date("M j, Y",strtotime($booking->start_date)) }}<br>
-                                            <small>({{ date("g:i a",strtotime($booking->start_time)) }})</small>
+                                            @if($booking->status != 'Approved')
+                                                <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
+                                                    {{ date("M j, Y",strtotime($booking->start_date)) }}<br>
+                                                    <small>({{ date("g:i a",strtotime($booking->start_time)) }})</small>
+                                                </a>
+                                            @else
+                                                {{ date("M j, Y",strtotime($booking->start_date)) }}<br>
+                                                <small>({{ date("g:i a",strtotime($booking->start_time)) }})</small>
+                                            @endif
                                         </td>
                                         <td>
                                             ₱&nbsp;{{ number_format($booking->amount_paid, 2, '.', ',') }}
@@ -201,7 +277,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                          </div>
+                        
                     </div>
                 </div>
             </div>
@@ -213,9 +290,9 @@
         <div class="jumbotron jumbotron-fluid bg-jumbotron">
             <div class="container text-center py-5">
                 <h3 class="text-white display-3 mb-4">Bookings Not Found</h3>
-                {{-- <div class="d-inline-flex align-items-center text-white">
-                    <p class="m-0"><a class="text-blue" href="{{ route('client.dashboard') }}">Please click here to select a spa first</a></p>
-                </div> --}}
+                <div class="d-inline-flex align-items-center text-white">
+                    <p class="m-0"><a class="text-blue" href="{{ route('client.booking.history') }}">Go Back</a></p>
+                </div>
             </div>
         </div>
     @endif
@@ -284,5 +361,16 @@
                 }
             });
         }
+        
+        $(document).ready(function () {
+            var dateRangePicker = $("input[name='datetimes']");
+
+            dateRangePicker.daterangepicker();
+
+            dateRangePicker.on('apply.daterangepicker', function(ev, picker) {
+                $(this).closest('form').submit();
+            });
+        });
+
     </script>
 @endsection

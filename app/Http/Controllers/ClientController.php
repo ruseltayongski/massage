@@ -108,9 +108,15 @@ class ClientController extends Controller
             DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist'),
             'users.*'
         )
-        ->where('users.spa_id', session('spa_id') )
+        ->where('users.spa_id', session('spa_id'))
+        ->where('roles', 'THERAPIST')
+        ->where(function($q) {
+            $q->where('users.is_deleted', 0)
+            ->orWhereNull('users.is_deleted');
+        })
         ->get();
 
+        //return $therapists;
         return view('client.therapist',[
             'therapists' => $therapists,
             'price' => $request->price
@@ -143,6 +149,9 @@ class ClientController extends Controller
         $booking->client_id = $user->id;
         $booking->spa_id = $request->spa_id;
         $booking->receipt_number = $receiptNumber;
+        $booking->client_location = $request->client_location;
+        $booking->client_no = $request->client_no;
+        $booking->landmark = $request->landmark;
         $booking->service_id = $request->service_id;
         $booking->therapist_id = $request->therapist_id;
         $booking->start_date = date('Y-m-d', strtotime($request->start_date));
@@ -202,7 +211,7 @@ class ClientController extends Controller
 
     public function bookingHistory(Request $request) {
         $user = Auth::user();
-        $bookings = Bookings::select(
+        $query = Bookings::select(
                         'bookings.id',
                         'users.id as therapist_id',
                         'spa.id as spa_id',
@@ -221,8 +230,21 @@ class ClientController extends Controller
                     ->where('client_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
                     ->leftJoin('services','services.id','=','bookings.service_id')
-                    ->leftJoin('users','users.id','=','bookings.therapist_id')
-                    ->paginate(15);
+                    ->leftJoin('users','users.id','=','bookings.therapist_id');
+
+                    if($request->has('status')) {
+                        $status = $request->status;
+                        $query->where('bookings.status', $status);
+                    }
+                    if ($request->has('datetimes')) {
+                        $dateRange = explode(' - ', $request->input('datetimes'));
+                        $startDate = date('Y-m-d', strtotime($dateRange[0]));
+                        $endDate = date('Y-m-d', strtotime($dateRange[1]));
+                
+                        // Adjust the query to filter by the date range
+                        $query->whereBetween('bookings.start_date', [$startDate, $endDate]);
+                    }
+                    $bookings = $query->paginate(15);
         
         return view('client.booking_history',[
             'bookings' => $bookings
@@ -320,7 +342,7 @@ class ClientController extends Controller
         $notification->booking_id = $booking->id;
         $notification->booked_by = $booking->client_id;
         $notification->notifier_id = $user->id;                       
-        $notification->message = $booking->status.' your booking';
+        $notification->message = $booking->status.' the booking';
         $notification->save();
 
         return true;
