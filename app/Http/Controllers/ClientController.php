@@ -110,7 +110,10 @@ class ClientController extends Controller
         )
         ->where('users.spa_id', session('spa_id'))
         ->where('roles', 'THERAPIST')
-        ->where('users.is_deleted', 0)
+        ->where(function($q) {
+            $q->where('users.is_deleted', 0)
+            ->orWhereNull('users.is_deleted');
+        })
         ->get();
 
         return view('client.therapist',[

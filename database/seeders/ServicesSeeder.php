@@ -16,7 +16,7 @@ class ServicesSeeder extends Seeder
     public function run(): void {
         $this->clearPictures();
 
-       /*  Services::factory()
+        Services::factory()
             ->count(6)
             ->create()
             ->each(function ($services) {
@@ -26,7 +26,7 @@ class ServicesSeeder extends Seeder
                     'owner_id' => $owner->id,
                     'spa_id' => $spa->id
                 ]);
-            }); */
+            });
     }
 
     public function clearPictures() {
