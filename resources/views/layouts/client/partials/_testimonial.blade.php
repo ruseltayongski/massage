@@ -114,8 +114,8 @@
                             <p class="m-0">{{ $feedback->feedback }}</p>
                             <div class="indicator-arrow">&#8594;</div>
                             <div class="spa-holder">
-                                <span class="m-0">SPA Name</span>
-                                <p class="m-0">{{ $feedback->spa_name }}</p>
+                                <span class="m-0 text-center">SPA Name</span>
+                                <h5 class="m-0">{{ $feedback->spa_name }}</h5>
                             </div>
                         </div>
                     </div>
@@ -150,8 +150,8 @@
                             <p class="m-0">{{ $feedback->therapist_feedback }}</p>
                             <div class="indicator-arrow">&#8594;</div>
                             <div class="spa-holder">
-                                <span class="m-0">Therapist Name</span>
-                                <p class="m-0">{{ $feedback->therapist_name }}</p>
+                                <span class="m-0 text-center">Therapist Name</span>
+                                <h5 class="m-0">{{ $feedback->therapist_name }}</h5>
                             </div>
                         </div>
                         

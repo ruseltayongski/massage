@@ -161,7 +161,7 @@
                                     @foreach($bookings as $booking)
                                     <tr>
                                         <td class="py-1">
-                                            @if($booking->status != 'Approved')
+                                            @if($booking->status != 'Approved' && $booking->status != 'Completed')
                                                 <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
                                                     <img 
                                                         src="{{ asset('fileupload/client/payment').'/'.$booking->payment_picture }}" 
@@ -178,7 +178,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($booking->status != 'Approved')
+                                            @if($booking->status != 'Approved' && $booking->status != 'Completed')
                                                 <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
                                                     {{ $booking->services }}
                                                 </a>
