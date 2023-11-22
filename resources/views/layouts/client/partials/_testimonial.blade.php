@@ -67,23 +67,8 @@
                 <img class="img-fluid w-100" src="{{ asset('client/img/testimonial.jpg') }}" alt="">
             </div>
             <div class="col-lg-6">
-                <h6 class="d-inline-block text-primary text-uppercase bg-light py-1 px-2">Testimonial</h6>
+                <h6 class="d-inline-block text-primary text-uppercase bg-light py-1 px-2">Feedback</h6>
                 <h1 class="mb-4">What Our Clients Say!</h1>
-                <div class="owl-carousel testimonial-carousel">
-                    @foreach($testimonials as $testimonial)
-                    <div class="position-relative">
-                        <i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
-                        <div class="d-flex align-items-center mb-3">
-                            <img class="img-fluid rounded-circle" src="{{ asset('fileupload/client/profile').'/'.$testimonial->user_profile }}" style="width: 60px; height: 60px;" alt="">
-                            <div class="ml-3">
-                                <h6 class="text-uppercase">{{ $testimonial->name }}</h6>
-                                <span>{{ ucfirst(strtolower($testimonial->roles)) }}</span>
-                            </div>
-                        </div>
-                        <p class="m-0">{{ $testimonial->description }}</p>
-                    </div>
-                    @endforeach
-                </div>
             </div>
         </div>
     </div>
@@ -162,5 +147,6 @@
         </div>
     </div>
 </div>
+
 @endif
 <!-- Testimonial End -->

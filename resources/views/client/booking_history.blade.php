@@ -178,13 +178,9 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($booking->status != 'Approved' && $booking->status != 'Completed')
-                                                <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
-                                                    {{ $booking->services }}
-                                                </a>
-                                            @else
-                                              {{ $booking->services }}
-                                            @endif
+                                            <a href="{{ route('client.services') }}">
+                                                {{ $booking->services }}
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="{{ route('client.rate.spa').'?spa_id='.$booking->spa_id }}">{{ $booking->spa_name }}</a><br>
@@ -222,7 +218,7 @@
                                             @endif  
                                         </td>
                                         <td>
-                                            @if($booking->status != 'Approved')
+                                            @if($booking->status != 'Approved' && $booking->status != 'Completed')
                                                 <a href="{{ route('client.booking.edit', ['id' => $booking->id]) }}">
                                                     {{ date("M j, Y",strtotime($booking->start_date)) }}<br>
                                                     <small>({{ date("g:i a",strtotime($booking->start_time)) }})</small>
