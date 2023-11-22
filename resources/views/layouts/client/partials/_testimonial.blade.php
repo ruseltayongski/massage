@@ -81,6 +81,7 @@
                                 <span>{{ ucfirst(strtolower($testimonial->roles)) }}</span>
                             </div>
                         </div>
+                        <p class="mt-3 p-3">{{ $testimonial->description }}</p>
                     </div>
                     @endforeach
                 </div>
