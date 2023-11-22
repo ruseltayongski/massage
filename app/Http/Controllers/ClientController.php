@@ -258,7 +258,8 @@ class ClientController extends Controller
                         // Adjust the query to filter by the date range
                         $query->whereBetween('bookings.start_date', [$startDate, $endDate]);
                     }
-                    $bookings = $query->paginate(15);
+                    $bookings = $query->orderBy('bookings.id','desc')
+                                ->paginate(15);
         
         return view('client.booking_history',[
             'bookings' => $bookings
