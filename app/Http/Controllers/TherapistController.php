@@ -156,6 +156,10 @@ class TherapistController extends Controller
         }
         $booking->save();
 
+        $therapist = User::find($booking->therapist_id);
+        $therapist->booking_status = $booking->status;
+        $therapist->save();
+
         $notification = new Notifications();
         $notification->booking_id = $booking->id;
         $notification->booked_by = $booking->client_id;

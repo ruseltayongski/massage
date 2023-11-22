@@ -110,9 +110,15 @@ class ClientController extends Controller
         )
         ->where('users.spa_id', session('spa_id'))
         ->where('roles', 'THERAPIST')
-        ->where(function($q) {
-            $q->where('users.is_deleted', 0)
-            ->orWhereNull('users.is_deleted');
+        ->where(function($query) {
+            $query->where('users.is_deleted', 0);
+            $query->orWhereNull('users.is_deleted');
+        })
+        ->where(function($query) {
+            $query->whereNull('users.booking_status');
+            $query->orWhere('users.booking_status','Cancel');
+            $query->orWhere('users.booking_status','Rejected');
+            $query->orWhere('users.booking_status','Completed');
         })
         ->get();
 
@@ -162,6 +168,10 @@ class ClientController extends Controller
         $booking->status = 'Pending';
         $booking->save();
 
+        $therapist = User::find($booking->therapist_id);
+        $therapist->booking_status = $booking->status;
+        $therapist->save();
+
         $notification = new Notifications();
         $notification->booking_id = $booking->id;
         $notification->booked_by = $booking->client_id;
@@ -204,6 +214,10 @@ class ClientController extends Controller
         $booking->booking_type = $request->booking_type;
         $booking->status = 'Pending';
         $booking->save();
+
+        $therapist = User::find($booking->therapist_id);
+        $therapist->booking_status = $booking->status;
+        $therapist->save();
 
         session()->flash('booking_edit_save', true);
         return redirect()->route('client.booking.history');;
@@ -337,6 +351,10 @@ class ClientController extends Controller
             $booking->approved_date = date('Y-m-d H:i:s');
         }
         $booking->save();
+
+        $therapist = User::find($booking->therapist_id);
+        $therapist->booking_status = $booking->status;
+        $therapist->save();
 
         $notification = new Notifications();
         $notification->booking_id = $booking->id;
