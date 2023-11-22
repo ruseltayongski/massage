@@ -178,9 +178,13 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('client.services') }}">
-                                                {{ $booking->services }}
-                                            </a>
+                                            @if($booking->status != 'Approved' && $booking->status != 'Completed')
+                                                <a href="{{ route('client.services') }}">
+                                                    {{ $booking->services }}
+                                                </a>
+                                            @else
+                                              {{ $booking->services }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('client.rate.spa').'?spa_id='.$booking->spa_id }}">{{ $booking->spa_name }}</a><br>
