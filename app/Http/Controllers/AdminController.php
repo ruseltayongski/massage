@@ -27,6 +27,14 @@ class AdminController extends Controller
             $result[$booking->status] = $booking->count;
         }
 
+        $contracts = Contracts::groupBy('type')
+        ->select('type', DB::raw('count(*) as count'))
+        ->get();
+        
+        foreach($contracts as $contract) {
+            $resultContracts[$contract->type] = $contract->count;
+        }
+
         $booking_history = Bookings::select(
             DB::raw("concat(users.fname,' ',users.lname) as client_name"),
             'users.picture as client_picture',
@@ -80,6 +88,7 @@ class AdminController extends Controller
 
         return view('admin.dashboard',[
             "bookings" => isset($result) ? $result : [],
+            "contracts" => isset($resultContracts) ? $resultContracts : [],
             "booking_history" => $booking_history,
             "linechart" => $linechart
         ]);
