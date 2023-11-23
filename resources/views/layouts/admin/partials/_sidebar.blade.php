@@ -64,6 +64,12 @@
         <span class="menu-title">Manage Booking</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route($firstRoute.'.booking_history') }}">
+        <i class="typcn typcn-news menu-icon"></i>
+        <span class="menu-title">Booking History</span>
+      </a>
+    </li>
     @elseif($user->roles == 'ADMIN')
       <li class="nav-item">
         <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">

@@ -89,7 +89,7 @@
         </div>
     </div>
 </div>
-@elseif(request()->route()->getName() === 'client.dashboard')
+@elseif(request()->route()->getName() === 'client.dashboard' || request()->route()->getName() === 'client.services')
 <div class="container-fluid py-5">
     <div class="container py-5">
         <div class="row align-items-center">

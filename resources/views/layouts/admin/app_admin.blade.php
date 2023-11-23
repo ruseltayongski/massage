@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- base:css -->
+    
     <link rel="stylesheet" href="{{ asset('admin/vendors/typicons.font/font/typicons.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/css/vendor.bundle.base.css') }}">
     <!-- endinject --> 
@@ -19,6 +20,7 @@
     <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png') }}" />
     <!-- LOBIBOX -->
     <link rel="stylesheet" href="{{ asset('plugin/lobibox/dist/css/LobiBox.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     @vite(['resources/js/app.js'])
     <style>
         .menu-disabled {
@@ -105,6 +107,7 @@
     <script src="{{ asset('admin/js/todolist.js') }}"></script>
     <!-- endinject -->
     <!-- plugin js for this page -->
+   
     <script src="{{ asset('admin/vendors/progressbar.js/progressbar.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/chart.js/Chart.min.js') }}"></script>
     <!-- End plugin js for this page -->
@@ -271,6 +274,7 @@
             // Remove the 'disabled' property in token
             $('#logout-form input[name="_token"]').prop('disabled', false);
             $('#logout-form1 input[name="_token"]').prop('disabled', false);
+            
         });
     </script>
     @yield('js')

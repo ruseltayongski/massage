@@ -171,4 +171,43 @@ class TherapistController extends Controller
         return redirect()->back();
     }
    
+
+    public function bookingHistory(Request $request) {
+        $user = Auth::user();
+        $query = Bookings::select(
+                        'bookings.id',
+                        'spa.id as spa_id',
+                        'spa.name as spa_name',
+                        'services.name as services',
+                        DB::raw("concat(users.fname,' ',users.lname) as client"),
+                        'bookings.booking_type',
+                        'bookings.start_date',
+                        'bookings.start_time',
+                        'bookings.amount_paid',
+                        'bookings.status',
+                        'bookings.payment_picture',
+                    )
+                    ->where('therapist_id',$user->id)
+                    ->leftJoin('spa','spa.id','=','bookings.spa_id')
+                    ->leftJoin('services','services.id','=','bookings.service_id')
+                    ->leftJoin('users','users.id','=','bookings.client_id');
+
+                    if($request->has('status')) {
+                        $status = $request->status;
+                        $query->where('bookings.status', $status);
+                    }
+                    if ($request->has('datetimes')) {
+                        $dateRange = explode(' - ', $request->input('datetimes'));
+                        $startDate = date('Y-m-d', strtotime($dateRange[0]));
+                        $endDate = date('Y-m-d', strtotime($dateRange[1]));
+                
+                        // Adjust the query to filter by the date range
+                        $query->whereBetween('bookings.start_date', [$startDate, $endDate]);
+                    }
+                    $bookings = $query->orderBy('bookings.id','desc')
+                                ->paginate(15);
+        return view('therapist.booking_history', [
+            "bookings" => $bookings,
+        ]);
+    }
 }
