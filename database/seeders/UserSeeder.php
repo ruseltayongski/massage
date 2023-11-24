@@ -26,41 +26,41 @@ class UserSeeder extends Seeder
         ->withRoles('admin')
         ->create();
 
-        User::factory()
-         ->count(1)
-         ->state([
-             'roles' => 'OWNER',
-             'email' => 'owner@gmail.com',
-         ])
-         ->withRoles('owner')
-         ->create();
+        // User::factory()
+        //  ->count(1)
+        //  ->state([
+        //      'roles' => 'OWNER',
+        //      'email' => 'owner@gmail.com',
+        //  ])
+        //  ->withRoles('owner')
+        //  ->create();
 
-        $this->call(SpaSeeder::class);
+        // $this->call(SpaSeeder::class);
 
-        User::factory()
-            ->count(1)
-            ->state([
-                'roles' => 'THERAPIST'
-            ])
-            ->withRoles('therapist')
-            ->create()
-            ->each(function ($user) {
-                $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();
-                $spa = Spa::where('owner_id', $owner->id)->inRandomOrder()->first();
-                $user->update([
-                    'owner_id' => $owner->id,
-                    'spa_id' => $spa->id
-                ]);
-            });
+        // User::factory()
+        //     ->count(1)
+        //     ->state([
+        //         'roles' => 'THERAPIST'
+        //     ])
+        //     ->withRoles('therapist')
+        //     ->create()
+        //     ->each(function ($user) {
+        //         $owner = User::where('roles', 'OWNER')->inRandomOrder()->first();
+        //         $spa = Spa::where('owner_id', $owner->id)->inRandomOrder()->first();
+        //         $user->update([
+        //             'owner_id' => $owner->id,
+        //             'spa_id' => $spa->id
+        //         ]);
+        //     });
 
-        User::factory()
-            ->count(1)
-            ->state([
-                'roles' => 'CLIENT',
-                'email' => 'client@gmail.com'
-            ])
-            ->withRoles('client')
-            ->create();    
+        // User::factory()
+        //     ->count(1)
+        //     ->state([
+        //         'roles' => 'CLIENT',
+        //         'email' => 'client@gmail.com'
+        //     ])
+        //     ->withRoles('client')
+        //     ->create();
     }
 
     public function clearPictures() {
