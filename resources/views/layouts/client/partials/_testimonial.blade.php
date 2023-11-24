@@ -59,7 +59,7 @@
     
 </style>
 <!-- Testimonial Start -->
-@if(request()->route()->getName() === '/')
+@if(request()->route()->getName() === '/' || request()->route()->getName() === 'client.testimonial')
 <div class="container-fluid py-5">
     <div class="container py-5">
         <div class="row align-items-center">

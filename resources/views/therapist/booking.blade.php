@@ -207,13 +207,17 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Manage Booking</h4>
                     </div>
-                    <form action="{{ route('owner/spa') }}" method="GET">
+                    <form action="{{ route('therapist.booking') }}" method="GET">
                         <div class="input-group">
                             <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" name="search_button" class="btn btn-outline-primary">search</button>
+                            <button type="submit" name="reset_button" class="btn btn-outline-info">View All</button>
                         </div>
                     </form>
                     <div class="table-responsive">
+                        @if($bookings->isEmpty())
+                            <h3 class="text-center mt-5">No Bookings Found</h3>
+                        @else
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -334,6 +338,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @endif
                     </div>
                 </div>
                 <div id="myModal" class="modal-picture">

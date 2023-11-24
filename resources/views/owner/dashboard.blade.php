@@ -522,6 +522,156 @@
         <div class="col-lg-12 d-flex grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Statistics</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <th>Pending</th>
+                            <th>Ongoing</th>
+                            <th>Completed</th>
+                            <th>Cancelled</th>
+                            <th>Booking Date</th>
+                            <tbody>
+                            @foreach($booking_history as $row)
+                                <tr>
+                                    <td>
+                                        {{ $pendingCount }}
+                                    </td>
+                                    <td>
+                                        {{ $ongoing }}
+                                    </td>
+                                    <td>
+                                        {{ $completedCount }}
+                                    </td>
+                                    <td>
+                                        {{ $cancelCount }}
+                                    </td>
+                                    <td>
+                                        Date
+                                        <div 
+                                        class="font-weight-bold  mt-1">
+                                        {{ date("M j, Y",strtotime($row->start_date)) }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                                {{-- <tr>
+                                    <td>
+                                        <div class="d-flex">
+                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face31.png') }}" alt="profile image">
+                                        <div>
+                                            <div> Company</div>
+                                            <div class="font-weight-bold  mt-1">Land Rover</div>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Budget
+                                        <div class="font-weight-bold  mt-1">$12022  </div>
+                                    </td>
+                                    <td>
+                                        Status
+                                        <div class="font-weight-bold text-success  mt-1">70% </div>
+                                    </td>
+                                    <td>
+                                        Deadline
+                                        <div class="font-weight-bold  mt-1">08 Nov 2019</div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex">
+                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face32.png') }}" alt="profile image">
+                                        <div>
+                                            <div> Company</div>
+                                            <div class="font-weight-bold  mt-1">Bentley </div>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Budget
+                                        <div class="font-weight-bold  mt-1">$8,725</div>
+                                    </td>
+                                    <td>
+                                        Status
+                                        <div class="font-weight-bold text-success  mt-1">87% </div>
+                                    </td>
+                                    <td>
+                                        Deadline
+                                        <div class="font-weight-bold  mt-1">11 Jun 2019</div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex">
+                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face33.png') }}" alt="profile image">
+                                        <div>
+                                            <div> Company</div>
+                                            <div class="font-weight-bold  mt-1">Morgan </div>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Budget
+                                        <div class="font-weight-bold  mt-1">$5,220 </div>
+                                    </td>
+                                    <td>
+                                        Status
+                                        <div class="font-weight-bold text-success  mt-1">65% </div>
+                                    </td>
+                                    <td>
+                                        Deadline
+                                        <div class="font-weight-bold  mt-1">26 Oct 2019</div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex">
+                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face34.png') }}" alt="profile image">
+                                        <div>
+                                            <div> Company</div>
+                                            <div class="font-weight-bold  mt-1">volkswagen</div>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Budget
+                                        <div class="font-weight-bold  mt-1">$2322 </div>
+                                    </td>
+                                    <td>
+                                        Status
+                                        <div class="font-weight-bold text-success mt-1">88% </div>
+                                    </td>
+                                    <td>
+                                        Deadline
+                                        <div class="font-weight-bold  mt-1">07 Nov 2019</div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
+                                    </td>
+                                </tr> --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
                     <div id="chartContainer1" style="height: 400px; width: 100%;"></div>
                 </div>
             </div>    

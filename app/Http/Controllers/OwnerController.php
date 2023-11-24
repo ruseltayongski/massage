@@ -31,6 +31,21 @@ class OwnerController extends Controller
         ->where('users.owner_id','=',$user->id)
         ->get();
 
+        $pendingCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+            $query->where('users.owner_id', $user->id);
+        })->where('status', 'pending')->count();
+        $cancelCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+            $query->where('users.owner_id', $user->id);
+        })->where('status', 'cancel')->count();
+        $completedCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+            $query->where('users.owner_id', $user->id);
+        })->where('status', 'completed')->count();
+
+        $ongoing = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+            $query->where('users.owner_id', $user->id);
+        })->where('status', 'approved')->count();
+
+
         foreach($bookings as $booking) {
             $result[$booking->status] = $booking->count;
         }
@@ -93,9 +108,15 @@ class OwnerController extends Controller
         return view('owner.dashboard',[
             "bookings" => isset($result) ? $result : [],
             "booking_history" => $booking_history,
-            "linechart" => $linechart
+            "linechart" => $linechart,
+            "pendingCount" => $pendingCount,
+            "cancelCount" => $cancelCount,
+            "completedCount" => $completedCount,
+            "ongoing" => $ongoing,
+            
         ]);
     }
+    
 
     public function dashboard1() {
         $user = Auth::user();
@@ -411,10 +432,14 @@ class OwnerController extends Controller
 
     }
 
-    public function transactionsView() {
+    public function transactionsView(Request $request) {
         $user = Auth::user();
-    
-        $transactions = Bookings::select(
+        
+        if($request->has('reset-button')) {
+            return redirect()->route('owner/transactions');
+        }
+
+        $query = Bookings::select(
                         'bookings.id',
                         'spa.name as spa_name',
                         'services.name as services_name',
@@ -431,11 +456,19 @@ class OwnerController extends Controller
                        ->leftJoin('spa', 'spa.id', '=', 'bookings.spa_id')
                        ->leftJoin('services', 'services.id', '=', 'bookings.service_id')
                        ->leftJoin('users as therapist', 'therapist.id', '=', 'bookings.therapist_id')
-                       ->leftJoin('users as client', 'client.id', '=', 'bookings.client_id')
-                     
-                       ->get();
+                       ->leftJoin('users as client', 'client.id', '=', 'bookings.client_id');
+                       
+                       if ($request->has('search')) {
+                        $search = $request->input('search');
+                        $query->where('therapist.fname', 'like', "%$search%")
+                                ->orWhere('therapist.lname', 'like', "%$search%")
+                                ->orWhere('client.fname', 'like', "%$search%")
+                                ->orWhere('client.lname', 'like', "%$search%");
+                    }
+
+       
+        $transactions = $query->paginate(15);
     
-   /*      dd($transactions); */
         return view('owner.transactions', [
             "transactions" => $transactions
         ]);

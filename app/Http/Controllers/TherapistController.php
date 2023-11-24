@@ -119,9 +119,12 @@ class TherapistController extends Controller
         return redirect()->route('therapist/dashboard');
     }
     
-    public function booking() {
+    public function booking(Request $request) {
         $user = Auth::user();
-        $bookings = Bookings::select(
+        if($request->has('reset_button')) {
+            return redirect()->route('therapist.booking');
+        }
+        $query = Bookings::select(
                         'bookings.id',
                         'spa.name as spa',
                         'services.name as services',
@@ -139,8 +142,15 @@ class TherapistController extends Controller
                     ->where('therapist_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')
                     ->leftJoin('services','services.id','=','bookings.id')
-                    ->leftJoin('users','users.id','=','bookings.client_id')
-                    ->paginate(15);
+                    ->leftJoin('users','users.id','=','bookings.client_id');
+
+                    if($request->has('search')) {
+                        $search = $request->input('search');
+                        $query->where('users.fname', 'like', "%$search%")
+                               ->orWhere('users.lname', 'like', "%$search%")
+                               ->orWhere('spa.name', 'like', "%$search%");
+                    }
+        $bookings = $query->paginate(15);
         
         return view('therapist.booking',[
             'bookings' => $bookings
