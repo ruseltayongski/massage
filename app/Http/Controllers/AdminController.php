@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Contracts;
 use App\Models\Bookings;
-use App\Models\Notifications;
+use App\Models\Contracts;
 use Illuminate\Http\Request;
+use App\Models\Notifications;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -94,6 +96,51 @@ class AdminController extends Controller
         ]);
     }
 
+    public function ownerProfile() {
+        $user = Auth::user();
+        $adminDetails = User::where('roles', 'ADMIN')
+                             ->where('id', $user->id)
+                             ->first();
+        return view('admin.profile', [
+            "adminDetails" => $adminDetails,
+        ]);
+    }
+
+    public function updateProfile(Request $request) {
+        if($request->has('id')) {
+            $userId = $request->input('id');
+            $user = User::find($userId);
+            $user->fname = $request->input('fname');
+            $user->lname = $request->input('lname');
+            $user->address = $request->input('address');
+            $user->mobile = $request->input('mobile');
+            $user->email = $request->input('email');
+            
+            if($request->filled('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+         
+
+            if($request->hasFile('picture')) {
+                $userProfile = $request->file('picture');
+                $userFileName = 'picture' .uniqid() . '.' . $userProfile->getClientOriginalExtension();
+                $uploadPath = public_path('/fileupload/admin/profile/');
+                $userProfile->move($uploadPath, $userFileName);
+                
+                Image::make($uploadPath . $userFileName)
+                        ->resize(255,366)
+                        ->save();
+
+                $user->picture = $userFileName;
+ 
+            }
+            session()->flash('admin_profile_update', true);
+            $user->save(); 
+        }  
+        return redirect()->back();
+
+    }
+    
     public function owner() {
         $ownerContracts = User::select(
                             'users.id',

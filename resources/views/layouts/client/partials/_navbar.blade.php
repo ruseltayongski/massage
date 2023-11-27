@@ -114,7 +114,7 @@
                     <div class="nav-item dropdown" style="cursor: pointer;">
                         <a href="#" class="nav-link dropdown-toggle {{ Route::currentRouteName() == 'client.booking' || Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}" data-toggle="dropdown">Booking</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{{ route('client.booking') }}" class="dropdown-item {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Create</a>
+                            {{-- <a href="{{ route('client.booking') }}" class="dropdown-item {{ Route::currentRouteName() == 'client.booking' ? 'active' : '' }}">Create</a> --}}
                             <a href="{{ route('client.booking.history') }}" class="dropdown-item {{ Route::currentRouteName() == 'client.booking.history' ? 'active' : '' }}">History</a>
                         </div>
                     </div>

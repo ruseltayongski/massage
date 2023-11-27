@@ -396,7 +396,7 @@ class OwnerController extends Controller
             "userProfile" => $userProfile
         ]);
     }
-
+    
     public function updateProfile(Request $request) {
         if($request->has('id')) {
             $userId = $request->input('id');

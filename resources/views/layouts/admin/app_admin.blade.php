@@ -182,6 +182,14 @@
                 img: "{{ asset('img/check.png') }}"
             });
         @endif
+
+        @if(session('admin_profile_update'))
+            Lobibox.notify('success', {
+                msg: 'Successfully Updated!',
+                img: "{{ asset('img/check.png') }}"
+            });
+        @endif
+
         @if(session('insuficient_spa'))
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
             {

@@ -223,7 +223,7 @@
                     <span class="nav-profile-name">{{ Auth::user()->fname.' '.Auth::user()->lname }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="{{ route('owner.get.profile') }}">
+                    <a class="dropdown-item" href="{{ route('admin.profile') }}">
                         <i class="typcn typcn-cog text-primary"></i>
                         Profile
                     </a>
