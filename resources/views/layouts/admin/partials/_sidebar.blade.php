@@ -53,6 +53,12 @@
    
     @if($user->roles == 'THERAPIST')
     <li class="nav-item">
+      <a class="nav-link" href="{{ route($firstRoute.'.dashboard.main') }}">
+        <i class="typcn typcn-device-desktop menu-icon"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
         <i class="typcn typcn-device-desktop menu-icon"></i>
         <span class="menu-title">Manage Profile</span>
