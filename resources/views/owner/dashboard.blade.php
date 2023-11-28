@@ -531,6 +531,7 @@
                             <th>Ongoing</th>
                             <th>Completed</th>
                             <th>Cancelled</th>
+                            <th>Total Bookings</th>
                             <th>Booking Date</th>
                             <tbody>
                             @foreach($booking_history as $row)
@@ -546,6 +547,9 @@
                                     </td>
                                     <td>
                                         {{ $cancelCount }}
+                                    </td>
+                                    <td>
+                                        {{ $totalBookings }}
                                     </td>
                                     <td>
                                         Date

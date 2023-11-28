@@ -31,9 +31,16 @@ class OwnerController extends Controller
         ->where('users.owner_id','=',$user->id)
         ->get();
 
+        $currentDate = Carbon::now()->toDateString();
+
+        $start_dates = Bookings::where('start_date', '<=', $currentDate)->pluck('start_date');
+
         $pendingCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
             $query->where('users.owner_id', $user->id);
-        })->where('status', 'pending')->count();
+        })
+        ->where('status', 'pending')
+        ->whereIn('bookings.start_date', $start_dates)
+        ->count();
         $cancelCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
             $query->where('users.owner_id', $user->id);
         })->where('status', 'cancel')->count();
@@ -45,6 +52,13 @@ class OwnerController extends Controller
             $query->where('users.owner_id', $user->id);
         })->where('status', 'approved')->count();
 
+        $totalCounts = [
+            'pending' => $pendingCount,
+            'cancel' => $cancelCount,
+            'completed' => $completedCount,
+            'ongoing' => $ongoing,
+        ];
+        $totalBookings = array_sum($totalCounts);
 
         foreach($bookings as $booking) {
             $result[$booking->status] = $booking->count;
@@ -113,6 +127,7 @@ class OwnerController extends Controller
             "cancelCount" => $cancelCount,
             "completedCount" => $completedCount,
             "ongoing" => $ongoing,
+            "totalBookings" => $totalBookings
             
         ]);
     }
