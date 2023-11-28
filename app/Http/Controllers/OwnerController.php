@@ -56,14 +56,17 @@ class OwnerController extends Controller
         ];
         $totalBookings = array_sum($totalCounts); */
         
-$bookingsCount = Bookings::select(
-    DB::raw('SUM(CASE WHEN status = "Cancel" THEN 1 ELSE 0 END) AS Cancel'),
-    DB::raw('SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) AS Pending'),
-    'start_date'
-)
-->groupBy('start_date')
-->get();
-
+        $bookingsCount = Bookings::select(
+            DB::raw('SUM(CASE WHEN status = "Cancel" THEN 1 ELSE 0 END) AS Cancel'),
+            DB::raw('SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) AS Pending'),
+            DB::raw('SUM(CASE WHEN status = "Completed" THEN 1 ELSE 0 END) AS Completed'),
+            DB::raw('SUM(CASE WHEN status = "Approved" THEN 1 ELSE 0 END) AS Ongoing'),
+            DB::raw('SUM(1) AS Total'),
+            'start_date'
+        )
+        ->groupBy('start_date')
+        ->get();
+        
         foreach($bookings as $booking) {
             $result[$booking->status] = $booking->count;
         }
@@ -127,7 +130,7 @@ $bookingsCount = Bookings::select(
             "bookings" => isset($result) ? $result : [],
             "booking_history" => $booking_history,
             "linechart" => $linechart,
-            "bookingsCount" => $bookingsCount
+            "bookingsCount" => $bookingsCount,
             
         ]);
     }

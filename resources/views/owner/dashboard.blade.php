@@ -537,12 +537,21 @@
                             @foreach($bookingsCount as $row)
                                 <tr>
                                     <td>
+                                        {{ $row->Pending }}
+                                    </td>
+                                    <td>
+                                        {{ $row->Ongoing}}
+                                    </td>
+                                         
+                                    <td>
+                                        {{ $row->Completed }}
+                                    </td>
+                                    <td>
                                         {{ $row->Cancel }}
                                     </td>
                                     <td>
-                                        {{ $row->Pending}}
+                                        {{ $row->Total }}
                                     </td>
-                                                                    
                                     <td>
                                         <div 
                                         class="font-weight-bold  mt-1">
