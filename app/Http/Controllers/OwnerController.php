@@ -31,15 +31,11 @@ class OwnerController extends Controller
         ->where('users.owner_id','=',$user->id)
         ->get();
 
-        $currentDate = Carbon::now()->toDateString();
-
-        $start_dates = Bookings::where('start_date', '<=', $currentDate)->pluck('start_date');
-
-        $pendingCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
+       /*  $pendingCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
             $query->where('users.owner_id', $user->id);
         })
         ->where('status', 'pending')
-        ->whereIn('bookings.start_date', $start_dates)
+        ->where('bookings.start_date', '<=', now()->toDateString())
         ->count();
         $cancelCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
             $query->where('users.owner_id', $user->id);
@@ -58,7 +54,15 @@ class OwnerController extends Controller
             'completed' => $completedCount,
             'ongoing' => $ongoing,
         ];
-        $totalBookings = array_sum($totalCounts);
+        $totalBookings = array_sum($totalCounts); */
+        
+$bookingsCount = Bookings::select(
+    DB::raw('SUM(CASE WHEN status = "Cancel" THEN 1 ELSE 0 END) AS Cancel'),
+    DB::raw('SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) AS Pending'),
+    'start_date'
+)
+->groupBy('start_date')
+->get();
 
         foreach($bookings as $booking) {
             $result[$booking->status] = $booking->count;
@@ -123,11 +127,7 @@ class OwnerController extends Controller
             "bookings" => isset($result) ? $result : [],
             "booking_history" => $booking_history,
             "linechart" => $linechart,
-            "pendingCount" => $pendingCount,
-            "cancelCount" => $cancelCount,
-            "completedCount" => $completedCount,
-            "ongoing" => $ongoing,
-            "totalBookings" => $totalBookings
+            "bookingsCount" => $bookingsCount
             
         ]);
     }

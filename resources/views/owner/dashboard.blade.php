@@ -534,25 +534,16 @@
                             <th>Total Bookings</th>
                             <th>Booking Date</th>
                             <tbody>
-                            @foreach($booking_history as $row)
+                            @foreach($bookingsCount as $row)
                                 <tr>
                                     <td>
-                                        {{ $pendingCount }}
+                                        {{ $row->Cancel }}
                                     </td>
                                     <td>
-                                        {{ $ongoing }}
+                                        {{ $row->Pending}}
                                     </td>
+                                                                    
                                     <td>
-                                        {{ $completedCount }}
-                                    </td>
-                                    <td>
-                                        {{ $cancelCount }}
-                                    </td>
-                                    <td>
-                                        {{ $totalBookings }}
-                                    </td>
-                                    <td>
-                                        Date
                                         <div 
                                         class="font-weight-bold  mt-1">
                                         {{ date("M j, Y",strtotime($row->start_date)) }}
