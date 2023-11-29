@@ -223,10 +223,22 @@
                     <span class="nav-profile-name">{{ Auth::user()->fname.' '.Auth::user()->lname }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="{{ route('admin.profile') }}">
-                        <i class="typcn typcn-cog text-primary"></i>
-                        Profile
-                    </a>
+                    @if($user->roles == 'ADMIN')
+                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                            <i class="typcn typcn-cog text-primary"></i>
+                            Profile
+                        </a>
+                    @elseif($user->roles == 'THERAPIST')
+                        <a class="dropdown-item" href="{{ route('therapist.profile') }}">
+                            <i class="typcn typcn-cog text-primary"></i>
+                            Profile
+                        </a>
+                    @else
+                        <a class="dropdown-item" href="{{ route('owner.get.profile') }}">
+                            <i class="typcn typcn-cog text-primary"></i>
+                            Profile
+                        </a>
+                    @endif
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();">
                         <i class="typcn typcn-power text-primary"></i>
                         Logout

@@ -59,7 +59,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ route($firstRoute.'/dashboard') }}">
+      <a class="nav-link" href="{{ route($firstRoute.'.profile') }}">
         <i class="typcn typcn-device-desktop menu-icon"></i>
         <span class="menu-title">Manage Profile</span>
       </a>

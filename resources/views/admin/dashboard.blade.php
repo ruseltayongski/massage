@@ -99,6 +99,44 @@
         <div class="col-lg-12 d-flex grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Statistics</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <th>Weekly</th>
+                            <th>Monthly</th>
+                            <th>Yearly</th>
+                            <th>Total Subscription</th>
+                            <tbody>
+                                @foreach($contractsCount as $contract)
+                                    <tr>
+                                        <td>
+                                            {{ $contract->Weekly }}
+                                        </td>
+                                        <td>
+                                            {{ $contract->Monthly }}
+                                        </td>
+                                        <td>
+                                            {{ $contract->Yearly }}
+                                        </td>
+                                        <td>
+                                            {{ $contract->Total }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
                     <div id="chartContainer1" style="height: 400px; width: 100%;"></div>
                 </div>
             </div>    

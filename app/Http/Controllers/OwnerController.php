@@ -31,31 +31,6 @@ class OwnerController extends Controller
         ->where('users.owner_id','=',$user->id)
         ->get();
 
-       /*  $pendingCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
-            $query->where('users.owner_id', $user->id);
-        })
-        ->where('status', 'pending')
-        ->where('bookings.start_date', '<=', now()->toDateString())
-        ->count();
-        $cancelCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
-            $query->where('users.owner_id', $user->id);
-        })->where('status', 'cancel')->count();
-        $completedCount = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
-            $query->where('users.owner_id', $user->id);
-        })->where('status', 'completed')->count();
-
-        $ongoing = Bookings::whereHas('ownerWithSpecificTherapist', function ($query) use ($user) {
-            $query->where('users.owner_id', $user->id);
-        })->where('status', 'approved')->count();
-
-        $totalCounts = [
-            'pending' => $pendingCount,
-            'cancel' => $cancelCount,
-            'completed' => $completedCount,
-            'ongoing' => $ongoing,
-        ];
-        $totalBookings = array_sum($totalCounts); */
-        
         $bookingsCount = Bookings::select(
             DB::raw('SUM(CASE WHEN status = "Cancel" THEN 1 ELSE 0 END) AS Cancel'),
             DB::raw('SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) AS Pending'),

@@ -38,7 +38,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
     Route::post('/client/testimonial/save', [App\Http\Controllers\ClientController::class, 'testimonialSave'])->name('client.testimonial.save');
     Route::post('/client/update/booking/status', [App\Http\Controllers\ClientController::class, 'updateBookingStatus'])->name('client.update.booking.status');
     Route::post('/therapist/update/booking/status', [App\Http\Controllers\TherapistController::class, 'updateBookingStatus'])->name('therapist.update.booking.status');
-    Route::get('/therapist/dashboard',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist/dashboard');
+    Route::get('/therapist/profile',  [App\Http\Controllers\TherapistController::class, 'therapistView'])->name('therapist.profile');
     Route::get('/therapist/dashboard/main',  [App\Http\Controllers\TherapistController::class, 'therapistDasboardMain'])->name('therapist.dashboard.main');
     Route::get('/therapist/booking',  [App\Http\Controllers\TherapistController::class, 'booking'])->name('therapist.booking');
     Route::put('therapist/update',  [App\Http\Controllers\TherapistController::class, 'updateTherapist'])->name('therapist.update');

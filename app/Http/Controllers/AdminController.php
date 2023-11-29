@@ -25,6 +25,13 @@ class AdminController extends Controller
         ->select('status', DB::raw('count(*) as count'))
         ->get();
         
+        $contractsCount = Contracts::select(
+                        DB::raw('SUM(CASE WHEN type = "weekly" THEN 1 ELSE 0 END) AS Weekly'),
+                        DB::raw('SUM(CASE WHEN type = "yearly" THEN 1 ELSE 0 END) AS Yearly'),
+                        DB::raw('SUM(CASE WHEN type = "monthly" THEN 1 ELSE 0 END) AS Monthly'),
+                        DB::raw('SUM(1) AS Total'),
+                    )->get();
+
         foreach($bookings as $booking) {
             $result[$booking->status] = $booking->count;
         }
@@ -92,7 +99,8 @@ class AdminController extends Controller
             "bookings" => isset($result) ? $result : [],
             "contracts" => isset($resultContracts) ? $resultContracts : [],
             "booking_history" => $booking_history,
-            "linechart" => $linechart
+            "linechart" => $linechart,
+            "contractsCount" => $contractsCount,
         ]);
     }
 

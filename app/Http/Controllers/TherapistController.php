@@ -98,7 +98,7 @@ class TherapistController extends Controller
     public function therapistView() {
         $user = Auth::user();
         $therapists = User::where('roles', 'THERAPIST')->where('id', $user->id)->first();
-        return view('therapist.dashboard', [
+        return view('therapist.profile', [
             "therapists" => $therapists
         ]);
     }
