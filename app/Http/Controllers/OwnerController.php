@@ -40,6 +40,8 @@ class OwnerController extends Controller
             'start_date'
         )
         ->groupBy('start_date')
+        ->join('users','users.id','=','bookings.therapist_id')
+        ->where('users.owner_id','=',$user->id)
         ->get();
         
         foreach($bookings as $booking) {
