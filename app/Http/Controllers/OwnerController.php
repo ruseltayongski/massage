@@ -32,10 +32,10 @@ class OwnerController extends Controller
         ->get();
 
         $bookingsCount = Bookings::select(
-            DB::raw('SUM(CASE WHEN status = "Cancel" THEN 1 ELSE 0 END) AS Cancel'),
-            DB::raw('SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) AS Pending'),
-            DB::raw('SUM(CASE WHEN status = "Completed" THEN 1 ELSE 0 END) AS Completed'),
-            DB::raw('SUM(CASE WHEN status = "Approved" THEN 1 ELSE 0 END) AS Ongoing'),
+            DB::raw('SUM(CASE WHEN bookings.status = "Cancel" THEN 1 ELSE 0 END) AS Cancel'),
+            DB::raw('SUM(CASE WHEN bookings.status = "Pending" THEN 1 ELSE 0 END) AS Pending'),
+            DB::raw('SUM(CASE WHEN bookings.status = "Completed" THEN 1 ELSE 0 END) AS Completed'),
+            DB::raw('SUM(CASE WHEN bookings.status = "Approved" THEN 1 ELSE 0 END) AS Ongoing'),
             DB::raw('SUM(1) AS Total'),
             'start_date'
         )
