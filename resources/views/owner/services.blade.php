@@ -110,7 +110,7 @@
                 </div>
             </div>    
             <div class="pl-5 pr-5">
-               {{--  {!! $services->withQueryString()->links('pagination::bootstrap-5') !!} --}}
+                {!! $services->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
     </div>
@@ -169,7 +169,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="assign_spa">Therapist</h5>
+                <h5 class="modal-title" id="assign_spa">Assign to Spa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

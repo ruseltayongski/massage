@@ -531,6 +531,7 @@
                             <th>Ongoing</th>
                             <th>Completed</th>
                             <th>Cancelled</th>
+                            <th>Rejected</th>
                             <th>Total Bookings</th>
                             <th>Booking Date</th>
                             <tbody>
@@ -548,6 +549,9 @@
                                     </td>
                                     <td>
                                         {{ $row->Cancel }}
+                                    </td>
+                                    <td>
+                                        {{ $row->Rejected }}
                                     </td>
                                     <td>
                                         {{ $row->Total }}

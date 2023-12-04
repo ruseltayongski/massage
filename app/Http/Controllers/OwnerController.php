@@ -36,6 +36,7 @@ class OwnerController extends Controller
             DB::raw('SUM(CASE WHEN bookings.status = "Pending" THEN 1 ELSE 0 END) AS Pending'),
             DB::raw('SUM(CASE WHEN bookings.status = "Completed" THEN 1 ELSE 0 END) AS Completed'),
             DB::raw('SUM(CASE WHEN bookings.status = "Approved" THEN 1 ELSE 0 END) AS Ongoing'),
+            DB::raw('SUM(CASE WHEN bookings.status = "Rejected" THEN 1 ELSE 0 END) AS Rejected'),
             DB::raw('SUM(1) AS Total'),
             'start_date'
         )
