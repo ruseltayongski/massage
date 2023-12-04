@@ -191,7 +191,7 @@ class TherapistController extends Controller
             session()->flash('therapist_update', true);
             $user->save(); 
         }  
-        return redirect()->route('therapist/dashboard');
+        return redirect()->route('therapist.profile');
     }
     
     public function booking(Request $request) {
