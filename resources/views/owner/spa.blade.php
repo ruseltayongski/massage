@@ -407,7 +407,7 @@
                     var tbody = $('<tbody></tbody>').appendTo(table);
 
                     response.forEach(function(therapist) {
-                        tbody.append('<tr><td>' + therapist.fname + '</td></tr>');
+                        tbody.append('<tr><td>' + therapist.fname + ' ' + therapist.lname + '</td></tr>');
                     });
 
                 },
