@@ -153,6 +153,9 @@
                                             Status
                                         </th>
                                         <th>
+                                            Message
+                                        </th>
+                                        <th>
                                             Receipt
                                         </th>
                                     </tr>
@@ -267,6 +270,9 @@
                                                     {{ $booking->status }}     
                                                 </span>
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{ $booking->latest_notification_message }}
                                         </td>
                                         <td>
                                            <a href="{{ route('client-generate-pdf', ['id' => $booking->id]) }}">

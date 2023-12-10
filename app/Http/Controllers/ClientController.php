@@ -239,7 +239,8 @@ class ClientController extends Controller
                         'bookings.status',
                         'bookings.payment_picture',
                         DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.spa_id = spa.id)) as ratings_spa'),
-                        DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist')
+                        DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.therapist_id = users.id)) as ratings_therapist'),
+                        DB::raw('(SELECT message FROM notifications WHERE notifications.booking_id = bookings.id ORDER BY created_at DESC LIMIT 1) as latest_notification_message')
                     )
                     ->where('client_id',$user->id)
                     ->leftJoin('spa','spa.id','=','bookings.spa_id')

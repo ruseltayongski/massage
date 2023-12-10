@@ -98,7 +98,7 @@ class TherapistController extends Controller
     public function therapistView() {
         $user = Auth::user();
         $therapists = User::where('roles', 'THERAPIST')->where('id', $user->id)->first();
-        return view('therapist.profile', [
+        return view('therapist.dashboard', [
             "therapists" => $therapists
         ]);
     }
@@ -191,7 +191,7 @@ class TherapistController extends Controller
             session()->flash('therapist_update', true);
             $user->save(); 
         }  
-        return redirect()->route('therapist.profile');
+        return redirect()->route('therapist/dashboard');
     }
     
     public function booking(Request $request) {
