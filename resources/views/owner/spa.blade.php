@@ -74,6 +74,7 @@
                                 <th>Spa</th>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>Address</th>
                                 <th>Therapist</th>
                                 <th>Created at</th>
                                 <th></th>
@@ -93,6 +94,9 @@
                                     </td>
                                     <td>
                                         {{ $spa->description }}
+                                    </td>
+                                    <td>
+                                        {{ $spa->address }}
                                     </td>
                                     <td>
                                         <button
@@ -117,6 +121,7 @@
                                                 data-id="{{ $spa->id }}"
                                                 data-name="{{ $spa->name }}"
                                                 data-description="{{ $spa->description }}"
+                                                data-description="{{ $spa->address }}"
                                                 data-picture="{{ $spa->picture }}"
                                                 class="btn btn-info btn-sm"
                                             >
@@ -151,7 +156,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Spa Management</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Spa</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
@@ -174,6 +179,13 @@
                     Please enter Description
                   </div>
               </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" required>
+                <div class="invalid-feedback">
+                  Please enter Address
+                </div>
+            </div>
               <div class="form-group">
                   <label for="spa_picture">Spa Picture</label>
                   <input type="file" class="form-control-file" id="picture" name="picture" required />
@@ -211,6 +223,10 @@
                     <div class="form-group">
                         <label for="description">Description</label>
                         <input type="text" class="form-control" id="description" name="description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -313,6 +329,39 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="relocate" tabindex="-1" aria-labelledby="relocate" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="relocate">SPA</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <form action="{{ route('reassign.therapist') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="therapist_id" id="therapist_id" value="">
+                    <select name="spa_id" class="full-width-select">
+                        @foreach($spas as $spa)
+                            <option value="{{ $spa->id }}">
+                                {{ $spa->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('js')
 <script>
@@ -322,12 +371,14 @@
         var spaId = button.data('id');
         var spaName = button.data('name');
         var spaDescription = button.data('description');
+        var spaAddress = button.data('address');
         var currentPicture = button.data('picture');
 
         var modal = $(this);
         modal.find('#id').val(spaId);
         modal.find('#name').val(spaName);
         modal.find('#description').val(spaDescription);
+        modal.find('#address').val(spaAddress);
 
         // Set the current picture value to the hidden input field
         modal.find('#currentPicture').val(currentPicture);
@@ -388,28 +439,40 @@
             form.addClass('was-validated');
         });
 
-            $('#view_therapist').on('show.bs.modal', function (event) {
+        $('#view_therapist').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var spaId = button.data('id');
 
             var modalBody = $('#view_therapist').find('.modal-body');
             modalBody.empty();
-
             $.ajax({
                 url: '{{ route('owner.get-therapists') }}',
                 method: 'GET',
                 data: { spa_id: spaId },
                 success: function(response) {
-                    console.log("response", response);
                     var table = $('<table class="therapist-table"></table>').appendTo(modalBody);
-                    table.append('<thead><tr><th>Name</th></tr></thead>');
+                    table.append('<thead><tr><th>Name</th><th>Relocate To SPA</th></tr></thead>');
 
                     var tbody = $('<tbody></tbody>').appendTo(table);
 
                     response.forEach(function(therapist) {
-                        tbody.append('<tr><td>' + therapist.fname + ' ' + therapist.lname + '</td></tr>');
+                        console.log("Therapist", therapist);
+                        tbody.append(
+                            '<tr><td>' + therapist.fname + ' ' + therapist.lname + '</td><td>' +
+                            '<button type="button" ' +
+                            'class="btn btn-info btn-sm relocate-btn" ' +
+                            'data-bs-toggle="modal" ' +
+                            'data-bs-target="#relocate" data-id="' + therapist.id + '" data-current_spa_id="' + therapist.spa_id + '">' +
+                            'Reassign' +
+                            '</button></td></tr>'
+                        );
                     });
-
+                    $('.relocate-btn').on('click', function() {
+                        var therapistId = $(this).data('id');
+                        var currentSpaId = $(this).data('current_spa_id');
+                        $('#therapist_id').val(therapistId);
+                        $('#current_spa_id').val(currentSpaId);
+                    });
                 },
                 error: function(error) {
                     console.error(error);

@@ -249,7 +249,11 @@ class TherapistController extends Controller
         $notification->booking_id = $booking->id;
         $notification->booked_by = $booking->client_id;
         $notification->notifier_id = $user->id;                       
-        $notification->message = $booking->status.' your booking';
+        if($booking->status !== 'Rejected') {
+            $notification->message = $booking->status.' your booking';
+        } else {
+            $notification->message = $booking->status.' your booking,'.'   '.' Reason: '.$request->message;
+        }
         $notification->save();
 
         session()->flash('booking_update_status', true);

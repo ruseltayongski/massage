@@ -134,7 +134,7 @@
                                                     <div class="col-md-2" style="padding: 0;">
                                                         <img src="{{ asset('fileupload/therapist/profile').'/'.$notification->notifier_picture }}" class="img-notification" alt="user">
                                                     </div>
-                                                    <div class="col-md-6" style="padding: 0;padding-left:5px;">
+                                                    <div class="col-md-6" style="padding-left: 0;">
                                                         <p><small>{{ $notification->message }}</small></p>
                                                     </div>
                                                     <div class="col-md-4" style="padding: 0; padding-top:5px;">

@@ -312,6 +312,7 @@ class OwnerController extends Controller
             $spa->owner_id = $user->id;
             $spa->name = $request->name;
             $spa->description = $request->description;
+            $spa->address = $request->address;
             $spa->picture = $spaFileName;
             $spa->save();
     
@@ -330,6 +331,7 @@ class OwnerController extends Controller
                 $spaId = $request->input('id');
                 $spa = Spa::find($spaId);
                 $spa->name = $request->input('name');
+                $spa->address = $request->input('address');
                 $spa->description = $request->input('description');
     
                 if ($request->hasFile('picture')) {
@@ -380,6 +382,20 @@ class OwnerController extends Controller
             $user->save();
         }
         return redirect()->back();
+    }
+
+    public function reassignTherapist(Request $request) {
+        if ($request->has('spa_id') && $request->has('therapist_id')) {
+            $spa_id = $request->input('spa_id');
+            $therapist_id = $request->input('therapist_id');
+            $user = User::find($therapist_id);
+            $user->spa_id = $spa_id;
+
+            session()->flash('assign_therapist', true);
+            $user->save();
+        }
+
+         return redirect()->back();
     }
   
     public function ownerProfile() {
@@ -454,13 +470,25 @@ class OwnerController extends Controller
                        ->leftJoin('users as therapist', 'therapist.id', '=', 'bookings.therapist_id')
                        ->leftJoin('users as client', 'client.id', '=', 'bookings.client_id');
                        
+                       if($request->has('status')) {
+                            $status = $request->status;
+                            $query->where('bookings.status', $status);
+                        }
+                        if ($request->has('datetimes')) {
+                            $dateRange = explode(' - ', $request->input('datetimes'));
+                            $startDate = date('Y-m-d', strtotime($dateRange[0]));
+                            $endDate = date('Y-m-d', strtotime($dateRange[1]));
+                    
+                            // Adjust the query to filter by the date range
+                            $query->whereBetween('bookings.start_date', [$startDate, $endDate]);
+                        }
                        if ($request->has('search')) {
                         $search = $request->input('search');
                         $query->where('therapist.fname', 'like', "%$search%")
                                 ->orWhere('therapist.lname', 'like', "%$search%")
                                 ->orWhere('client.fname', 'like', "%$search%")
                                 ->orWhere('client.lname', 'like', "%$search%");
-                    }
+                        }
 
        
         $transactions = $query->paginate(15);

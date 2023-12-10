@@ -146,7 +146,7 @@
                                     <p class="m-0">Therapist</p>
                                 </div>
                                 <div class="team-social bg-dark text-center">
-                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?therapist='.$therapist->id.'&price='.$price }}">SELECT</i></a>
+                                    <a class="btn btn-outline-primary btn-square" href="{{ route('client.booking').'?therapist='.$therapist->id.'&price='.$price.'&client_mobile='.$mobile }}">SELECT</i></a>
                                 </div>
                             </div>
                             <div class="tag-rating">

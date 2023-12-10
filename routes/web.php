@@ -67,9 +67,11 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::get('owner/therapist',[App\Http\Controllers\OwnerController::class, 'therapist'])->name('owner/therapist');
         Route::post('owner/therapist', [App\Http\Controllers\TherapistController::class, 'addTherapist'])->name('owner.therapist.save');
         Route::get('/get-therapists', [App\Http\Controllers\OwnerController::class, 'getTherapists'])->name('owner.get-therapists');
+        Route::get('/get-spa', [App\Http\Controllers\OwnerController::class, 'spaInServices'])->name('get.spa');
         Route::get('owner/profile',[App\Http\Controllers\OwnerController::class, 'ownerProfile'])->name('owner.get.profile');
         Route::put('profile/update',[App\Http\Controllers\OwnerController::class, 'updateProfile'])->name('owner.profile.update');
         Route::post('assign/therapist', [App\Http\Controllers\OwnerController::class, 'assignTherapist'])->name('assigned.therapist.save');
+        Route::put('reassign/therapist', [App\Http\Controllers\OwnerController::class, 'reassignTherapist'])->name('reassign.therapist');
         Route::get('owner/services',[App\Http\Controllers\ServicesController::class, 'servicesView'])->name('owner/services');
         Route::put('services/update',[App\Http\Controllers\ServicesController::class, 'updateService'])->name('owner.services.update');
         Route::post('owner/services',[App\Http\Controllers\ServicesController::class, 'addServices'])->name('owner.services.save');
