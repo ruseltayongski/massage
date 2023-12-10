@@ -238,6 +238,7 @@
                                         <td>
                                             ₱&nbsp;{{ number_format($booking->amount_paid, 2, '.', ',') }}
                                         </td>
+    
                                         <td>
                                             <?php
                                                 $color = "";

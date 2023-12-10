@@ -4,6 +4,14 @@
             cursor: pointer !important;
             color: white;
         }
+        .filtering-holder {
+            display: flex;
+        }
+
+        .view-all span{
+            color: #fff !important;
+            cursor: pointer;
+        }
     </style>
 @endsection
 
@@ -16,6 +24,54 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">View Transactions</h4>
+                </div>
+                <div class="filtering-holder">
+                    <form action="{{ route('owner/transactions') }}">
+                        <div class="left-filtering">
+                            <ul class="nav nav-pills mb-3 pr-3">
+                                <li class="nav-item">
+                                    <a 
+                                        class="nav-link {{ request('status') == 'Pending' ? 'active' : '' }}" 
+                                        aria-current="page" 
+                                        href="{{ route('owner/transactions', ['status' => 'Pending']) }}">
+                                        Pending
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a 
+                                    class="nav-link {{ request('status') == 'Cancel' ? 'active' : '' }}" 
+                                    href="{{ route('owner/transactions', ['status' => 'Cancel']) }}">
+                                    Cancelled
+                                </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a 
+                                        class="nav-link {{ request('status') == 'Approved' ? 'active' : '' }}" 
+                                        href="{{ route('owner/transactions', ['status' => 'Approved']) }}">
+                                        Approved
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a 
+                                        class="nav-link {{ request('status') == 'Completed' ? 'active' : '' }}" 
+                                        href="{{ route('owner/transactions', ['status' => 'Completed']) }}">
+                                        Completed
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="mb-3">
+                                <label for="" class="pr-2">Date Range:</label>
+                                <input type="text" name="datetimes" value="Select Date" />
+                            </div>
+                        </div>
+                    </form>                            
+                    <div class="right-filtering">
+                        <button class="btn btn-primary">
+                            <a href="{{ route('owner/transactions') }}" class="view-all">
+                                <span>View All</span>
+                            </a>
+                        </button>
+                    </div>
                 </div>
                 <form action="{{ route('owner/transactions') }}" method="GET">
                     <div class="input-group">
@@ -103,4 +159,19 @@
 </div>
 
 
+@endsection
+
+@section('js')
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+      $(function() {
+        var dateRangePicker = $("input[name='datetimes']").daterangepicker();
+
+        dateRangePicker.on('apply.daterangepicker', function(ev, picker) {
+            $(this).closest('form').submit();
+        });
+    });
+</script>
 @endsection

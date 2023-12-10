@@ -178,20 +178,21 @@
                 <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id">
+
+                
                     <select name="spa_id" class="full-width-select">
-                    {{--     @if($services->spa_id === null) --}}
-                            @foreach($spa as $spas)
-                                <option value="{{ $spas->id }}">
-                                    {{ $spas->name }}
-                                </option>
-                            @endforeach
-                     {{--    @endif --}}
+                        @foreach($spa as $spas)
+                            <option value="{{ $spas->id }}">
+                                {{ $spas->name }}
+                            </option>
+                        @endforeach
                     </select>
-                        <div class="modal-footer">
+                
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
+                </form> 
             </div>
         </div>
     </div>

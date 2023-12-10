@@ -103,8 +103,8 @@ class ServicesController extends Controller
     }
     
 
-    public function assignSpa(Request $request) {
-       /*  dd($request->all()); */
+   /*  public function assignSpa(Request $request) {
+   
        if ($request->has('id') && $request->has('spa_id')) {
             $services_id = $request->input('id');
             $spa_id = $request->input('spa_id');
@@ -116,6 +116,23 @@ class ServicesController extends Controller
             $services->save();
         }
          return redirect()->back();
+    } */
+
+    public function assignSpa(Request $request)
+    {
+        if ($request->has('id') && $request->has('spa_id')) {
+            $services_id = $request->input('id');
+            $spa_id = $request->input('spa_id');
+
+            $services = Services::find($services_id);
+            $services->spa_id = $spa_id;
+
+            session()->flash('assign_spa', true);   
+            $services->save();
+        }
+         return redirect()->back();
     }
+    
+    
 }
 

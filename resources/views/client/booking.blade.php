@@ -137,7 +137,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="number" class="form-control bg-transparent p-4" name="client_no"
+                                            <input type="number" id="mobile" class="form-control bg-transparent p-4" name="client_no"
                                                 placeholder="Phone Number" required disabled />
                                         </div>
                                     </div>
@@ -252,6 +252,7 @@
 @section('js')
     <script>
         $("#amount_paid").val("{{ session('price') }}");
+        $("#mobile").val("{{ session('client_mobile') }}");
 
         $(document).ready(function() {
             $('.home-service').hide();  

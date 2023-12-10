@@ -96,11 +96,13 @@ class ClientController extends Controller
     public function therapist(Request $request) {
         $service_id = $request->service;
         $price = $request->price;
-        
+        $user = Auth::user();
+        $mobile = $user->mobile;
         if(isset($service_id)) {
             session([
                 'service_id' => $service_id,
-                'price' => $price
+                'price' => $price,
+                'client_mobile' => $mobile,
             ]);
         }
 
@@ -125,7 +127,8 @@ class ClientController extends Controller
         //return $therapists;
         return view('client.therapist',[
             'therapists' => $therapists,
-            'price' => $request->price
+            'price' => $request->price,
+            'mobile' => $mobile
         ]);
     }
 
@@ -259,14 +262,12 @@ class ClientController extends Controller
                         // Adjust the query to filter by the date range
                         $query->whereBetween('bookings.start_date', [$startDate, $endDate]);
                     }
-                    $bookings = $query->orderBy('bookings.id','desc')
-                                ->paginate(15);
+                    $bookings = $query->orderBy('bookings.id','desc')->paginate(15);
         
         return view('client.booking_history',[
             'bookings' => $bookings
         ]);
     }
-
     public function rateSpa(Request $request) {
         $spa = Spa::find($request->spa_id);
         $ratings = Ratings::where('spa_id',$request->spa_id)->avg('rate');
