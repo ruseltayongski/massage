@@ -25,6 +25,29 @@ class OwnerController extends Controller
 
     public function dashboard() {
         $user = Auth::user();
+        $profits = DB::table('bookings')
+        ->select(DB::raw('MONTH(bookings.start_date) as month'), DB::raw('SUM(bookings.amount_paid) as total_profit'))
+        ->where('bookings.status', '=', 'Completed')
+        ->join('users','users.id','=','bookings.therapist_id')
+        ->where('users.owner_id',$user->id) 
+        ->groupBy(DB::raw('MONTH(bookings.start_date)'))
+        ->get();
+
+        $barchart = [];
+        $barchart_grandtotal = 0;
+        for ($month = 1; $month <= 12; $month++) {
+            $label = date('M', mktime(0, 0, 0, $month, 1));
+            $totalProfit = 0;
+
+            $foundMonth = $profits->firstWhere('month', $month);
+            if ($foundMonth) {
+                $totalProfit = $foundMonth->total_profit;
+            }
+
+            $barchart[] = ['label' => $label, 'y' => (float)$totalProfit];
+            $barchart_grandtotal += (float)$totalProfit;
+        }
+
         $bookings = Bookings::groupBy('bookings.status')
         ->select('bookings.status', DB::raw('count(bookings.id) as count'))
         ->join('users','users.id','=','bookings.therapist_id')
@@ -66,13 +89,12 @@ class OwnerController extends Controller
         ->orderBy('bookings.updated_at','desc')
         ->paginate(4);
 
-        $date_start_future = date('Y-m-d', strtotime(Carbon::now()));
-        $date_end_future = date('Y-m-d', strtotime(Carbon::now()->addDays(22)));
-        
+        $dateline_1 = date('Y-m-d', strtotime(Carbon::now()));
+        $dateline_2 = date('Y-m-d', strtotime(Carbon::now()->subDays(22)));
         $linechart = DB::table(DB::raw("(SELECT date(bookings.start_date) as date, count(distinct bookings.id) as value
                 FROM massage.bookings
                 JOIN users on users.id = bookings.therapist_id
-                WHERE bookings.start_date BETWEEN '$date_start_future' AND '$date_end_future'
+                WHERE bookings.start_date BETWEEN '$dateline_2' AND '$dateline_1'
                 AND users.owner_id = '$user->id'
                 GROUP BY date(bookings.start_date)
 
@@ -97,19 +119,46 @@ class OwnerController extends Controller
                         SELECT 0 t4 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
                     ) t4
                 ) v 
-                WHERE date BETWEEN '$date_start_future' AND '$date_end_future'
+                WHERE date BETWEEN '$dateline_2' AND '$dateline_1'
                 GROUP BY date) t"))
                 ->groupBy('date')
                 ->select('date', DB::raw('SUM(value) as value'))
                 ->get();
-        
 
         return view('owner.dashboard',[
             "bookings" => isset($result) ? $result : [],
             "booking_history" => $booking_history,
             "linechart" => $linechart,
             "bookingsCount" => $bookingsCount,
-            
+            "barchart" => $barchart,
+            "barchart_grandtotal" => $barchart_grandtotal
+        ]);
+    }
+
+    public function exportBarchartProfit(Request $request) {
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=barchart_export_profit.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        $user = Auth::user();
+
+        $bookings = Bookings
+                ::select(
+                    'bookings.start_date', 
+                    'bookings.amount_paid',
+                    'spa.name as spa_name',
+                    'spa.address as spa_address'
+                )
+                ->where('bookings.status','=','Completed')
+                ->where('users.owner_id',$user->id)
+                ->join('users','users.id','=','bookings.therapist_id')
+                ->join('spa','spa.id','=','bookings.spa_id')
+                ->orderBy('bookings.start_date','desc')
+                ->get();
+
+        return view('owner.barchart_export_profit',[
+            'bookings' => $bookings
         ]);
     }
     

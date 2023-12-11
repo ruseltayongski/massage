@@ -59,12 +59,12 @@ class AdminController extends Controller
         ->orderBy('bookings.updated_at','desc')
         ->paginate(4);
 
-        $date_start_future = date('Y-m-d', strtotime(Carbon::now()));
-        $date_end_future = date('Y-m-d', strtotime(Carbon::now()->addDays(22)));
+        $date1 = date('Y-m-d', strtotime(Carbon::now()));
+        $date2 = date('Y-m-d', strtotime(Carbon::now()->subDays(22)));
         
         $linechart = DB::table(DB::raw("(SELECT date(bookings.start_date) as date, count(distinct bookings.id) as value
                 FROM massage.bookings
-                WHERE bookings.start_date BETWEEN '$date_start_future' AND '$date_end_future'
+                WHERE bookings.start_date BETWEEN '$date2' AND '$date1'
                 GROUP BY date(bookings.start_date)
 
                 UNION
@@ -88,7 +88,7 @@ class AdminController extends Controller
                         SELECT 0 t4 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
                     ) t4
                 ) v 
-                WHERE date BETWEEN '$date_start_future' AND '$date_end_future'
+                WHERE date BETWEEN '$date2' AND '$date1'
                 GROUP BY date) t"))
                 ->groupBy('date')
                 ->select('date', DB::raw('SUM(value) as value'))

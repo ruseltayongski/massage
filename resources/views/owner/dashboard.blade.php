@@ -74,110 +74,6 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{-- <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face31.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">Land Rover</div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$12022  </div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success  mt-1">70% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">08 Nov 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face32.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">Bentley </div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$8,725</div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success  mt-1">87% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">11 Jun 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face33.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">Morgan </div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$5,220 </div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success  mt-1">65% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">26 Oct 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face34.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">volkswagen</div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$2322 </div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success mt-1">88% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">07 Nov 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr> --}}
                             </tbody>
                         </table>
                     </div>
@@ -197,6 +93,16 @@
                         <h4 class="card-title mb-3">Montly Sales in Bookings</h4>
                     </div>
                     <div id="barChartContainer" style="height: 300px; width: 100%;"></div>
+                    <div class="d-md-flex mt-4">
+                        <div class="mr-md-5 ">
+                          <h5 class="mb-1"><i class="typcn typcn-tags mr-1"></i>Grand Total</h5>
+                          <h2 class="text-warning font-weight-bold">₱&nbsp;{{ number_format($barchart_grandtotal, 2, '.', ',') }}</h2>
+                        </div>
+                        <div class="mr-md-5 ">
+                            <h5 class="mb-1"><i class="typcn typcn-archive mr-1"></i>Export</h5>
+                            <a href="{{ route('owner.barchart.profit.excel') }}" type="button" class="btn btn-xs btn-outline-success btn-fw">Excel</a>
+                        </div>
+                    </div>
                 </div>
             </div>    
         </div>
@@ -248,110 +154,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-                                {{-- <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face31.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">Land Rover</div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$12022  </div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success  mt-1">70% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">08 Nov 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face32.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">Bentley </div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$8,725</div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success  mt-1">87% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">11 Jun 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face33.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">Morgan </div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$5,220 </div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success  mt-1">65% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">26 Oct 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex">
-                                        <img class="img-sm rounded-circle mb-md-0 mr-2" src="{{ asset('admin/images/faces/face34.png') }}" alt="profile image">
-                                        <div>
-                                            <div> Company</div>
-                                            <div class="font-weight-bold  mt-1">volkswagen</div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Budget
-                                        <div class="font-weight-bold  mt-1">$2322 </div>
-                                    </td>
-                                    <td>
-                                        Status
-                                        <div class="font-weight-bold text-success mt-1">88% </div>
-                                    </td>
-                                    <td>
-                                        Deadline
-                                        <div class="font-weight-bold  mt-1">07 Nov 2019</div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-secondary">edit actions</button>
-                                    </td>
-                                </tr> --}}
                             </tbody>
                         </table>
                     </div>
@@ -403,51 +205,13 @@
         };
         $("#chartContainer").CanvasJSChart(options);
 
-        // var options_bar_chart = {
-        //     data: [              
-        //         {
-        //             // Change type to "doughnut", "line", "splineArea", etc.
-        //             type: "column",
-        //             dataPointWidth: 2,
-        //             dataPoints: [
-        //                 { label: "Jan",  y: 10  },
-        //                 { label: "Feb", y: 15  },
-        //                 { label: "Mar", y: 25  },
-        //                 { label: "Apr",  y: 30  },
-        //                 { label: "May",  y: 28  },
-        //                 { label: "Jun",  y: 28  },
-        //                 { label: "Jul",  y: 28  },
-        //                 { label: "Aug",  y: 28  },
-        //                 { label: "Sep",  y: 28  },
-        //                 { label: "Oct",  y: 28  },
-        //                 { label: "Nov",  y: 28  },
-        //                 { label: "Dec",  y: 28  },
-        //             ]
-        //         }
-        //     ]
-        // };
-        // $("#barChartContainer").CanvasJSChart(options_bar_chart);
-
-
+        const barchart_data = {!! json_encode($barchart) !!};
         var bar_chart = new CanvasJS.Chart("barChartContainer", {
             animationEnabled: true,
             data: [
                 {
                     type: "column",
-                    dataPoints: [
-                        { label: "Jan",  y: 10  },
-                        { label: "Feb",  y: 15  },
-                        { label: "Mar",  y: 25  },
-                        { label: "Apr",  y: 30  },
-                        { label: "May",  y: 28  },
-                        { label: "Jun",  y: 28  },
-                        { label: "Jul",  y: 28  },
-                        { label: "Aug",  y: 28  },
-                        { label: "Sep",  y: 28  },
-                        { label: "Oct",  y: 28  },
-                        { label: "Nov",  y: 28  },
-                        { label: "Dec",  y: 28  },
-                    ],
+                    dataPoints: barchart_data,
                 }
             ],
             dataPointWidth: 50,
@@ -457,11 +221,11 @@
             },
             axisY: {
                 labelFormatter: function (e) {
-                    return "₱ " + e.value;  // Add ₱ before the y-axis label
+                    return "₱ " + e.value; 
                 }
             },
             toolTip: {
-                content: "{label}: ₱ {y}"  // Customize the tooltip content
+                content: "{label}: ₱ {y}" 
             }
         });
         bar_chart.render();
@@ -502,7 +266,7 @@
                 xValueFormatString: "DD MMM",
                 yValueFormatString: "##0",
                 dataPoints: datapoints_bookings
-            }]
+            }],
         });
         chart1.render();
     }
