@@ -100,6 +100,29 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Monthly Sales in Subscriptions</h4>
+                    </div>
+                    <div id="barChartContainer" style="height: 300px; width: 100%;"></div>
+                    <div class="d-md-flex mt-4">
+                        <div class="mr-md-5 ">
+                          <h5 class="mb-1"><i class="typcn typcn-tags mr-1"></i>Grand Total</h5>
+                          <h2 class="text-warning font-weight-bold">₱&nbsp;{{ number_format($barchart_grandtotal, 2, '.', ',') }}</h2>
+                        </div>
+                        <div class="mr-md-5 ">
+                            <h5 class="mb-1"><i class="typcn typcn-archive mr-1"></i>Export</h5>
+                            <a href="{{ route('admin.barchart.profit.excel') }}" type="button" class="btn btn-xs btn-outline-success btn-fw">Excel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
                         <h4 class="card-title mb-3">Statistics</h4>
                     </div>
                     <div class="table-responsive">
@@ -137,6 +160,9 @@
         <div class="col-lg-12 d-flex grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Booking's Comprehensive Overview</h4>
+                    </div>
                     <div id="chartContainer1" style="height: 400px; width: 100%;"></div>
                 </div>
             </div>    
@@ -191,6 +217,30 @@
         };
         $("#chartContainerSubscribe").CanvasJSChart(optionsSubscribe);
 
+        const barchart_data = {!! json_encode($barchart) !!};
+        var bar_chart = new CanvasJS.Chart("barChartContainer", {
+            animationEnabled: true,
+            data: [
+                {
+                    type: "column",
+                    dataPoints: barchart_data,
+                }
+            ],
+            dataPointWidth: 50,
+            axisX: {
+                interval: 1,
+                //labelAngle: -70 
+            },
+            axisY: {
+                labelFormatter: function (e) {
+                    return "₱ " + e.value; 
+                }
+            },
+            toolTip: {
+                content: "{label}: ₱ {y}" 
+            }
+        });
+        bar_chart.render();
 
         let datapoints_bookings = [];
         $.each(<?php echo json_encode($linechart)?>, function( index, value ) {
@@ -202,9 +252,9 @@
         
         var chart1 = new CanvasJS.Chart("chartContainer1", {
             animationEnabled: true,
-            title:{
-                text: "Booking's Comprehensive Overview"
-            },
+            // title:{
+            //     text: "Booking's Comprehensive Overview"
+            // },
             axisX:{
                 valueFormatString: "DD MMM",
                 crosshair: {

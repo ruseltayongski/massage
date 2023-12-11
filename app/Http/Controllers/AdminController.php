@@ -21,6 +21,27 @@ class AdminController extends Controller
     }
 
     public function dashboard() {
+        $profits = Contracts::
+        select(DB::raw('MONTH(contracts.active_date) as month'), DB::raw('SUM(contracts.amount_paid) as total_profit'))
+        ->where('contracts.status', '=', 'Approved')
+        ->groupBy(DB::raw('MONTH(contracts.active_date)'))
+        ->get();
+
+        $barchart = [];
+        $barchart_grandtotal = 0;
+        for ($month = 1; $month <= 12; $month++) {
+            $label = date('M', mktime(0, 0, 0, $month, 1));
+            $totalProfit = 0;
+
+            $foundMonth = $profits->firstWhere('month', $month);
+            if ($foundMonth) {
+                $totalProfit = $foundMonth->total_profit;
+            }
+
+            $barchart[] = ['label' => $label, 'y' => (float)$totalProfit];
+            $barchart_grandtotal += (float)$totalProfit;
+        }
+
         $bookings = Bookings::groupBy('status')
         ->select('status', DB::raw('count(*) as count'))
         ->get();
@@ -101,6 +122,33 @@ class AdminController extends Controller
             "booking_history" => $booking_history,
             "linechart" => $linechart,
             "contractsCount" => $contractsCount,
+            "barchart" => $barchart,
+            "barchart_grandtotal" => $barchart_grandtotal
+        ]);
+    }
+
+    public function exportBarchartProfit(Request $request) {
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=barchart_export_profit_contracts.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        
+        $contracts = Contracts::
+                select(
+                    'contracts.active_date', 
+                    'contracts.start_date',
+                    'contracts.end_date',
+                    DB::raw("concat(users.fname,' ',users.lname) as customer_name"),
+                    'contracts.type as contract_type',
+                    'contracts.amount_paid'
+                )
+                ->where('contracts.status','=','Approved')
+                ->join('users','users.id','=','contracts.owner_id')
+                ->orderBy('contracts.active_date','desc')
+                ->get();
+
+        return view('admin.barchart_export_profit',[
+            'contracts' => $contracts
         ]);
     }
 

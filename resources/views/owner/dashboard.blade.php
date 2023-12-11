@@ -90,7 +90,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between">
-                        <h4 class="card-title mb-3">Montly Sales in Bookings</h4>
+                        <h4 class="card-title mb-3">Monthly Sales in Bookings</h4>
                     </div>
                     <div id="barChartContainer" style="height: 300px; width: 100%;"></div>
                     <div class="d-md-flex mt-4">

@@ -54,6 +54,7 @@ Route::group(['middleware' => 'prevent-back-history'],function() {
         Route::post('update/contract', [App\Http\Controllers\AdminController::class, 'updateOwnerStatus'])->name('update.contract.status');
         Route::get('admin/profile', [App\Http\Controllers\AdminController::class, 'ownerProfile'])->name('admin.profile');
         Route::put('admin/update', [App\Http\Controllers\AdminController::class, 'updateProfile'])->name('admin.update');
+        Route::get('admin/barchart/profit/excel', [App\Http\Controllers\AdminController::class, 'exportBarchartProfit'])->name('admin.barchart.profit.excel');
     });
 
     Route::group(['middleware' => 'owner'], function () {

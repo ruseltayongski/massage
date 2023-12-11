@@ -25,8 +25,8 @@ class OwnerController extends Controller
 
     public function dashboard() {
         $user = Auth::user();
-        $profits = DB::table('bookings')
-        ->select(DB::raw('MONTH(bookings.start_date) as month'), DB::raw('SUM(bookings.amount_paid) as total_profit'))
+        $profits = Bookings::
+        select(DB::raw('MONTH(bookings.start_date) as month'), DB::raw('SUM(bookings.amount_paid) as total_profit'))
         ->where('bookings.status', '=', 'Completed')
         ->join('users','users.id','=','bookings.therapist_id')
         ->where('users.owner_id',$user->id) 
@@ -137,14 +137,14 @@ class OwnerController extends Controller
 
     public function exportBarchartProfit(Request $request) {
         header("Content-Type: application/xls");
-        header("Content-Disposition: attachment; filename=barchart_export_profit.xls");
+        header("Content-Disposition: attachment; filename=barchart_export_profit_bookings.xls");
         header("Pragma: no-cache");
         header("Expires: 0");
 
         $user = Auth::user();
 
-        $bookings = Bookings
-                ::select(
+        $bookings = Bookings::
+                select(
                     'bookings.start_date', 
                     'bookings.amount_paid',
                     'spa.name as spa_name',
