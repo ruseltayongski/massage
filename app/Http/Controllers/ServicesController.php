@@ -135,8 +135,9 @@ class ServicesController extends Controller
             $services = Services::find($services_id);
             $spaIds = $request->spa;
             $services->spa()->attach($spaIds);
+            session()->flash('assign_spa', true);
         }
-         return redirect()->back();
+        return redirect()->back();
     }
     
     public function getSpa(Request $request) {
