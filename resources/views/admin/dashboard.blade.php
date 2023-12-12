@@ -99,8 +99,20 @@
         <div class="col-lg-12 d-flex grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex flex-wrap justify-content-between">
+                    <div class="d-flex flex-wrap justify-content-between mb-3" >
                         <h4 class="card-title mb-3">Monthly Sales in Subscriptions</h4>
+                        <form method="GET">
+                            <div class="input-group">
+                                <input type="month" class="form-control" name="start_month_bar" value="{{ $start_month_bar }}">
+                                <input type="month" class="form-control" name="end_month_bar" value="{{ $end_month_bar }}">
+                                <div class="button-holder pl-3">
+                                    <button type="submit" name="barchart_search" class="btn btn-outline-primary">Filter</button>
+                                    <a href="{{ route('admin/dashboard') }}" class="btn btn-primary">
+                                        View All
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div id="barChartContainer" style="height: 300px; width: 100%;"></div>
                     <div class="d-md-flex mt-4">

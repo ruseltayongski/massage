@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -20,12 +21,19 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    public function dashboard() {
+    public function dashboard(Request $request) {
+        $startmonth_bar = $request->start_month_bar . '-01';
+        $endmonth_bar = date('Y-m-t', strtotime($request->end_month_bar . '-01'));
         $profits = Contracts::
         select(DB::raw('MONTH(contracts.active_date) as month'), DB::raw('SUM(contracts.amount_paid) as total_profit'))
         ->where('contracts.status', '=', 'Approved')
-        ->groupBy(DB::raw('MONTH(contracts.active_date)'))
-        ->get();
+        ->groupBy(DB::raw('MONTH(contracts.active_date)'));
+        if($startmonth_bar && $endmonth_bar) {
+            $profits = $profits->whereBetween('contracts.active_date', [$startmonth_bar, $endmonth_bar]);
+        }
+        Session::put("start_month_bar",$startmonth_bar);
+        Session::put("end_month_bar",$endmonth_bar);
+        $profits = $profits->get();
 
         $barchart = [];
         $barchart_grandtotal = 0;
@@ -45,7 +53,6 @@ class AdminController extends Controller
         $bookings = Bookings::groupBy('status')
         ->select('status', DB::raw('count(*) as count'))
         ->get();
-        
         $contractsCount = Contracts::select(
                         DB::raw('SUM(CASE WHEN type = "weekly" THEN 1 ELSE 0 END) AS Weekly'),
                         DB::raw('SUM(CASE WHEN type = "yearly" THEN 1 ELSE 0 END) AS Yearly'),
@@ -123,7 +130,9 @@ class AdminController extends Controller
             "linechart" => $linechart,
             "contractsCount" => $contractsCount,
             "barchart" => $barchart,
-            "barchart_grandtotal" => $barchart_grandtotal
+            "barchart_grandtotal" => $barchart_grandtotal,
+            "start_month_bar" => $request->start_month_bar,
+            "end_month_bar" => $request->end_month_bar
         ]);
     }
 
@@ -134,18 +143,24 @@ class AdminController extends Controller
         header("Expires: 0");
         
         $contracts = Contracts::
-                select(
-                    'contracts.active_date', 
-                    'contracts.start_date',
-                    'contracts.end_date',
-                    DB::raw("concat(users.fname,' ',users.lname) as customer_name"),
-                    'contracts.type as contract_type',
-                    'contracts.amount_paid'
-                )
-                ->where('contracts.status','=','Approved')
-                ->join('users','users.id','=','contracts.owner_id')
-                ->orderBy('contracts.active_date','desc')
-                ->get();
+            select(
+                'contracts.active_date', 
+                'contracts.start_date',
+                'contracts.end_date',
+                DB::raw("concat(users.fname,' ',users.lname) as customer_name"),
+                'contracts.type as contract_type',
+                'contracts.amount_paid'
+            )
+            ->where('contracts.status','=','Approved')
+            ->join('users','users.id','=','contracts.owner_id')
+            ->orderBy('contracts.active_date','desc');
+
+        $startmonth_bar = Session::get("start_month_bar");
+        $endmonth_bar = Session::get("end_month_bar");        
+        if($startmonth_bar && $endmonth_bar) {
+            $contracts = $contracts->whereBetween('contracts.active_date', [$startmonth_bar, $endmonth_bar]);
+        }        
+        $contracts = $contracts->get();
 
         return view('admin.barchart_export_profit',[
             'contracts' => $contracts

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class OwnerController extends Controller
 {
@@ -23,15 +24,24 @@ class OwnerController extends Controller
         $this->middleware('auth');
     }
 
-    public function dashboard() {
+    public function dashboard(Request $request) {
         $user = Auth::user();
+
+        $startmonth_bar = $request->start_month_bar . '-01';
+        $endmonth_bar = date('Y-m-t', strtotime($request->end_month_bar . '-01'));
         $profits = Bookings::
         select(DB::raw('MONTH(bookings.start_date) as month'), DB::raw('SUM(bookings.amount_paid) as total_profit'))
         ->where('bookings.status', '=', 'Completed')
         ->join('users','users.id','=','bookings.therapist_id')
         ->where('users.owner_id',$user->id) 
-        ->groupBy(DB::raw('MONTH(bookings.start_date)'))
-        ->get();
+        ->groupBy(DB::raw('MONTH(bookings.start_date)'));
+        if($startmonth_bar && $endmonth_bar) {
+            $profits = $profits->whereBetween('bookings.start_date', [$startmonth_bar, $endmonth_bar]);
+        }
+        Session::put("start_month_bar",$startmonth_bar);
+        Session::put("end_month_bar",$endmonth_bar);
+        
+        $profits = $profits->get();
 
         $barchart = [];
         $barchart_grandtotal = 0;
@@ -131,7 +141,9 @@ class OwnerController extends Controller
             "linechart" => $linechart,
             "bookingsCount" => $bookingsCount,
             "barchart" => $barchart,
-            "barchart_grandtotal" => $barchart_grandtotal
+            "barchart_grandtotal" => $barchart_grandtotal,
+            "start_month_bar" => $request->start_month_bar,
+            "end_month_bar" => $request->end_month_bar
         ]);
     }
 
@@ -154,8 +166,15 @@ class OwnerController extends Controller
                 ->where('users.owner_id',$user->id)
                 ->join('users','users.id','=','bookings.therapist_id')
                 ->join('spa','spa.id','=','bookings.spa_id')
-                ->orderBy('bookings.start_date','desc')
-                ->get();
+                ->orderBy('bookings.start_date','desc');
+
+        $startmonth_bar = Session::get("start_month_bar");
+        $endmonth_bar = Session::get("end_month_bar");        
+        if($startmonth_bar && $endmonth_bar) {
+            $bookings = $bookings->whereBetween('bookings.start_date', [$startmonth_bar, $endmonth_bar]);
+        }
+        
+        $bookings = $bookings->get();
 
         return view('owner.barchart_export_profit',[
             'bookings' => $bookings
