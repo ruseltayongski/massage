@@ -136,15 +136,6 @@
                                                 >
                                                 Assign Therapist
                                             </button>
-                                            {{-- <button
-                                                type="button" 
-                                                class="btn btn-info btn-sm"
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#add_services"
-                                                data-id="{{ $spa->id }}"
-                                                >
-                                                Assign Services
-                                            </button> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -276,26 +267,6 @@
                     <button type="submit" class="btn btn-primary">Update changes</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="add_services" aria-labelledby="add_services" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Assign Services</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {{-- Assign Services --}}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-sm btn-primary">Saved</button>
-            </div>
         </div>
     </div>
 </div>
