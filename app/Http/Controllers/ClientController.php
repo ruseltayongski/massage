@@ -24,22 +24,31 @@ class ClientController extends Controller
     }
 
     public function dashboard(Request $request) {
-        $spas = Spa::select(DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.spa_id = spa.id)) as ratings_spa'),'spa.*')->get();
-        $services = Services::get();
-        /* return $services; */
+        $spas = Spa::select(DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.spa_id = spa.id)) as ratings_spa'),'spa.*');
 
         if ($request->has('reset_button')) {
             return redirect()->route('client.dashboard');
         }
   
+
         if ($request->has('search')) {
             $search = $request->input('search');
-            $services->where('name', 'like', "%$search%")
-                  ->orWhere('description', 'like', "%$search%");
+            $services = Services::
+                where('name', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%")
+                ->with('spa')
+                ->get();
+            $spaIds = [];
+            foreach($services as $service) {
+                foreach($service->spa as $spa) {
+                    $spaIds[] = $spa->id;
+                }
+            }   
+            $spas = $spas->whereIn('id',$spaIds);       
         }
+        $spas = $spas->get();
         return view('client.dashboard',[
-            'spas' => $spas,
-            'services' => $services
+            'spas' => $spas
         ]);
     }
 

@@ -142,7 +142,7 @@
                 <div class="input-group mb-3 mt-3">
                     <input type="search" id="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     <div class="button-holder pl-3">
-                        <button type="submit" name="search_button" class="btn btn-outline-primary">Search</button>
+                        <button type="submit" class="btn btn-outline-primary">Search</button>
                         <button type="submit" name="reset_button" class="btn btn-outline-secondary">View All</button>
                     </div>
                 </div>
