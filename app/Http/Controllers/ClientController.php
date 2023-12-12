@@ -23,9 +23,20 @@ class ClientController extends Controller
         $this->middleware('auth');
     }
 
-    public function dashboard() {
+    public function dashboard(Request $request) {
         $spas = Spa::select(DB::raw('ROUND((SELECT AVG(ratings.rate) FROM ratings WHERE ratings.spa_id = spa.id)) as ratings_spa'),'spa.*')->get();
         $services = Services::get();
+        /* return $services; */
+
+        if ($request->has('reset_button')) {
+            return redirect()->route('client.dashboard');
+        }
+  
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $services->where('name', 'like', "%$search%")
+                  ->orWhere('description', 'like', "%$search%");
+        }
         return view('client.dashboard',[
             'spas' => $spas,
             'services' => $services
