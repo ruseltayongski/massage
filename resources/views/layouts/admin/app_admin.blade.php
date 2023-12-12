@@ -21,6 +21,9 @@
     <!-- LOBIBOX -->
     <link rel="stylesheet" href="{{ asset('plugin/lobibox/dist/css/LobiBox.min.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <link rel="stylesheet" href="{{ asset('admin/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
     @vite(['resources/js/app.js'])
     <style>
         .menu-disabled {
@@ -107,9 +110,10 @@
     <script src="{{ asset('admin/js/todolist.js') }}"></script>
     <!-- endinject -->
     <!-- plugin js for this page -->
-   
     <script src="{{ asset('admin/vendors/progressbar.js/progressbar.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('admin/vendors/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('admin/js/select2.js') }}"></script>
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
     <script src="{{ asset('admin/js/dashboard.js?v='.date('his')) }}"></script>

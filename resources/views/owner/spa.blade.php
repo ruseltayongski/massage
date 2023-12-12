@@ -136,6 +136,15 @@
                                                 >
                                                 Assign Therapist
                                             </button>
+                                            <button
+                                                type="button" 
+                                                class="btn btn-info btn-sm"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#add_services"
+                                                data-id="{{ $spa->id }}"
+                                                >
+                                                Assign Services
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -270,6 +279,33 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="add_services" aria-labelledby="add_services" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Services</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select class="js-example-basic-multiple w-10" multiple="multiple">
+                    <option value="AL">Alabama</option>
+                    <option value="WY">Wyoming</option>
+                    <option value="AM">America</option>
+                    <option value="CA">Canada</option>
+                    <option value="RU">Russia</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-sm btn-primary">Saved</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="add_therapist" tabindex="-1" aria-labelledby="add_therapist" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -310,6 +346,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="view_therapist" tabindex="-1" aria-labelledby="view_therapist" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -365,6 +402,10 @@
 @endsection
 @section('js')
 <script>
+    $(document).ready(function() {
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+        $('.js-example-basic-multiple').select2();
+    });
     document.addEventListener("DOMContentLoaded", function() {
         $('#updateModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

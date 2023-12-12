@@ -13,12 +13,8 @@ class Services extends Model
     protected $guarded = array();
 
 
-    public function spas()
+    public function spa()
     {
-        return $this->belongsToMany(Spa::class, 'service_spa', 'service_spa_id', 'spa_id');
+        return $this->belongsToMany(Spa::class);
     }
-    
-    
-
-
 }

@@ -207,6 +207,11 @@ class OwnerController extends Controller
     }
 
     public function spa(Request $request) {
+        //$spa = Spa::find(2);
+        //$servicesIds = [1, 2, 3];
+        //$spa->services()->attach($servicesIds);
+        //return $spa->services;
+        //return Spa::with('services')->find(2);
         $user = Auth::user();
         $query = Spa::where('owner_id', $user->id);
         $usersList = User::where('roles', 'THERAPIST')->where('owner_id', $user->id)->get();
