@@ -566,8 +566,6 @@ class OwnerController extends Controller
         ]);
     }
     
-    
-    
     public function clearSpaUpdateFlash() {
         session()->forget('spa_save');
         session()->forget('spa_update');

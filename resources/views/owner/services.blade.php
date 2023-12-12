@@ -332,7 +332,25 @@
             var button = $(event.relatedTarget); 
             var servicesId = button.data('id');
             $('input[name="id"]').val(servicesId);
-            console.log('servicesId:', servicesId);
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('owner.get.spa') }}",
+                method: 'POST',
+                data: {
+                    servicesId: servicesId,
+                    _token: csrfToken
+                },
+                success: function (response) {
+                    var selectedSpaIds = response;
+                    $('.js-example-basic-multiple').val(null).trigger('change');
+                    $('.js-example-basic-multiple').val(selectedSpaIds).trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching existing selected spa IDs:', error);
+                }
+            });
+
         });
 
         var forms = $('.needs-validation');
