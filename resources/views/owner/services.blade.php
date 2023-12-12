@@ -36,8 +36,8 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Manage Services</h4>
                     <button type="button" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#exampleModal1"
+                        data-toggle="modal" 
+                        data-target="#exampleModal1"
                         class="btn btn-success mb-3"
                     >Add
                     </button>
@@ -69,7 +69,7 @@
                                         <img src="{{ asset('/fileupload/services/').'/'.$service->picture }}" alt="image"/>
                                     </td>
                                     <td>
-                                        {{ $service->name}}
+                                        {{ $service->name }}
                                     </td>
                                     <td>
                                         {{ $service->description }}
@@ -82,16 +82,16 @@
                                                 <button
                                                 type="button" 
                                                 class="btn btn-info btn-sm"
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#assign_spa"
+                                                data-toggle="modal" 
+                                                data-target="#assign_spa"
                                                 data-id="{{ $service->id }}"
                                             >
                                                 Assign Spa
                                             </button>
                                             <button 
                                                 type="button" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#updateModal"
+                                                data-toggle="modal" 
+                                                data-target="#updateModal"
                                                 data-id="{{ $service->id }}"
                                                 data-name="{{ $service->name }}"
                                                 data-description="{{ $service->description }}"
@@ -120,7 +120,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Spa Management</h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -158,7 +158,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
         </form>
@@ -170,16 +170,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="assign_spa">Assign to Spa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                </div>
-                <div class="modal-body">
-                <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
+            </div>
+            <div class="modal-body">
+                {{-- <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id">
-
-                
                     <select name="spa_id" class="full-width-select">
                         @foreach($spa as $spas)
                             <option value="{{ $spas->id }}">
@@ -187,12 +185,24 @@
                             </option>
                         @endforeach
                     </select>
-                
+                </form>  --}}
+                <form action="{{ route('owner.assign.save') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <input type="hidden" name="id">
+                        <select class="js-example-basic-multiple" style="width: 100%;" name="spa[]" multiple="multiple">
+                            @foreach($spa as $spas)
+                                <option value="{{ $spas->id }}">
+                                    {{ $spas->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form> 
+                </form>
             </div>
         </div>
     </div>
@@ -202,7 +212,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Update Spa</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -258,7 +268,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Update changes</button>
                 </div>
             </form>

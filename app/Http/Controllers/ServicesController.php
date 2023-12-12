@@ -8,10 +8,18 @@ use App\Models\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
 
 class ServicesController extends Controller
 {
     public function servicesView(Request $request) {
+        //$services = Services::find(1);
+        //$spaIds = [1, 2];
+        //$services->spa()->attach($spaIds);
+        //return $services->spa;
+        //return $spa->services;
+        //return Spa::with('services')->find(2);
+
         $user = Auth::user();
         $query = Services::where('owner_id', $user->id);
         $spa = Spa::where('owner_id', $user->id)->get();
@@ -120,15 +128,23 @@ class ServicesController extends Controller
 
     public function assignSpa(Request $request)
     {
-        if ($request->has('id') && $request->has('spa_id')) {
+        if ($request->has('id') && $request->has('spa')) {
             $services_id = $request->input('id');
-            $spa_id = $request->input('spa_id');
-
+            DB::table('services_spa')->where('services_id',$services_id)->delete();
+            
             $services = Services::find($services_id);
-            $services->spa_id = $spa_id;
+            $spaIds = $request->spa;
+            $services->spa()->attach($spaIds);
+            
+            
+            
+            // $spa_id = $request->input('spa_id');
 
-            session()->flash('assign_spa', true);   
-            $services->save();
+            // $services = Services::find($services_id);
+            // $services->spa_id = $spa_id;
+
+            // session()->flash('assign_spa', true);   
+            // $services->save();
         }
          return redirect()->back();
     }

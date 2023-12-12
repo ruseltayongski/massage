@@ -136,7 +136,7 @@
                                                 >
                                                 Assign Therapist
                                             </button>
-                                            <button
+                                            {{-- <button
                                                 type="button" 
                                                 class="btn btn-info btn-sm"
                                                 data-bs-toggle="modal" 
@@ -144,7 +144,7 @@
                                                 data-id="{{ $spa->id }}"
                                                 >
                                                 Assign Services
-                                            </button>
+                                            </button> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -290,13 +290,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <select class="js-example-basic-multiple w-10" multiple="multiple">
-                    <option value="AL">Alabama</option>
-                    <option value="WY">Wyoming</option>
-                    <option value="AM">America</option>
-                    <option value="CA">Canada</option>
-                    <option value="RU">Russia</option>
-                </select>
+                {{-- Assign Services --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -402,10 +396,6 @@
 @endsection
 @section('js')
 <script>
-    $(document).ready(function() {
-        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
-        $('.js-example-basic-multiple').select2();
-    });
     document.addEventListener("DOMContentLoaded", function() {
         $('#updateModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

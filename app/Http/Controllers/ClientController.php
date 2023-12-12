@@ -86,7 +86,8 @@ class ClientController extends Controller
             session(['spa_id' => $spa_id]);
         }
 
-        $services = Services::where('spa_id',session('spa_id'))->get();
+        //$services = Services::where('spa_id',session('spa_id'))->get();
+        $services = Spa::find(session('spa_id'))->services;
         
         return view('client.services',[
             'services' => $services
