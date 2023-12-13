@@ -36,9 +36,10 @@
             margin: 0;
             cursor: pointer;
         }
-        #completed[disabled] {
+      /*   #completed {
             cursor: not-allowed;
-        }
+            background-color: red !important;
+        } */
         
         .radio-tile-group .input-container .radio-tile {
             display: flex;
@@ -115,6 +116,7 @@
             color: white;
             transform: scale(1.1, 1.1);
         }
+       
         .radio-tile-group .input-container .radio-button:checked + .radio-tile .icon svg {
             fill: white;
             background-color: #079ad9;
@@ -415,9 +417,9 @@
                         </div>
                     </div>
 
-                    <div class="input-container">
-                        <input id="completed" class="radio-button" type="radio" name="booking_status" value="Completed" disabled/>
-                        <div class="radio-tile">
+                    <div class="input-container completed-container">
+                        <input id="completed" class="radio-button" type="radio" name="booking_status" value="Completed"/>
+                        <div class="radio-tile ">
                             <div class="icon icon-completed">
                                 <svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .sharpcorners_een{fill:#111918;} .st0{fill:#0B1719;} </style> <path class="sharpcorners_een" d="M4,2v28h24V2H4z M10.146,24l-1.854-1.854L9,21.439l1.146,1.146l2.146-2.146L13,21.146L10.146,24z M10.146,17l-1.854-1.854L9,14.439l1.146,1.146l2.146-2.146L13,14.146L10.146,17z M10.146,10L8.293,8.146L9,7.439l1.146,1.146 l2.146-2.146L13,7.146L10.146,10z M22,24h-7v-1h7V24z M22,22h-7v-1h7V22z M22,17h-7v-1h7V17z M22,15h-7v-1h7V15z M22,10h-7V9h7V10z M22,8h-7V7h7V8z"></path> </g></svg>
                             </div>
@@ -559,13 +561,15 @@
 
     var bookingStatus = "<?php echo $booking->status; ?>";
     var completedButton = $("#completed");
+    var inputtedContainer = $('.completed-container');
     // Use jQuery to enable/disable the button based on the booking status
     if (bookingStatus === "Approved") {
         completedButton.prop("disabled", false);
         completedButton.css("cursor", "pointer");
     } else {
         completedButton.prop("disabled", true);
-        completedButton.css("cursor", "not-allowed");
+        inputtedContainer.css("background-color", "#CCCCCC");
+        completedButton.css('cursor', 'not-allowed');
     }
     // Loop through each image and attach the click event
     images.click(function() {
