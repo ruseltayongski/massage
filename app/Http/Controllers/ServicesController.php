@@ -128,13 +128,15 @@ class ServicesController extends Controller
 
     public function assignSpa(Request $request)
     {
-        if ($request->has('id') && $request->has('spa')) {
+        if ($request->has('id')) {
             $services_id = $request->input('id');
             DB::table('services_spa')->where('services_id',$services_id)->delete();
             
             $services = Services::find($services_id);
             $spaIds = $request->spa;
-            $services->spa()->attach($spaIds);
+            if(count($spaIds) > 0) {
+                $services->spa()->attach($spaIds);
+            }
             session()->flash('assign_spa', true);
         }
         return redirect()->back();
