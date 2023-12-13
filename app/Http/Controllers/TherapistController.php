@@ -227,6 +227,7 @@ class TherapistController extends Controller
                     }
         $bookings = $query->paginate(15);
         
+    
         return view('therapist.booking',[
             'bookings' => $bookings
         ]);
