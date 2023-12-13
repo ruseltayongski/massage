@@ -132,9 +132,9 @@ class ServicesController extends Controller
             $services_id = $request->input('id');
             DB::table('services_spa')->where('services_id',$services_id)->delete();
             
-            $services = Services::find($services_id);
-            $spaIds = $request->spa;
-            if(count($spaIds) > 0) {
+            if($request->has('spa')) {
+                $services = Services::find($services_id);
+                $spaIds = $request->spa;
                 $services->spa()->attach($spaIds);
             }
             session()->flash('assign_spa', true);
